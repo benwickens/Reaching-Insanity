@@ -25,7 +25,7 @@ public class Main extends Application {
 		save.setPrefHeight(50);
 		
 		Label time = new Label("MM:SS"); 
-		time.setPrefWidth(150);
+		time.setPrefWidth(10);
 		time.setPrefHeight(50);
 		time.setTextAlignment(TextAlignment.CENTER);
 		
