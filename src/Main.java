@@ -25,8 +25,8 @@ public class Main extends Application {
 		save.setPrefHeight(50);
 		
 		Label time = new Label("MM:SS"); 
-		time.setPrefWidth(10);
-		time.setPrefHeight(50);
+		time.setPrefWidth(100);
+		time.setPrefHeight(300);
 		time.setTextAlignment(TextAlignment.CENTER);
 		
 		Button exit = new Button("Exit Game");
