@@ -32,11 +32,9 @@ public class ControllerMenu implements Initializable {
         video.setAutoPlay(true);
         video.setCycleCount(MediaPlayer.INDEFINITE);
     }
-
-    @FXML
-    private void playGamePress(ActionEvent event)throws IOException {
+    private void setScreen(ActionEvent event,String string)throws IOException {
         video.stop();
-        Parent loadIn = FXMLLoader.load(getClass().getResource("mainGame.fxml"));
+        Parent loadIn = FXMLLoader.load(getClass().getResource(string));
         Scene newScene = new Scene(loadIn);
         Stage newwindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 
@@ -44,16 +42,16 @@ public class ControllerMenu implements Initializable {
         newwindow.show();
     }
 
+
+    @FXML
+    private void playGamePress(ActionEvent event)throws IOException {
+        setScreen(event,"mainGame.fxml");
+    }
     @FXML
     private void leaderBoardPress(ActionEvent event)throws IOException {
-        video.stop();
-        Parent loadIn = FXMLLoader.load(getClass().getResource("leaderBoard.fxml"));
-        Scene newScene = new Scene(loadIn);
-        Stage  newwindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        newwindow.setScene(newScene);
-        newwindow.show();
+       setScreen(event,"leaderBoard.fxml");
     }
+
     @FXML
     private void exitGamePress(ActionEvent event) {
         Platform.exit();
