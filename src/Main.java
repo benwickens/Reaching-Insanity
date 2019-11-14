@@ -1,45 +1,26 @@
-
-	
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.TextAlignment;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+
 
 
 public class Main extends Application {
-	
-	private final int GRID_SIZE = 8;
-	
+
 	@Override
 	public void start(Stage primaryStage) {
-		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root,900,650);
-		
-		HBox navBar = new HBox(225);
-		Button save = new Button("Save Game");
-		save.setPrefWidth(150);
-		save.setPrefHeight(50);
-		
-		Label time = new Label("MM:SS"); 
-		time.setPrefWidth(100);
-		time.setPrefHeight(300);
-		time.setTextAlignment(TextAlignment.CENTER);
-		
-		Button exit = new Button("Exit Game");
-		exit.setPrefWidth(150);
-		exit.setPrefHeight(50);
-		
-		navBar.getChildren().addAll(save, time, exit);
-		
-		root.setTop(navBar);
-		root.setCenter(new Label("GRID"));
-		
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+			primaryStage.setTitle("Have Fun!");
+			root.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+			primaryStage.setScene(new Scene(root,1200,900));
+			primaryStage.show();
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
