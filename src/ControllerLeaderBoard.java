@@ -7,7 +7,23 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+/**
+ * File name: ControllerLeaderBoard
+ *
+ * @version 1.0
+ * Creation Date: 14/11/2019
+ * Last Modification date: 15/11/2019
+ * @author Robbie Ko
+ * <br>
+ * No copyright.
+ * <br>
+ * Purpose:
+ * The Controller for the leaderboard
+ * <br>
+ * Version History
+ * 1.0 - Created Button allow to go back to main menu nad some dummy label
+ *
+ */
 public class ControllerLeaderBoard {
     @FXML
     private void backPress(ActionEvent event)throws IOException {

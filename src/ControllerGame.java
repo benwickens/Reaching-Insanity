@@ -11,11 +11,27 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * File name: ControllerGame
+ *
+ * @version 1.0
+ * Creation Date: 14/11/2019
+ * Last Modification date: 15/11/2019
+ * @author Robbie Ko
+ * <br>
+ * No copyright.
+ * <br>
+ * Purpose:
+ * The controller for the Main Game
+ * <br>
+ * Version History
+ * 1.0 - Added timer that auto start when player goes into this scene (Added pasues and resume buttons for later save and load funtions)
+ *
+ */
 
 public class ControllerGame implements Initializable {
 

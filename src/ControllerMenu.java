@@ -16,6 +16,23 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+/**
+ * File name: ControllerMenu
+ *
+ * @version 1.0
+ * Creation Date: 14/11/2019
+ * Last Modification date: 15/11/2019
+ * @author Robbie Ko
+ * <br>
+ * No copyright.
+ * <br>
+ * Purpose:
+ * The Controller for the Menu
+ * <br>
+ * Version History
+ * 1.0 - loads in a video, making the buttons workings with their purepose (Message of the day implemented)
+ *
+ */
 
 
 public class ControllerMenu implements Initializable {
