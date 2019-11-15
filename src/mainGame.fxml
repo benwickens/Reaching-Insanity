@@ -5,10 +5,10 @@
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControllerGame">
-   <Label fx:id="timerCount" layoutX="771.0" layoutY="14.0" prefHeight="65.0" prefWidth="372.0" text="Game Screen">
-         <font>
-            <Font size="64.0" />
-         </font>
+   <Label fx:id="timerCount" alignment="CENTER_RIGHT" layoutX="499.0" layoutY="14.0" prefHeight="65.0" prefWidth="687.0" text="Game Screen">
+      <font>
+         <Font size="48.0" />
+      </font>
       </Label>
    <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#resumeButton" prefHeight="65.0" prefWidth="101.0" text="Resume" />
    <Button layoutX="148.0" layoutY="14.0" mnemonicParsing="false" onAction="#pauseButton" prefHeight="65.0" prefWidth="101.0" text="Pause" />
