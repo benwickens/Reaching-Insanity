@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,10 +17,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 /**
  * File name: ControllerMenu
  *
@@ -82,7 +83,10 @@ public class ControllerMenu implements Initializable {
     }
     @FXML
     private void leaderBoardPress(ActionEvent event)throws IOException {
-       setScreen(event,"leaderBoard.fxml");
+       video.stop();
+       Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+       stage.setTitle("Reaching Insanity - Leader Board");
+       stage.setScene((new LeaderBoard().getScene()));
     }
 
     @FXML
