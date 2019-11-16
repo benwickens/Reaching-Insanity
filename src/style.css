@@ -1,0 +1,70 @@
+.root{
+	-fx-background-color: #4d0000;
+}
+
+#title {
+	-fx-text-fill: #dd2424;
+	-fx-font-size: 60;
+	-fx-font-family: impact;
+	-fx-font-weight: bold;
+}
+
+.choice-box {
+  -fx-background-color: #3e0e0e;
+  -fx-mark-color: black;
+  -fx-border-insets: 25 25 25 25;
+  -fx-pref-width: 200;
+  -fx-pref-height: 30;
+}
+
+.choice-box .context-menu { 
+	-fx-background-color: #3e0e0e;
+}
+
+.choice-box .menu-item:focused { 
+	-fx-background-color: #dd2424;
+}
+
+.choice-box .menu-item > .label { 
+	-fx-text-fill: white;
+	-fx-font-size: 20;
+}
+
+
+
+.table-view{
+    -fx-background-color: #4d0000
+}
+
+.table-view .column-header-background{
+    -fx-background-color: #3e0e0e
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 23;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-font-size: 18;
+}
+
+.table-row-cell:even{
+    -fx-background-color: -fx-table-cell-border-color, #616161;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+}
+
+.table-row-cell:odd{
+    -fx-background-color: -fx-table-cell-border-color, #424242;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */  
+}
+
