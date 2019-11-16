@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -5,15 +6,21 @@ import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class LeaderBoard{
 	
@@ -21,7 +28,7 @@ public class LeaderBoard{
 	private Database db;
 	
 	@SuppressWarnings("unchecked")
-	public LeaderBoard() {
+	public LeaderBoard() throws IOException {
 		// create a layout for the scene with element spacing 100px
 		VBox layout = new VBox(100);
 		layout.setAlignment(Pos.CENTER);
@@ -80,6 +87,20 @@ public class LeaderBoard{
 		
 		scene = new Scene(layout, 1200, 900);
 		scene.getStylesheets().add("style.css");
+		
+		Button mainMenu = new Button("Back to Main Menu");
+		mainMenu.setOnAction(e -> {
+			try {
+		        Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+		        Scene newScene = new Scene(loadIn);
+		        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		        stage.setScene(newScene);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
+        
+		layout.getChildren().add(mainMenu);
 	}
 	
 	private ObservableList<LeaderBoardEntry> getLeaderBoardEntries() throws SQLException {
