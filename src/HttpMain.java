@@ -1,4 +1,20 @@
-
+/**
+ * File name: HttpRequest.java
+ *
+ * @version 1.0
+ * Creation Date: 25/10/2019
+ * Last Modification date: 17/11/2019
+ * @author Ben Wickens
+ * <br>
+ * No copyright.
+ * <br>
+ * Purpose:
+ * 
+ * <br>
+ * Version History
+ * 1.0 - connects to a url passed into it. Very basic error catching.
+ *
+ */
 public class HttpMain {
 
     public static void main(String[] args) {
