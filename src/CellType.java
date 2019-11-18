@@ -1,0 +1,15 @@
+
+public enum CellType {
+	
+	WALL,
+	EMPTY,
+	GOAL,
+	TELEPORTER,
+	FIRE,
+	WATER,
+	ICE,
+	RED_DOOR,
+	GREEN_DOOR,
+	BLUE_DOOR,
+
+}

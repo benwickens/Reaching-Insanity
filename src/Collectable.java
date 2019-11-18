@@ -1,0 +1,16 @@
+
+public enum Collectable {
+	
+	TOKEN,
+	RED_KEY,
+	GREEN_KEY,
+	BLUE_KEY,
+	FIRE_BOOTS,
+	FLIPPERS,
+	ICE_SKATES,
+	DAGGER,
+	SPEAR,
+	SHIELD,
+	GHOST_REPELLENT,
+
+}
