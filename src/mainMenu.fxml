@@ -12,6 +12,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#playGamePress" prefWidth="100.0" text="Play Game" />
             <Button mnemonicParsing="false" onAction="#leaderBoardPress" prefWidth="100.0" text="Leader Board" />
+            <Button mnemonicParsing="false" onAction="#playerEditorPress" prefWidth="100.0" text="Player Editor" />
             <Button mnemonicParsing="false" onAction="#exitGamePress" prefWidth="100.0" text="Exit" />
          </children>
       </VBox>

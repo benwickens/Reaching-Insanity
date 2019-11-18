@@ -1,3 +1,8 @@
 #base {
-    -fx-background-image: url("img/editorBackground.jpg");
+    -fx-background-image: url("/img/Player_Editor/background.jpg");
+    -fx-background-repeat: stretch;   
+}
+
+.label {
+	-fx-font-size: 55;
 }
