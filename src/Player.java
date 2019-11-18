@@ -2,13 +2,13 @@ import java.util.*;
 
 
 public class Player extends Character {
-	String PLAYER_NAME;
-	Integer highestLevel;
-	HashMap<Collectable, Integer> inventory;
+	private String playerName;
+	private Integer highestLevel;
+	private HashMap<Collectable, Integer> inventory;
 	
-	Player() {
+	public Player(String playerName, HashMap<Collectable, Integer> inventory, int highestLevel) {
 		this.highestLevel = highestLevel;
-		this.PLAYER_NAME = PLAYER_NAME;
+		this.playerName = playerName;
 		this.inventory = inventory;
 	}
 	
@@ -17,8 +17,9 @@ public class Player extends Character {
 	}
 	
 	public boolean hasItem(Collectable item, Integer amount) {
-		
+		return false;
 	}
+	
 	public void useItem(Collectable item, Integer amount) {
 		
 	}
