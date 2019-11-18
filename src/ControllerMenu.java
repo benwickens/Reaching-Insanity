@@ -81,12 +81,21 @@ public class ControllerMenu implements Initializable {
     private void playGamePress(ActionEvent event)throws IOException {
         setScreen(event,"mainGame.fxml");
     }
+    
     @FXML
     private void leaderBoardPress(ActionEvent event)throws IOException {
        video.stop();
        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
        stage.setTitle("Reaching Insanity - Leader Board");
        stage.setScene((new LeaderBoard().getScene()));
+    }
+    
+    @FXML
+    private void playerEditorPress(ActionEvent event)throws IOException {
+        video.stop();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Reaching Insanity - Player Editor");
+        stage.setScene((new PlayerEditor().getScene()));
     }
 
     @FXML
