@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class GameState extends KeyAdapter {
+public class GameState extends KeyAdapter { //Does it work
 	private Cell[][] grid;
 	private Player player;
 	private static LeaderBoard leaderBoard;
