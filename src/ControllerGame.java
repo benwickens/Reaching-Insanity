@@ -85,7 +85,7 @@ public class ControllerGame implements Initializable {
             timeMinutes.set(0);
         }
         
-        this.currentTime = timeHour.asString() + ":" + timeMinutes.asString() + " " + timeMinutes.asString();
+        this.currentTime = timeHour.asString() + ":" + timeMinutes.asString() + ":" + timeMinutes.asString();
         return Bindings.concat("Current Time: ", timeHour.asString(), ":", timeMinutes.asString(),
         		":", timeSeconds.asString());
     }

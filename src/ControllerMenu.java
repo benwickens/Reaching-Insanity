@@ -64,6 +64,7 @@ public class ControllerMenu implements Initializable {
         messageDisplay.setText(result);
         messageDisplay.setAlignment(Pos.CENTER);
         messageDisplay.prefWidth(result.length());
+        
     }
 
     private void setScreen(ActionEvent event,String string)throws IOException {
