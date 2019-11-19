@@ -21,7 +21,7 @@ public class HttpMain {
         HttpRequest get = new HttpRequest();
         String result = get.newConnection("http://cswebcat.swan.ac.uk/puzzle");
         System.out.println(result);
-        PuzzleSolver solve = new PuzzleSolver();
+        CipherSolver solve = new CipherSolver();
         String solvedCipher = solve.solved(result);
         System.out.println("output:" + solvedCipher);
         String cipherURL = "http://cswebcat.swan.ac.uk/message?solution=" + solvedCipher;

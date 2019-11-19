@@ -57,7 +57,7 @@ public class ControllerMenu implements Initializable {
 
         HttpRequest get = new HttpRequest();
         String result = get.newConnection("http://cswebcat.swan.ac.uk/puzzle");
-        PuzzleSolver solve = new PuzzleSolver();
+        CipherSolver solve = new CipherSolver();
         String solvedCipher = solve.solved(result);
         String cipherURL = "http://cswebcat.swan.ac.uk/message?solution=" + solvedCipher;
         result = get.newConnection(cipherURL);
