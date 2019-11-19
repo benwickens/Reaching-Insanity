@@ -34,6 +34,8 @@ import java.util.ResourceBundle;
  */
 
 public class ControllerGame implements Initializable {
+	
+	private String currentTime; //used to get the current time.
 
     @FXML
     private Label timerCount;
@@ -49,6 +51,11 @@ public class ControllerGame implements Initializable {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
         timerCount.textProperty().bind(display());
+        
+    }
+    
+    public String getCurrentTime() {
+    	return this.currentTime;
     }
 
     @FXML
@@ -67,15 +74,20 @@ public class ControllerGame implements Initializable {
         int hour = timeHour.get();
         int seconds = timeSeconds.get();
         timeSeconds.set(seconds + 1);
+        
         if (timeSeconds.getValue() == 60) {
             timeSeconds.set(0);
             timeMinutes.set(minutes + 1);
         }
+        
         if (minutes == 60) {
             timeHour.set(hour + 1);
             timeMinutes.set(0);
         }
-        return Bindings.concat("Current Time: ", timeHour.asString(), ":", timeMinutes.asString(), ":", timeSeconds.asString());
+        
+        this.currentTime = timeHour.asString() + ":" + timeMinutes.asString() + " " + timeMinutes.asString();
+        return Bindings.concat("Current Time: ", timeHour.asString(), ":", timeMinutes.asString(),
+        		":", timeSeconds.asString());
     }
 }
 
