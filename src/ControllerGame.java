@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * Creation Date: 14/11/2019
  * Last Modification date: 15/11/2019
- * @author Robbie Ko
+ * @author Robbie ,Ben
  * <br>
  * No copyright.
  * <br>
@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
  * <br>
  * Version History
  * 1.0 - Added timer that auto start when player goes into this scene (Added pasues and resume buttons for later save and load funtions)
+ * 1.01 - Added method to extracts the time - Ben
  *
  */
 

@@ -15,8 +15,7 @@ public class GameState extends KeyAdapter { //Does it work.
 	private int startingTime;
 	private ArrayList<Enemy>enemies; 
 	
-	public GameState(File levelFile,String playerName)
-	{
+	public GameState(File levelFile,String playerName) {
 		setGrid(new Cell[9][9]);
 	}
 	

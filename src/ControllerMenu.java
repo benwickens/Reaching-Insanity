@@ -12,7 +12,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -44,7 +46,10 @@ public class ControllerMenu implements Initializable {
 
     @FXML
     private Label messageDisplay;
-
+    @FXML
+    private AnchorPane layout;
+    @FXML
+    private Button playGame;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,6 +57,9 @@ public class ControllerMenu implements Initializable {
         look = new Media(new File(path).toURI().toString());
         video = new MediaPlayer(look);
         see.setMediaPlayer(video);
+        see.setPreserveRatio(false);
+        see.fitHeightProperty().bind(layout.heightProperty());
+        see.fitWidthProperty().bind(layout.widthProperty());
         video.setAutoPlay(true);
         video.setCycleCount(MediaPlayer.INDEFINITE);
 
