@@ -1,0 +1,4 @@
+W,W,W,W,W,W,W,W,W/
+W,E,E,E,E,E,E,E,w/
+e,e,w,w,w,w,w,w,w/
+W,E,E,E,E,E,E,E,w/
