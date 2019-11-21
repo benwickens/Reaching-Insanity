@@ -11,6 +11,6 @@ public enum Collectable {
 	DAGGER,
 	SPEAR,
 	SHIELD,
-	GHOST_REPELLENT,
+	GHOST_REPELLENT
 
 }

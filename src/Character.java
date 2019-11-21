@@ -1,14 +1,31 @@
 
 public abstract class Character {
 	
-	Integer xLocation;
-	Integer yLocation;
+	private int x;
+	private int y;
 	
-	public void moveTo(Integer exactX, Integer exactY) {
-		
+	public void moveTo(int exactX, int exactY) {
+		x = exactX;
+		y = exactY;
 	}
 	
 	public String toString() {
 		return null;
+	}
+
+	public Integer getX() {
+		return x;
+	}
+
+	public void setX(Integer x) {
+		this.x = x;
+	}
+
+	public Integer getY() {
+		return y;
+	}
+
+	public void setY(Integer y) {
+		this.y = y;
 	}
 }

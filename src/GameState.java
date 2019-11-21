@@ -2,6 +2,9 @@
 
 import java.awt.event.KeyAdapter;//Not sure whether this would be a valid import
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javafx.scene.input.KeyCode;
@@ -35,8 +38,53 @@ public class GameState extends KeyAdapter { //Does it work.
 		
 	}
 	
-	private void saveState()
-	{
+	// cant really test yet, but basic idea should work
+	public void saveState(){
+		String outputStr = "";
+		for(int y = 0; y < grid.length; y++) { // each line of the file
+			for(int x = 0; x < grid.length; x++) { // each cell of a line
+				Cell c = grid[x][y];			
+
+				if(c.getType().equals(CellType.EMPTY)) {
+					boolean hasEnemy = false;
+					for(Enemy e : enemies) {
+						if(e.getX() == x && e.getY() == y) {
+							outputStr += e.getType();
+							hasEnemy = true;
+						}
+					}
+					
+					if(!hasEnemy) {
+						outputStr += "EMPTY";
+					}
+				}else { 
+					// otherwise we store the type and the item the cell holds	
+					outputStr += c.getType().toString();
+					if(c.getItem() != null) {
+						outputStr += ":" + c.getItem().toString();
+					}
+				}
+
+				if((x+1) < grid.length) { // ensures the line doesn't end with a ','
+					outputStr += ",";
+				}
+			}
+		}
+		
+		try {
+			File outputFile = new File("Players/" + player.getPlayerName() + "/level" + level + ".txt");
+			if(!outputFile.exists()) {
+				outputFile.createNewFile();				
+			}
+			PrintWriter w = new PrintWriter(outputFile);
+			w.print(outputStr);
+			w.print(player.getInventoryString());
+			w.flush();
+			w.close();
+		} catch (IOException e) {
+			System.out.println("ERROR: Cannot create file.");
+			e.printStackTrace();
+		}
 		
 	}
 

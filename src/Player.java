@@ -8,7 +8,7 @@ public class Player extends Character {
 	
 	public Player(String playerName, HashMap<Collectable, Integer> inventory, int highestLevel) {
 		this.highestLevel = highestLevel;
-		this.playerName = playerName;
+		this.setPlayerName(playerName);
 		this.inventory = inventory;
 	}
 	
@@ -22,5 +22,19 @@ public class Player extends Character {
 	
 	public void useItem(Collectable item, Integer amount) {
 		
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
+	
+	public String getInventoryString() {
+		
+		
+		return "";
 	}
 }
