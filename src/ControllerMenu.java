@@ -75,14 +75,14 @@ public class ControllerMenu implements Initializable {
         
     }
 
-    private void setScreen(ActionEvent event,String string)throws IOException {
+    private void setScreen(ActionEvent event, String string)throws IOException {
         video.stop();
         Parent loadIn = FXMLLoader.load(getClass().getResource(string));
-        Scene newScene = new Scene(loadIn);
-        Stage newwindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        newwindow.setScene(newScene);
-        newwindow.show();
+        Stage newWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+        newWindow.setMinHeight(600);
+        newWindow.setMinWidth(800);
+        newWindow.setScene(new Scene(loadIn,1200,900));
+        newWindow.show();
     }
 
 

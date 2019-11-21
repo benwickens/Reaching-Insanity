@@ -92,9 +92,10 @@ public class LeaderBoard{
 		mainMenu.setOnAction(e -> {
 			try {
 		        Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
-		        Scene newScene = new Scene(loadIn);
 		        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-		        stage.setScene(newScene);
+		        stage.setMinHeight(800);
+		        stage.setMinWidth(1000);
+		        stage.setScene(new Scene(loadIn,1200,900));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
