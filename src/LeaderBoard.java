@@ -86,9 +86,6 @@ public class LeaderBoard{
 			layout.getChildren().add(error);
 		}
 		
-		scene = new Scene(layout, 1200, 900);
-		scene.getStylesheets().add("style.css");
-		
 		Button mainMenu = new Button("Back to Main Menu");
 		mainMenu.setOnAction(e -> {
 			try {
@@ -96,13 +93,15 @@ public class LeaderBoard{
 		        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		        stage.setMinHeight(800);
 		        stage.setMinWidth(1000);
-		        stage.setScene(new Scene(loadIn,1200,900));
+		        stage.setScene(new Scene(loadIn,1200,700));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		});
-        
 		layout.getChildren().add(mainMenu);
+		
+		scene = new Scene(layout, 1200, 700);
+		scene.getStylesheets().add("style.css");
 	}
 	
 	private ObservableList<LeaderBoardEntry> getLeaderBoardEntries() throws SQLException {

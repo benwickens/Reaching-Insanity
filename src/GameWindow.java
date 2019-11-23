@@ -150,7 +150,7 @@ public class GameWindow {
 			try {
 		        Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
 		        Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
-		        newWindow.setScene(new Scene(loadIn, 1200, 900));
+		        newWindow.setScene(new Scene(loadIn, 1200, 700));
 		        newWindow.show();
 			} catch (IOException e1) {e1.printStackTrace();}
 		});

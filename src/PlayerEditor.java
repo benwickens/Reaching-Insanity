@@ -14,7 +14,9 @@ import javafx.scene.layout.VBox;
 
 public class PlayerEditor {
 	
-	private final String PLAYER_EDITOR_FOLDER = "src/img/Player_Editor/";
+	private final String LOGO_PATH = "src/media/img/logo.png";
+	private final String PLAYER_PATH = "src/media/img/player_idle.png";
+	private final String PLAYER_EDITOR_FOLDER = "src/media/img/Player_Editor/";
 	
 	private Scene scene;
 	
@@ -38,7 +40,7 @@ public class PlayerEditor {
 			base.setAlignment(Pos.CENTER);
 			
 			// add the logo and title to the screen
-			ImageView logo = new ImageView(new Image(new FileInputStream("src/img/reachingInsanity.png")));
+			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
 			ImageView title = new ImageView(new Image(new FileInputStream(PLAYER_EDITOR_FOLDER + "title.png")));
 			
 			loadImages();
@@ -54,7 +56,7 @@ public class PlayerEditor {
 			
 			base.getChildren().addAll(logo, title, getHeadHBox(), getBodyHBox(), getFeetHBox());
 			
-			scene = new Scene(base, 1200, 900);
+			scene = new Scene(base, 1200, 700);
 			scene.getStylesheets().add("playerEditor.css");
 			
 		} catch (FileNotFoundException e) {
