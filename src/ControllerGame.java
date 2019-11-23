@@ -1,3 +1,4 @@
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -68,7 +69,7 @@ public class ControllerGame implements Initializable {
     }
 
     private void drawinggrid() {
-        lookFor("src/Level1/levelOne.txt");
+        lookFor("src/levels/1.txt");
     }
 
     public String getCurrentTime() {

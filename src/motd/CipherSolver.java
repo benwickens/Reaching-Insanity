@@ -1,3 +1,4 @@
+package motd;
 
 public class CipherSolver {
 

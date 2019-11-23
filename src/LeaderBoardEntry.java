@@ -1,4 +1,5 @@
 
+
 public class LeaderBoardEntry {
 
 	private String name;

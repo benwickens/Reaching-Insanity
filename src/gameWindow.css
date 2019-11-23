@@ -1,0 +1,33 @@
+.root{
+	-fx-background-color: #FFFFFF;
+}
+
+#playerName {
+	-fx-text-fill: #dd2424;
+	-fx-font-size: 40;
+	-fx-font-family: impact;
+	-fx-font-weight: bold;
+}
+
+#timeLabel {
+	-fx-text-fill: #dd2424;
+	-fx-font-size: 40;
+	-fx-font-family: impact;
+	-fx-font-weight: bold;
+}
+
+#optionsLabel {
+	-fx-text-fill: #dd2424;
+	-fx-font-size: 30;
+	-fx-font-family: impact;
+	-fx-font-weight: bold;
+}
+
+#inventoryRow{
+	-fx-background-color: #2E8B57;
+	-fx-border-color: #006400;
+}
+
+VBox, HBox{
+	-fx-background-color: #FF6347;
+}

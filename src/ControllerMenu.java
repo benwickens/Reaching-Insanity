@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +20,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import motd.CipherSolver;
+import motd.HttpRequest;
 /**
  * File name: ControllerMenu
  *
@@ -53,7 +56,7 @@ public class ControllerMenu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        String path = new File("DummyTest.mp4").getAbsolutePath();
+        String path = new File("src/media/video/DummyTest.mp4").getAbsolutePath();
         look = new Media(new File(path).toURI().toString());
         video = new MediaPlayer(look);
         see.setMediaPlayer(video);
@@ -81,14 +84,18 @@ public class ControllerMenu implements Initializable {
         Stage newWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
         newWindow.setMinHeight(600);
         newWindow.setMinWidth(800);
-        newWindow.setScene(new Scene(loadIn,1200,900));
+        newWindow.setScene(new Scene(loadIn,1200,700));
         newWindow.show();
     }
 
 
     @FXML
     private void playGamePress(ActionEvent event)throws IOException {
-        setScreen(event,"mainGame.fxml");
+//        setScreen(event,"mainGame.fxml");
+        video.stop();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Reaching Insanity");
+        stage.setScene((new GameWindow("test player", new File("")).getScene()));
     }
     
     @FXML
