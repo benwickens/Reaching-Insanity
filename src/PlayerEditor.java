@@ -2,15 +2,20 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class PlayerEditor {
 	
@@ -134,7 +139,18 @@ public class PlayerEditor {
 			}
 			feetIcon.setImage(feetIcons.get(feetIndex));
 		});
-		feet.getChildren().addAll(left, feetIcon, right);
+		
+		Button back = new Button("Back to Main Menu"); //Back button 
+		back.setOnAction(e -> {
+			//save
+			try {
+				Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+				Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
+				newWindow.setScene(new Scene(loadIn, 1200, 700));
+				newWindow.show();
+			} catch (IOException e1) {e1.printStackTrace();}
+		});
+		feet.getChildren().addAll(left, feetIcon, right, back);
 		return feet;
 	}
 	

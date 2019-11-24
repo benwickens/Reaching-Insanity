@@ -14,13 +14,13 @@ import javafx.scene.input.KeyEvent;
 /**
  * Represents the state of the game at any point in time (enemy/player locations, state of cells...)
  * @author Stefan, Alan
- * @version 1.0 Created the rough outline of the class (attributes
+ * @version 1.0 Created the rough outline of the class (attributes 
  * and methods but with little implementation) - Stefan <br>
  * 1.1 implemented the constructor which creates a player and loads the cells into the grid - Alan
  */
 
 public class GameState {
-
+	
 	/**Represents the state of the cells in the grid*/
 	private Cell[][] grid;
 	/**Reference to player class which stores player location/inventory ... */
@@ -28,8 +28,8 @@ public class GameState {
 	/**The current level*/
 	private int level;
 	/**All of the enemies currently alive*/
-	private ArrayList<Enemy> enemies;
-
+	private ArrayList<Enemy> enemies; 
+	
 	/**
 	 * Creates a gamestate object
 	 * @param levelFile the level to be played
@@ -40,9 +40,9 @@ public class GameState {
 		enemies = new ArrayList<Enemy>();
 		readFileToGrid(levelFile);
 	}
-
+	
 	/**
-	 * Loads the Cells specified in the input file into the grid
+	 * Loads the Cells specified in the input file into the grid 
 	 * @param levelFile the file representing a level
 	 */
 	private void readFileToGrid(File levelFile) {
@@ -52,7 +52,7 @@ public class GameState {
 			while(s.hasNextLine()) {
 				String line = s.nextLine();
 				String[] cells = line.split(",");
-
+				
 				if(y == 0) {
 					int xSize = Integer.parseInt(cells[0]);
 					int ySize = Integer.parseInt(cells[1]);
@@ -62,27 +62,27 @@ public class GameState {
 						String cellString = cells[x];
 						Cell c = null;
 						switch(cellString) {
-							case "P":
-								c = new Cell(CellType.EMPTY, null);
-								player.moveTo(x, y);
-								break;
-							case "W":
-								c = new Cell(CellType.WALL, null);
-								break;
-							case "I":
-								c = new Cell(CellType.ICE, null);
-								break;
-							case "F":
-								c = new Cell(CellType.FIRE, null);
-								break;
-							case "E":
-								c = new Cell(CellType.EMPTY, null);
-								break;
-							default:
-								c = new Cell(CellType.EMPTY, null);
-								break;
+						case "P":
+							c = new Cell(CellType.EMPTY, null);
+							player.moveTo(x, y);
+							break;
+						case "W":
+							c = new Cell(CellType.WALL, null);
+							break;
+						case "I":
+							c = new Cell(CellType.ICE, null);
+							break;
+						case "F":
+							c = new Cell(CellType.FIRE, null);
+							break;
+						case "E":
+							c = new Cell(CellType.EMPTY, null);
+							break;
+						default:
+							c = new Cell(CellType.EMPTY, null);
+							break;
 						}
-
+						
 						grid[x][y-1] = c;
 					}
 				}
@@ -94,23 +94,23 @@ public class GameState {
 			System.exit(-1);
 		}
 	}
-
+	
 	public void exitGame(){
-
+		
 	}
-
+	
 	public void progressToNextLevel(){
-
+		
 	}
-
+	
 	/**
 	 * Saves the current state of the game.
 	 */
 	public void save(){
 		String outputStr = "";
 		for(int y = 0; y < grid.length; y++) { // each row (line)
-			for(int x = 0; x < grid.length; x++) { // each cell in a row
-				Cell c = grid[x][y];
+			for(int x = 0; x < grid.length; x++) { // each cell in a row 
+				Cell c = grid[x][y];			
 
 				if(c.getType().equals(CellType.EMPTY)) {
 					if(player.getX() == x && player.getY() == y) {
@@ -123,13 +123,13 @@ public class GameState {
 								hasEnemy = true;
 							}
 						}
-
+						
 						if(!hasEnemy) {
 							outputStr += "E";
 						}
 					}
-				}else {
-					// otherwise we store the type and the item the cell holds
+				}else { 
+					// otherwise we store the type and the item the cell holds	
 					outputStr += c.getType().toString();
 					if(c.getItem() != null) {
 						outputStr += ":" + c.getItem().toString();
@@ -144,11 +144,11 @@ public class GameState {
 				outputStr += "\n";
 			}
 		}
-
+		
 		try {
 			File outputFolder = new File("src/SavedGames/" + player.getPlayerName());
 			if(!outputFolder.exists()) {
-				outputFolder.mkdirs();
+				outputFolder.mkdirs();	
 			}
 			File outputFile = new File(outputFolder.getPath() + "/level" + level + ".txt");
 			outputFile.createNewFile();
@@ -161,7 +161,7 @@ public class GameState {
 			System.out.println("ERROR: Cannot create file.");
 			e.printStackTrace();
 		}
-
+		
 	}
 
 	/**
