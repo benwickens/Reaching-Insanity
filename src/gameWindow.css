@@ -29,7 +29,7 @@
 }
 
 VBox, HBox, GridPane{
-	-fx-background-color: #FF6347;
+	-fx-background-color: #00e0ff;
 	-fx-border-color: #006400;
 }
 
@@ -37,3 +37,4 @@ VBox, HBox, GridPane{
 	-fx-font-size: 17;
 	
 }
+

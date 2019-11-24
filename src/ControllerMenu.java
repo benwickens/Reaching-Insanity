@@ -53,8 +53,6 @@ public class ControllerMenu implements Initializable {
     private Label messageDisplay;
     @FXML
     private AnchorPane layout;
-    @FXML
-    private Button playGame;
 
     private GameWindow gameWindow;
     

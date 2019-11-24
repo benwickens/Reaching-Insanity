@@ -69,5 +69,4 @@ public class Cell {
 		this.image = image;
 	}
 
-	
 }

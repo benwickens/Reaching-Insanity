@@ -46,7 +46,7 @@ public class GameWindow {
 		try {
 			gameState = new GameState(levelFile, playerName);
 			direction = Direction.DOWN;
-			
+
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
 			HBox top = new HBox();
 			top.getChildren().add(logo);
@@ -85,19 +85,19 @@ public class GameWindow {
 		int playerX = gameState.getPlayer().getX();
 		int playerY = gameState.getPlayer().getY();
 
-		for(int gridX = -4; gridX < 4; gridX++) {
-			for(int gridY = -4; gridY < 4; gridY++) {
+		for (int gridX = -4; gridX < 4; gridX++) {
+			for (int gridY = -4; gridY < 4; gridY++) {
 				try {
-					if(gridX == 0 && gridY == 0) {
+					if (gridX == 0 && gridY == 0) {
 						StackPane stack = new StackPane();
 						ImageView img = (gameState.getGrid()[playerX + gridX][playerY + gridY]).getImage();
 						stack.getChildren().addAll(img, getPlayerImage());
 						pane.add(stack, 4, 4);
-					}else {
+					} else {
 						ImageView img = (gameState.getGrid()[playerX + gridX][playerY + gridY]).getImage();
 						pane.add(img, gridX + 4, gridY + 4);
 					}
-				}catch(ArrayIndexOutOfBoundsException e) {
+				} catch (ArrayIndexOutOfBoundsException e) {
 					ImageView img = new ImageView(new Image(new FileInputStream(GRID_PATH + "black.png")));
 					pane.add(img, gridX + 4, gridY + 4);
 				}
@@ -143,14 +143,14 @@ public class GameWindow {
 		optionsLabel.setId("optionsLabel");
 
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			if(!paused) {
-				seconds ++;
-				if(seconds == 60) {
+			if (!paused) {
+				seconds++;
+				if (seconds == 60) {
 					seconds = 0;
-					minutes ++;
-					if(minutes >= 60) {
+					minutes++;
+					if (minutes >= 60) {
 						minutes = 0;
-						hours ++;
+						hours++;
 					}
 				}
 			}
@@ -175,13 +175,15 @@ public class GameWindow {
 		exitGame.setOnAction(e -> {
 			timeline.pause();
 			paused = true;
-			//save
+			gameState.save();
 			try {
 				Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
 				Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				newWindow.setScene(new Scene(loadIn, 1200, 700));
 				newWindow.show();
-			} catch (IOException e1) {e1.printStackTrace();}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		right.getChildren().addAll(timeLabel, optionsLabel, pause, resume, exitGame);
@@ -189,26 +191,42 @@ public class GameWindow {
 	}
 
 	public void processKeyEvent(KeyEvent event) {
-		if(!paused) {
+		if (!paused) {
 			switch (event.getCode()) {
-			case RIGHT:
-				gameState.getPlayer().setX(gameState.getPlayer().getX() + 1);
-				direction = Direction.RIGHT;
-				break;
-			case LEFT:
-				gameState.getPlayer().setX(gameState.getPlayer().getX() - 1);
-				direction = Direction.LEFT;
-				break;
-			case UP:
-				gameState.getPlayer().setY(gameState.getPlayer().getY() - 1);
-				direction = Direction.UP;
-				break;
-			case DOWN:
-				gameState.getPlayer().setY(gameState.getPlayer().getY() + 1);
-				direction = Direction.DOWN;
-				break;
-			default:
-				break;
+				case RIGHT:
+					CellType nextTypeR = getGameState().getGrid()[gameState.getPlayer().getX() + 1][gameState.getPlayer().getY()].getType();
+					if (nextTypeR.equals(CellType.WALL)) {
+						gameState.getPlayer().setX(gameState.getPlayer().getX());
+					} else {
+						gameState.getPlayer().setX(gameState.getPlayer().getX() + 1);
+					}
+					break;
+				case LEFT:
+					CellType nextTypeL = getGameState().getGrid()[gameState.getPlayer().getX() - 1][gameState.getPlayer().getY()].getType();
+					if (nextTypeL.equals(CellType.WALL)) {
+						gameState.getPlayer().setX(gameState.getPlayer().getX());
+					} else {
+						gameState.getPlayer().setX(gameState.getPlayer().getX() - 1);
+					}
+					break;
+				case UP:
+					CellType nextTypeU = getGameState().getGrid()[gameState.getPlayer().getX()][gameState.getPlayer().getY() - 1].getType();
+					if (nextTypeU.equals(CellType.WALL)) {
+						gameState.getPlayer().setX(gameState.getPlayer().getX());
+					} else {
+						gameState.getPlayer().setY(gameState.getPlayer().getY() - 1);
+					}
+					break;
+				case DOWN:
+					CellType nextTypeD = getGameState().getGrid()[gameState.getPlayer().getX()][gameState.getPlayer().getY() + 1].getType();
+					if (nextTypeD.equals(CellType.WALL)) {
+						gameState.getPlayer().setX(gameState.getPlayer().getX());
+					} else {
+						gameState.getPlayer().setY(gameState.getPlayer().getY() + 1);
+					}
+					break;
+				default:
+					break;
 			}
 			update();
 		}
@@ -220,17 +238,17 @@ public class GameWindow {
 	}
 
 	private ImageView getPlayerImage() throws FileNotFoundException {
-		if(direction == Direction.LEFT) {
+		if (direction == Direction.LEFT) {
 			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_left.png")));
-		}else if(direction == Direction.RIGHT) {
+		} else if (direction == Direction.RIGHT) {
 			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_right.png")));
-		}else if(direction == Direction.UP) {
+		} else if (direction == Direction.UP) {
 			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_up.png")));
-		}else {
+		} else {
 			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_down.png")));
 		}
 	}
-	
+
 	public void update() {
 		try {
 			gridPane = getGrid();
