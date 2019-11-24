@@ -1,6 +1,7 @@
 #base {
     -fx-background-image: url("/media/img/Player_Editor/background.jpg");
-    -fx-background-repeat: stretch;   
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
 }
 
 .label {

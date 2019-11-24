@@ -81,17 +81,6 @@ public class ControllerMenu implements Initializable {
         
     }
 
-    private void setScreen(ActionEvent event, String string)throws IOException {
-        video.stop();
-        Parent loadIn = FXMLLoader.load(getClass().getResource(string));
-        Stage newWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-        newWindow.setMinHeight(600);
-        newWindow.setMinWidth(800);
-        newWindow.setScene(new Scene(loadIn,1200,700));
-        newWindow.show();
-    }
-
-
     @FXML
     private void playGamePress(ActionEvent event)throws Exception {
         video.stop();
@@ -113,6 +102,8 @@ public class ControllerMenu implements Initializable {
     private void playerEditorPress(ActionEvent event)throws IOException {
         video.stop();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(920);
+        stage.setMinHeight(700);
         stage.setTitle("Reaching Insanity - Player Editor");
         stage.setScene((new PlayerEditor().getScene()));
     }

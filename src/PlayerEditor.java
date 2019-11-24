@@ -40,26 +40,37 @@ public class PlayerEditor {
 	public PlayerEditor() {				
 		try {
 			// create a base layout for the scene
-			VBox base = new VBox(75);
+			VBox base = new VBox(50);
 			base.setId("base");
 			base.setAlignment(Pos.CENTER);
-			
+
 			// add the logo and title to the screen
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
 			ImageView title = new ImageView(new Image(new FileInputStream(PLAYER_EDITOR_FOLDER + "title.png")));
-			
+
 			loadImages();
 			System.out.println(headIcons.size());
 			System.out.println(bodyIcons.size());
 			System.out.println(feetIcons.size());
-			
+
 			headIcon = new ImageView(headIcons.get(0));
 			bodyIcon = new ImageView(bodyIcons.get(0));
 			feetIcon = new ImageView(feetIcons.get(0));
-			
+
+
+			Button back = new Button("Back to Main Menu"); //Back button
+			back.setOnAction(e -> {
+				//save
+				try {
+					Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+					Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
+					newWindow.setScene(new Scene(loadIn, 1200, 700));
+					newWindow.show();
+				} catch (IOException e1) {e1.printStackTrace();}
+			});
 
 			
-			base.getChildren().addAll(logo, title, getHeadHBox(), getBodyHBox(), getFeetHBox());
+			base.getChildren().addAll(logo, title, getHeadHBox(), getBodyHBox(), getFeetHBox(),back);
 			
 			scene = new Scene(base, 1200, 700);
 			scene.getStylesheets().add("playerEditor.css");
@@ -140,17 +151,8 @@ public class PlayerEditor {
 			feetIcon.setImage(feetIcons.get(feetIndex));
 		});
 		
-		Button back = new Button("Back to Main Menu"); //Back button 
-		back.setOnAction(e -> {
-			//save
-			try {
-				Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
-				Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
-				newWindow.setScene(new Scene(loadIn, 1200, 700));
-				newWindow.show();
-			} catch (IOException e1) {e1.printStackTrace();}
-		});
-		feet.getChildren().addAll(left, feetIcon, right, back);
+
+		feet.getChildren().addAll(left, feetIcon, right);
 		return feet;
 	}
 	
