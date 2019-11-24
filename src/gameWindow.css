@@ -28,6 +28,7 @@
 	-fx-border-color: #006400;
 }
 
-VBox, HBox{
+VBox, HBox, GridPane{
 	-fx-background-color: #FF6347;
+	-fx-border-color: #006400;
 }

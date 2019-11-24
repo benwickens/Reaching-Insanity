@@ -1,5 +1,6 @@
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -54,6 +56,8 @@ public class ControllerMenu implements Initializable {
     @FXML
     private Button playGame;
 
+    private GameWindow gameWindow;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         String path = new File("src/media/video/DummyTest.mp4").getAbsolutePath();
@@ -90,12 +94,12 @@ public class ControllerMenu implements Initializable {
 
 
     @FXML
-    private void playGamePress(ActionEvent event)throws IOException {
-//        setScreen(event,"mainGame.fxml");
+    private void playGamePress(ActionEvent event)throws Exception {
         video.stop();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Reaching Insanity");
-        stage.setScene((new GameWindow("test player", new File("")).getScene()));
+        gameWindow = new GameWindow("test player", new File("src/levels/test"));
+        stage.setScene(gameWindow.getScene());
     }
     
     @FXML
@@ -118,6 +122,10 @@ public class ControllerMenu implements Initializable {
     private void exitGamePress(ActionEvent event) {
         Platform.exit();
     }
+    
+    
+
+
 
 
 }

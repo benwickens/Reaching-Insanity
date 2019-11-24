@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -18,8 +19,59 @@ public class GameState extends KeyAdapter { //Does it work.
 	private int startingTime;
 	private ArrayList<Enemy>enemies; 
 	
-	public GameState(File levelFile,String playerName) {
-		setGrid(new Cell[9][9]);
+	public GameState(File levelFile, String playerName) {
+		player = new Player(playerName, null, 0); // replace 0 w db query result
+		readFileToGrid(levelFile);
+	}
+	
+	private void readFileToGrid(File levelFile) {
+		try {
+			Scanner s = new Scanner(levelFile);
+			int y = 0;
+			while(s.hasNextLine()) {
+				String line = s.nextLine();
+				String[] cells = line.split(",");
+				
+				if(y == 0) {
+					int xSize = Integer.parseInt(cells[0]);
+					int ySize = Integer.parseInt(cells[1]);
+					grid = new Cell[xSize][ySize];
+				}else {
+					for(int x = 0; x < cells.length; x++) {
+						String cellString = cells[x];
+						Cell c = null;
+						switch(cellString) {
+						case "P":
+							c = new Cell(CellType.EMPTY, null);
+							player.moveTo(x, y);
+							break;
+						case "W":
+							c = new Cell(CellType.WALL, null);
+							break;
+						case "I":
+							c = new Cell(CellType.ICE, null);
+							break;
+						case "F":
+							c = new Cell(CellType.FIRE, null);
+							break;
+						case "E":
+							c = new Cell(CellType.EMPTY, null);
+							break;
+						default:
+							c = new Cell(CellType.EMPTY, null);
+							break;
+						}
+						
+						grid[x][y-1] = c;
+					}
+				}
+				y++;
+			}
+			s.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error: level file not found.");
+			System.exit(-1);
+		}
 	}
 	
 	public void keyPressed(KeyEvent event)//step Method
