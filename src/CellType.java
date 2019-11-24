@@ -1,4 +1,7 @@
-
+/**
+ * Enum containing possible values of CellType
+ * @author Yassine, Gursimran, Millie
+ */
 public enum CellType {
 	
 	WALL,

@@ -1,6 +1,5 @@
 
 public enum Collectable {
-	
 	TOKEN,
 	RED_KEY,
 	GREEN_KEY,
