@@ -24,6 +24,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Represents a main game window
+ * @author Alan Tollett
+ * @version 1.0 Set up the basic layout for the screen - Alan <br>
+ * 1.1 implemented getGrid which returns an up to date version of 
+ * the view (centered around the player) - Alan <br>
+ * 1.2 Added a key listener method which allows the player to move around - Alan
+ * 1.3 Added new images which make the player face a different direction - Alan.
+ *
+ */
+
 public class GameWindow {
 
 	private final String LOGO_PATH = "src/media/img/logo.png";
