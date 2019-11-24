@@ -242,6 +242,9 @@ public class GameWindow {
 		}
 	}
 	
+	/**
+	 * Updates the view
+	 */
 	public void update() {
 		try {
 			gridPane = getGrid();
