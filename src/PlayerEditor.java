@@ -140,7 +140,7 @@ public class PlayerEditor {
 			feetIcon.setImage(feetIcons.get(feetIndex));
 		});
 		
-		Button back = new Button("Back to Main Menu");
+		Button back = new Button("Back to Main Menu"); //Back button 
 		back.setOnAction(e -> {
 			//save
 			try {
