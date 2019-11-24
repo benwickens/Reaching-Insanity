@@ -43,6 +43,7 @@ public class GameWindow {
 
 	public GameWindow(String playerName, File levelFile) {
 		layout = new BorderPane();
+
 		try {
 			gameState = new GameState(levelFile, playerName);
 			direction = Direction.DOWN;
