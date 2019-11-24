@@ -32,3 +32,8 @@ VBox, HBox, GridPane{
 	-fx-background-color: #FF6347;
 	-fx-border-color: #006400;
 }
+
+.button{
+	-fx-font-size: 17;
+	
+}

@@ -27,7 +27,7 @@ import javafx.util.Duration;
 public class GameWindow {
 
 	private final String LOGO_PATH = "src/media/img/logo.png";
-	private final String PLAYER_PATH = "src/media/img/player_idle.png";
+	private final String PLAYER_PATH = "src/media/img/grid/player_down.png";
 	private final String GRID_PATH = "src/media/img/grid/";
 	private Timeline timeline;
 	private Scene scene;
@@ -38,13 +38,15 @@ public class GameWindow {
 	private GridPane gridPane;
 	private GameState gameState;
 	private BorderPane layout;
+	private Direction direction;
 
 
 	public GameWindow(String playerName, File levelFile) {
 		layout = new BorderPane();
 		try {
 			gameState = new GameState(levelFile, playerName);
-
+			direction = Direction.DOWN;
+			
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
 			HBox top = new HBox();
 			top.getChildren().add(logo);
@@ -87,21 +89,17 @@ public class GameWindow {
 			for(int gridY = -4; gridY < 4; gridY++) {
 				try {
 					if(gridX == 0 && gridY == 0) {
-						System.out.println("Adding Player");
 						StackPane stack = new StackPane();
 						ImageView img = (gameState.getGrid()[playerX + gridX][playerY + gridY]).getImage();
-						ImageView player = new ImageView(new Image(new FileInputStream(GRID_PATH + "player_down.png")));
-						stack.getChildren().addAll(img, player);
+						stack.getChildren().addAll(img, getPlayerImage());
 						pane.add(stack, 4, 4);
 					}else {
 						ImageView img = (gameState.getGrid()[playerX + gridX][playerY + gridY]).getImage();
 						pane.add(img, gridX + 4, gridY + 4);
-						System.out.println("Added Cell");
 					}
 				}catch(ArrayIndexOutOfBoundsException e) {
 					ImageView img = new ImageView(new Image(new FileInputStream(GRID_PATH + "black.png")));
 					pane.add(img, gridX + 4, gridY + 4);
-					System.out.println("Added out of bound cell");
 				}
 			}
 		}
@@ -109,13 +107,15 @@ public class GameWindow {
 	}
 
 	private VBox getLeft() throws FileNotFoundException {
-		VBox left = new VBox(40);
+		VBox left = new VBox(60);
 		left.setMinWidth(300);
 		left.setAlignment(Pos.CENTER);
 		Label nameLabel = new Label(gameState.getPlayer().getPlayerName());
 		nameLabel.setId("playerName");
 
 		ImageView playerIcon = new ImageView(new Image(new FileInputStream(PLAYER_PATH)));
+		playerIcon.setScaleX(2.5);
+		playerIcon.setScaleY(2.5);
 
 		HBox inv1 = new HBox(20);
 		inv1.setId("inventoryRow");
@@ -189,24 +189,29 @@ public class GameWindow {
 	}
 
 	public void processKeyEvent(KeyEvent event) {
-		switch (event.getCode()) {
-		case RIGHT:
-			gameState.getPlayer().setX(gameState.getPlayer().getX() + 1);
-			break;
-		case LEFT:
-			gameState.getPlayer().setX(gameState.getPlayer().getX() - 1);
-			break;
-		case UP:
-			gameState.getPlayer().setY(gameState.getPlayer().getY() - 1);
-			break;
-		case DOWN:
-			gameState.getPlayer().setY(gameState.getPlayer().getY() + 1);
-			break;
-		default:
-			break;
+		if(!paused) {
+			switch (event.getCode()) {
+			case RIGHT:
+				gameState.getPlayer().setX(gameState.getPlayer().getX() + 1);
+				direction = Direction.RIGHT;
+				break;
+			case LEFT:
+				gameState.getPlayer().setX(gameState.getPlayer().getX() - 1);
+				direction = Direction.LEFT;
+				break;
+			case UP:
+				gameState.getPlayer().setY(gameState.getPlayer().getY() - 1);
+				direction = Direction.UP;
+				break;
+			case DOWN:
+				gameState.getPlayer().setY(gameState.getPlayer().getY() + 1);
+				direction = Direction.DOWN;
+				break;
+			default:
+				break;
+			}
+			update();
 		}
-		System.out.println("new player position: " + gameState.getPlayer().getX() + ", " + gameState.getPlayer().getY());
-		update();
 		event.consume();
 	}
 
@@ -214,6 +219,18 @@ public class GameWindow {
 		return gameState;
 	}
 
+	private ImageView getPlayerImage() throws FileNotFoundException {
+		if(direction == Direction.LEFT) {
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_left.png")));
+		}else if(direction == Direction.RIGHT) {
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_right.png")));
+		}else if(direction == Direction.UP) {
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_up.png")));
+		}else {
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_down.png")));
+		}
+	}
+	
 	public void update() {
 		try {
 			gridPane = getGrid();
