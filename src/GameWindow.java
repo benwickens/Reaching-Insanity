@@ -175,7 +175,7 @@ public class GameWindow {
 		exitGame.setOnAction(e -> {
 			timeline.pause();
 			paused = true;
-			//save
+			gameState.save();
 			try {
 				Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
 				Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();

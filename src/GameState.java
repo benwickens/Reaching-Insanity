@@ -11,19 +11,40 @@ import java.util.Scanner;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class GameState extends KeyAdapter { //Does it work. 
-	private Cell[][] grid;
-	private Player player;
-	private static LeaderBoard leaderBoard;
-	private int level;
-	private int startingTime;
-	private ArrayList<Enemy>enemies; 
+/**
+ * Represents the state of the game at any point in time (enemy/player locations, state of cells...)
+ * @author Stefan, Alan
+ * @version 1.0 Created the rough outline of the class (attributes 
+ * and methods but with little implementation) - Stefan <br>
+ * 1.1 implemented the constructor which creates a player and loads the cells into the grid - Alan
+ */
+
+public class GameState {
 	
+	/**Represents the state of the cells in the grid*/
+	private Cell[][] grid;
+	/**Reference to player class which stores player location/inventory ... */
+	private Player player;
+	/**The current level*/
+	private int level;
+	/**All of the enemies currently alive*/
+	private ArrayList<Enemy> enemies; 
+	
+	/**
+	 * Creates a gamestate object
+	 * @param levelFile the level to be played
+	 * @param playerName the name of the player
+	 */
 	public GameState(File levelFile, String playerName) {
 		player = new Player(playerName, null, 0); // replace 0 w db query result
+		enemies = new ArrayList<Enemy>();
 		readFileToGrid(levelFile);
 	}
 	
+	/**
+	 * Loads the Cells specified in the input file into the grid 
+	 * @param levelFile the file representing a level
+	 */
 	private void readFileToGrid(File levelFile) {
 		try {
 			Scanner s = new Scanner(levelFile);
@@ -74,40 +95,38 @@ public class GameState extends KeyAdapter { //Does it work.
 		}
 	}
 	
-	public void keyPressed(KeyEvent event)//step Method
-	{
-		KeyCode key = event.getCode();
-		System.out.println(key.getName());
-	}
-	
-	public void exitGame()
-	{
+	public void exitGame(){
 		
 	}
 	
-	public void progressToNextLevel()
-	{
+	public void progressToNextLevel(){
 		
 	}
 	
-	// cant really test yet, but basic idea should work
-	public void saveState(){
+	/**
+	 * Saves the current state of the game.
+	 */
+	public void save(){
 		String outputStr = "";
-		for(int y = 0; y < grid.length; y++) { // each line of the file
-			for(int x = 0; x < grid.length; x++) { // each cell of a line
+		for(int y = 0; y < grid.length; y++) { // each row (line)
+			for(int x = 0; x < grid.length; x++) { // each cell in a row 
 				Cell c = grid[x][y];			
 
 				if(c.getType().equals(CellType.EMPTY)) {
-					boolean hasEnemy = false;
-					for(Enemy e : enemies) {
-						if(e.getX() == x && e.getY() == y) {
-							outputStr += e.getType();
-							hasEnemy = true;
+					if(player.getX() == x && player.getY() == y) {
+						outputStr += "P";
+					}else {
+						boolean hasEnemy = false;
+						for(Enemy e : enemies) {
+							if(e.getX() == x && e.getY() == y) {
+								outputStr += e.getType();
+								hasEnemy = true;
+							}
 						}
-					}
-					
-					if(!hasEnemy) {
-						outputStr += "EMPTY";
+						
+						if(!hasEnemy) {
+							outputStr += "E";
+						}
 					}
 				}else { 
 					// otherwise we store the type and the item the cell holds	
@@ -121,13 +140,18 @@ public class GameState extends KeyAdapter { //Does it work.
 					outputStr += ",";
 				}
 			}
+			if((y+1) < grid.length) { // ensures the last line is not empty
+				outputStr += "\n";
+			}
 		}
 		
 		try {
-			File outputFile = new File("Players/" + player.getPlayerName() + "/level" + level + ".txt");
-			if(!outputFile.exists()) {
-				outputFile.createNewFile();				
+			File outputFolder = new File("src/SavedGames/" + player.getPlayerName());
+			if(!outputFolder.exists()) {
+				outputFolder.mkdirs();	
 			}
+			File outputFile = new File(outputFolder.getPath() + "/level" + level + ".txt");
+			outputFile.createNewFile();
 			PrintWriter w = new PrintWriter(outputFile);
 			w.print(outputStr);
 			w.print(player.getInventoryString());
@@ -169,20 +193,6 @@ public class GameState extends KeyAdapter { //Does it work.
 	}
 
 	/**
-	 * @return the leaderBoard
-	 */
-	public static LeaderBoard getLeaderBoard() {
-		return leaderBoard;
-	}
-
-	/**
-	 * @param leaderBoard the leaderBoard to set
-	 */
-	public static void setLeaderBoard(LeaderBoard leaderBoard) {
-		GameState.leaderBoard = leaderBoard;
-	}
-
-	/**
 	 * @return the level
 	 */
 	public int getLevel() {
@@ -210,17 +220,4 @@ public class GameState extends KeyAdapter { //Does it work.
 		this.enemies = enemies;
 	}
 
-	/**
-	 * @return the startingTime
-	 */
-	public int getStartingTime() {
-		return startingTime;
-	}
-
-	/**
-	 * @param startingTime the startingTime to set
-	 */
-	public void setStartingTime(int startingTime) {
-		this.startingTime = startingTime;
-	}
 }

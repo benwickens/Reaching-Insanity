@@ -30,7 +30,7 @@ import motd.HttpRequest;
  * @version 1.0
  * Creation Date: 14/11/2019
  * Last Modification date: 15/11/2019
- * @author Robbie Ko
+ * @author Robbie Ko, Alan Tollett
  * <br>
  * No copyright.
  * <br>
@@ -38,8 +38,9 @@ import motd.HttpRequest;
  * The Controller for the Menu
  * <br>
  * Version History
- * 1.0 - loads in a video, making the buttons workings with their purepose (Message of the day implemented)
- *
+ * 1.0 - loads in a video, making the buttons workings with their purpose 
+ * (Message of the day implemented) - Robbie <br>
+ * 1.1 - implemented the button press methods (replaces the scene with the new scene) - Alan <br>
  */
 
 
@@ -98,7 +99,7 @@ public class ControllerMenu implements Initializable {
         video.stop();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Reaching Insanity");
-        gameWindow = new GameWindow("test player", new File("src/levels/test"));
+        gameWindow = new GameWindow("testplayer", new File("src/levels/test"));
         stage.setScene(gameWindow.getScene());
     }
     
