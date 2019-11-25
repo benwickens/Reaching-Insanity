@@ -33,23 +33,54 @@ public class Cell {
 		
 		// sets the imageView for the cell.
 		try {
-			switch(type) {
-			case WALL:
-				image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "wall.png")));
+			switch (type) {
+			 case WALL :
+            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "wall.png")));
+            	break;
+            	 
+			 case FIRE:
+				this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "fire.png")));
 				break;
-			case ICE:
-				image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "ice.png")));
+				
+			 case RED_DOOR :
+	            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "RED-DOOR.png")));
+	                break;	
+					
+            case WATER :
+                this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
+                break;
+           
+            case EMPTY :
+            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
+                break;
+
+            case GOAL :
+            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
+                break;
+
+            case BLUE_DOOR :
+				this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
 				break;
-			case FIRE:
-				image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "fire.png")));
-				break;
-			case EMPTY:
-				image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
-				break;
-			default:
-				image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
-				break;
-			}
+
+            case GREEN_DOOR :
+            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
+                break;
+            default: 
+            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));    
+
+            //hasn't been implemented yet (
+		/*
+		case "K:#" :
+			result = new Cell(CellType.,null);
+			break;
+
+		case "TD" : //token door TD:#
+			result = new Cell(CellType.,null);
+			break;
+		case "T" : // teleporter
+			result = new Cell(CellType.,null);
+			break;	 */
+        }
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: could not load image(s).");
