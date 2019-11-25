@@ -42,6 +42,7 @@ public class GameState {
 		player = new Player(playerName, null, 0); // replace 0 w db query result
 		enemies = new ArrayList<Enemy>();
 		readFileToGrid(levelFile);
+		convertTypeToString();
 	}
 	
 	/**
@@ -172,7 +173,7 @@ public class GameState {
 	public void convertTypeToString()
 	{
 		mapTypeToString = new HashMap<>();
-		mapTypeToString.put(CellType.WALL, "w");
+		mapTypeToString.put(CellType.WALL, "W");
 		mapTypeToString.put(CellType.BLUE_DOOR,"CDB");
 		mapTypeToString.put(CellType.EMPTY, "E");
 		mapTypeToString.put(CellType.FIRE, "F");
