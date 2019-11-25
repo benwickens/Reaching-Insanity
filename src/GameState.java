@@ -166,8 +166,10 @@ public class GameState {
 		}
 		
 	}
-	
-	public void putTypeToString()
+	/*
+	 * Converts the given Cell type to it's string abbreviation
+	 */
+	public void convertTypeToString()
 	{
 		mapTypeToString = new HashMap<>();
 		mapTypeToString.put(CellType.WALL, "w");
