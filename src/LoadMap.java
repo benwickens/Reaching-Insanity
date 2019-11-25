@@ -35,13 +35,12 @@ public class LoadMap {
         }
 
         String arrayInput = in.nextLine();
-        String[] size = arrayInput.split("A", 2);
-
+        String[] size = arrayInput.split(",", 2);
+        
         String strX = size[0];
         String strY = size[1];
         int x = Integer.parseInt(strX);
         int y = Integer.parseInt(strY);
-
 
         Cell[][] map = new Cell[x][y]; //2D array of type cell, dimensions from file.
         //temp counts for where in array to add item
@@ -49,7 +48,6 @@ public class LoadMap {
         //reads in each line, adds it to corresponding position in array.
         while (in.hasNext()) {
             String line = in.next();
-            //code currently requires a , before each element so that it can split.
             String[] elems = line.split(",", x+1);
             for (int i = 0; i < x; i++) {
                 //System.out.println("Position: " + i + " Element: " +  elems[i]);
@@ -57,22 +55,23 @@ public class LoadMap {
             }
             tempY += 1;
         }
-        for (int col = 0; col < x; col++) {
+        for (int col = 0; col < y; col++) {
             for (int row = 0; row < x; row++) {
                 System.out.println(map[row][col]);
             }
             System.out.println("##### NEW LINE #####");
         }
-
         this.loadedMap = map;
     }
 
     private Cell getCellType(String input) {
         Cell result = null;
         switch (input) {
-            case "W" :
+            case "WA" :
                 result = new Cell(CellType.WATER, null);
                 break;
+            case "W" :
+            	result = new Cell(CellType.WALL, null);
 
             case "E" :
                 result = new Cell(CellType.EMPTY,null);
@@ -152,6 +151,8 @@ public class LoadMap {
             case "P" :
                 result = new Cell(CellType.EMPTY,null);
                 break;
+            default: 
+            	result = new Cell(CellType.EMPTY,null);
 
             //hasn't been implemented yet (
 		/*

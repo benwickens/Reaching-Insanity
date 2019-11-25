@@ -1,0 +1,5 @@
+8,4
+W,W,W,W,W,W,W,W
+W,E,E,TD:5,E,E,E,W
+W,E,E,E,E,E,E,W
+W,W,W,W,W,W,W,W
