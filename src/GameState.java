@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javafx.scene.input.KeyCode;
@@ -29,6 +30,8 @@ public class GameState {
 	private int level;
 	/**All of the enemies currently alive*/
 	private ArrayList<Enemy> enemies; 
+	
+	private HashMap<CellType,String>mapTypeToString;
 	
 	/**
 	 * Creates a gamestate object
@@ -163,6 +166,21 @@ public class GameState {
 		}
 		
 	}
+	
+	public void putTypeToString()
+	{
+		mapTypeToString = new HashMap<>();
+		mapTypeToString.put(CellType.WALL, "w");
+		mapTypeToString.put(CellType.BLUE_DOOR,"CDB");
+		mapTypeToString.put(CellType.EMPTY, "E");
+		mapTypeToString.put(CellType.FIRE, "F");
+		mapTypeToString.put(CellType.GREEN_DOOR, "CDG");
+		mapTypeToString.put(CellType.RED_DOOR, "CDR");
+		mapTypeToString.put(CellType.ICE, "ICE");
+		mapTypeToString.put(CellType.TELEPORTER, "TPR");
+		mapTypeToString.put(CellType.WATER, "W");
+		mapTypeToString.put(CellType.GOAL, "G");
+	}
 
 	/**
 	 * @return the grid
@@ -218,6 +236,20 @@ public class GameState {
 	 */
 	public void setEnemies(ArrayList<Enemy> enemies) {
 		this.enemies = enemies;
+	}
+
+	/**
+	 * @return the mapTypeToString
+	 */
+	public HashMap<CellType,String> getMapTypeToString() {
+		return mapTypeToString;
+	}
+
+	/**
+	 * @param mapTypeToString the mapTypeToString to set
+	 */
+	public void setMapTypeToString(HashMap<CellType,String> mapTypeToString) {
+		this.mapTypeToString = mapTypeToString;
 	}
 
 }
