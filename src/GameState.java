@@ -1,6 +1,5 @@
 
 
-import java.awt.event.KeyAdapter;//Not sure whether this would be a valid import
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,15 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
 /**
  * Represents the state of the game at any point in time (enemy/player locations, state of cells...)
  * @author Stefan, Alan
  * @version 1.0 Created the rough outline of the class (attributes 
  * and methods but with little implementation) - Stefan <br>
  * 1.1 implemented the constructor which creates a player and loads the cells into the grid - Alan
+ * 1.2 created hash map to map cell type to its abbreviation for file output - Stefan
  */
 
 public class GameState {
@@ -166,13 +163,12 @@ public class GameState {
 		}
 		
 	}
-	/*
+	/**
 	 * Converts the given Cell type to it's string abbreviation
 	 */
-	public void convertTypeToString()
-	{
+	public void convertTypeToString(){
 		mapTypeToString = new HashMap<>();
-		mapTypeToString.put(CellType.WALL, "w");
+		mapTypeToString.put(CellType.WALL, "W");
 		mapTypeToString.put(CellType.BLUE_DOOR,"CDB");
 		mapTypeToString.put(CellType.EMPTY, "E");
 		mapTypeToString.put(CellType.FIRE, "F");
