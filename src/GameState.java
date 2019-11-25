@@ -177,7 +177,7 @@ public class GameState {
 		mapTypeToString.put(CellType.RED_DOOR, "CDR");
 		mapTypeToString.put(CellType.ICE, "ICE");
 		mapTypeToString.put(CellType.TELEPORTER, "TPR");
-		mapTypeToString.put(CellType.WATER, "W");
+		mapTypeToString.put(CellType.WATER, "WA");
 		mapTypeToString.put(CellType.GOAL, "G");
 	}
 
