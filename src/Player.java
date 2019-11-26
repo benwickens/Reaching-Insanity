@@ -6,7 +6,6 @@ public class Player extends Character {
 	private HashMap<Collectable, Integer> inventory;
 	
 	public Player(String playerName, HashMap<Collectable, Integer> inventory, int highestLevel) {
-		super();
 		this.highestLevel = highestLevel;
 		this.setPlayerName(playerName);
 		this.inventory = inventory;
