@@ -63,7 +63,6 @@ public class LoadMap {
 				}
 				map[i][tempY] = getCellType(elems[i]);
 			}
-			
 			tempY += 1;
 		}
 		//For testing, prints the cell. Originally had a toString function in Cell but removed it as wasn't my class.

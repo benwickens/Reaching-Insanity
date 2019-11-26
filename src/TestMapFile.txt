@@ -3,7 +3,7 @@ W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
 W,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,W
 W,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,W
 W,E,E,E,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
-W,E,E,E,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
+W,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,W
 W,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,W
 W,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,W
 W,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,W
