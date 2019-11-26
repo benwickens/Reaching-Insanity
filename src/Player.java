@@ -36,9 +36,12 @@ public class Player extends Character {
 	
 	public String getInventoryString() {
 		String output = "";
-		for(Collectable c : Collectable.values()) {
-			output += c.toString() + ":" + inventory.get(c) + ", ";
+		if(inventory.size() > 0) {
+			for(Collectable c : Collectable.values()) {
+				output += c.toString() + ":" + inventory.get(c) + ", ";
+			}
+			return output.substring(0, output.length() - 2);
 		}
-		return output.substring(0, output.length() - 2);
+		return output;
 	}
 }
