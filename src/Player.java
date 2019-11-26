@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 public class Player extends Character {
 	private String playerName;
 	private Integer highestLevel;
@@ -13,15 +12,18 @@ public class Player extends Character {
 	}
 	
 	public void addToInventory(Collectable item) {
-		
+		inventory.replace(item, inventory.get(item) + 1);
 	}
 	
 	public boolean hasItem(Collectable item, Integer amount) {
+		if(inventory.get(item) >= amount) {
+			return true;
+		}
 		return false;
 	}
 	
 	public void useItem(Collectable item, Integer amount) {
-		
+		inventory.replace(item, inventory.get(item) - amount);
 	}
 
 	public String getPlayerName() {
@@ -33,8 +35,10 @@ public class Player extends Character {
 	}
 	
 	public String getInventoryString() {
-		
-		
-		return "";
+		String output = "";
+		for(Collectable c : Collectable.values()) {
+			output += c.toString() + ":" + inventory.get(c) + ", ";
+		}
+		return output.substring(0, output.length() - 2);
 	}
 }
