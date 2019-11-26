@@ -1,8 +1,8 @@
 
 public abstract class Character {
 	
-	private int x;
-	private int y;
+	protected int x;
+	protected int y;
 	
 	public void moveTo(int exactX, int exactY) {
 		x = exactX;
