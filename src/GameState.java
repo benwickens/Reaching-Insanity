@@ -63,10 +63,30 @@ public class GameState {
 						String cellString = cells[x];
 						Cell c = null;
 						switch(cellString) {
+						// Player
 						case "P":
 							c = new Cell(CellType.EMPTY, null);
 							player.moveTo(x, y);
 							break;
+						// Enemies							
+//						case "SLE" :
+//							c = new Cell(CellType.EMPTY, null);
+//							enemies.add(new StraightLineEnemy(x, y));
+//							break;
+//						case "WFE" :
+//							c = new Cell(CellType.EMPTY, null);
+//							enemies.add(new WallFollowingEnemy(x, y));
+//							break;
+//						case "DTE" :
+//							c = new Cell(CellType.EMPTY, null);
+//							enemies.add(new DumbTargettingEnemy(x, y));
+//							break;
+//						case "STE" :
+//							c = new Cell(CellType.EMPTY, null);
+//							enemies.add(new SmartTargettingEnemy(x, y));
+//							break;
+							
+						// Tiles
 						case "W":
 							c = new Cell(CellType.WALL, null);
 							break;
@@ -79,11 +99,49 @@ public class GameState {
 						case "E":
 							c = new Cell(CellType.EMPTY, null);
 							break;
-						default:
-							c = new Cell(CellType.EMPTY, null);
+						case "WA" :
+							c = new Cell(CellType.WATER, null);
 							break;
+						case "G" :
+							c = new Cell(CellType.GOAL, null);
+							break;
+						case "CDR" :
+							c = new Cell(CellType.RED_DOOR, null);
+							break;
+						case "CDG" :
+							c = new Cell(CellType.GREEN_DOOR, null);
+							break;
+						case "CDB" :
+							c = new Cell(CellType.BLUE_DOOR, null);
+							break;
+						case "CT" :
+							c = new Cell(CellType.EMPTY, Collectable.TOKEN);
+							break;
+						case "CF" :
+							c = new Cell(CellType.EMPTY, Collectable.FLIPPERS);
+							break;
+						case "CB" :
+							c = new Cell(CellType.EMPTY, Collectable.FIRE_BOOTS);
+							break;
+						case "CI" :
+							c = new Cell(CellType.EMPTY, Collectable.ICE_SKATES);
+							break;
+						case "CD" :
+							c = new Cell(CellType.EMPTY, Collectable.DAGGER);
+							break;
+						case "CS" :
+							c = new Cell(CellType.EMPTY, Collectable.SPEAR);
+							break;
+						case "S" :
+							c = new Cell(CellType.EMPTY, Collectable.SHIELD);
+							break;
+						case "GR" :
+							c = new Cell(CellType.EMPTY, Collectable.GHOST_REPELLENT);
+							break;
+						default:
+							System.out.println("ERROR: Incorrect abbreviation read from file.");
+							System.exit(-1);
 						}
-						
 						grid[x][y-1] = c;
 					}
 				}
