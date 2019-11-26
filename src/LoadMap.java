@@ -52,21 +52,18 @@ public class LoadMap {
 		int tempY = 0;
 		//reads in each line, adds it to corresponding position in array.
 		while (in.hasNext()) {
-
 			String line = in.next();
 			String[] elems = line.split(",", x+1);
 			String cellNum[] = null;
-
+			
 			for (int i = 0; i < x; i++) {
-
 				if (elems[i].contains(":")) { //TD:5 (token door requiring 5 tokens to open)
 					cellNum = elems[i].split(":", 2);
 					System.out.println("SPLIT TEST: " + cellNum[0] + " + " + cellNum[1]);
 				}
-
-				//System.out.println("Position: " + i + " Element: " +  elems[i]);
 				map[i][tempY] = getCellType(elems[i]);
 			}
+			
 			tempY += 1;
 		}
 		//For testing, prints the cell. Originally had a toString function in Cell but removed it as wasn't my class.
@@ -88,7 +85,7 @@ public class LoadMap {
 			break;
 		case "W" :
 			result = new Cell(CellType.WALL, null);
-
+			break;
 		case "E" :
 			result = new Cell(CellType.EMPTY,null);
 			break;
