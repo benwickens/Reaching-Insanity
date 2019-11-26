@@ -49,7 +49,12 @@ public class LoadMap {
         while (in.hasNext()) {
             String line = in.next();
             String[] elems = line.split(",", x+1);
+            String cellNum[] = null;
             for (int i = 0; i < x; i++) {
+            	if (elems[i].contains(":")) { //TD:5 (token door requiring 5 tokens to open)
+            		cellNum = elems[i].split(":", 2);
+            		System.out.println("SPLIT TEST: " + cellNum[0] + " + " + cellNum[1]);
+            	}
                 //System.out.println("Position: " + i + " Element: " +  elems[i]);
                 map[i][tempY] = getCellType(elems[i]);
             }
@@ -59,7 +64,7 @@ public class LoadMap {
             for (int row = 0; row < x; row++) {
                 System.out.println(map[row][col]);
             }
-            System.out.println("##### NEW LINE #####");
+            System.out.println("##### NEW LINE TESTING #####");
         }
         this.loadedMap = map;
     }
