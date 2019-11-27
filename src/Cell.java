@@ -37,30 +37,24 @@ public class Cell {
 			 case WALL :
             	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "wall.png")));
             	break;
-            	 
 			 case FIRE:
 				this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "fire.png")));
 				break;
-				
 			 case RED_DOOR :
 	            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "RED-DOOR.png")));
 	                break;
             case WATER :
                 this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
                 break;
-           
             case ICE :
             	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "ice.png")));
                 break;
-
             case GOAL :
             	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
                 break;
-
             case BLUE_DOOR :
 				this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
 				break;
-
             case GREEN_DOOR :
             	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
                 break;

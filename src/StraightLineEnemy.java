@@ -29,56 +29,43 @@ public class StraightLineEnemy extends Character{
      */
     private Direction currentDirection;
 
-    public StraightLineEnemy(int xLocation, int yLocation, String enemyType, Direction currentDirection){
-        super(xLocation, yLocation, enemyType);
+    public StraightLineEnemy(int x, int y, String enemyType, Direction currentDirection){
+        super(x, y);
         this.currentDirection = currentDirection;
     }
 
     public void move(Cell [][] grid){
-        //vertical movement
         if(currentDirection.equals(Direction.RIGHT)){
-            int nextX = this.xLocation + 1;
-            int nextY = this.yLocation;
-
-            CellType nextType = grid[nextX][nextY].getType();
+            CellType nextType = grid[x + 1][y].getType();
             if(nextType.equals(CellType.EMPTY)){
-                this.xLocation += 1;
+                x += 1;
             }else{
                 currentDirection = Direction.LEFT;
-                this.xLocation -= 1;
+                x -= 1;
             }
         }else if(currentDirection.equals(Direction.LEFT)){
-            int nextX = this.xLocation - 1;
-            int nextY = this.yLocation;
-
-            CellType nextType = grid[nextX][nextY].getType();
+            CellType nextType = grid[x - 1][y].getType();
             if(nextType.equals(CellType.EMPTY)){
-                this.xLocation -= 1;
+                x -= 1;
             }else{
                 currentDirection = Direction.RIGHT;
-                this.xLocation += 1;
+                x += 1;
             }
         }else if(currentDirection.equals(Direction.UP)){
-            int nextX = this.xLocation;
-            int nextY = this.yLocation + 1;
-
-            CellType nextType = grid[nextX][nextY].getType();
+            CellType nextType = grid[x][y + 1].getType();
             if(nextType.equals(CellType.EMPTY)){
-                this.yLocation += 1;
+                y += 1;
             }else{
                 currentDirection = Direction.DOWN;
-                this.yLocation -= 1;
+                y -= 1;
             }
         }else{
-            int nextX = this.xLocation;
-            int nextY = this.yLocation - 1;
-
-            CellType nextType = grid[nextX][nextY].getType();
+            CellType nextType = grid[x][y - 1].getType();
             if(nextType.equals(CellType.EMPTY)){
-                this.yLocation -= 1;
+                y -= 1;
             }else{
                 currentDirection = Direction.UP;
-                this.yLocation += 1;
+                y += 1;
             }
         }
     }
