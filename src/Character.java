@@ -18,12 +18,12 @@
 
 public abstract class Character {
 	
-	protected int xLocation;
-	protected int yLocation;
+	protected int x;
+	protected int y;
 
-	public Character(int xLocation, int yLocation){
-		this.xLocation = xLocation;
-		this.yLocation = yLocation;
+	public Character(int x, int y){
+		this.x = x;
+		this.y = y;
 	}
 
 	public Character() {
@@ -31,28 +31,23 @@ public abstract class Character {
 	}
 
 	public int getX(){
-		 return xLocation;
+		 return x;
 	}
 
-	public void setX(int xLocation){
-		this.xLocation = xLocation;
+	public void setX(int x){
+		this.x = x;
 	}
 
 	public int getY(){
-		return yLocation;
+		return y;
 	}
 
-	public void setY(int yLocation){
-		this.yLocation = yLocation;
+	public void setY(int y){
+		this.y = y;
 	}
 
 	public void moveTo(int exactX, int exactY) {
-		xLocation = exactX;
-		yLocation = exactY;
-	}
-	
-	public String toString() {
-		//Requires implementation
-		return null;
+		x = exactX;
+		y = exactY;
 	}
 }

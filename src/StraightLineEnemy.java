@@ -19,7 +19,7 @@
  *
  */
 
-public class StraightLineEnemy extends Enemy{
+public class StraightLineEnemy extends Character{
 
     /* This enemy simply moves in a straight line, hits an obstacle and
     reverses direction. Each straight line enemy either moves vertically
