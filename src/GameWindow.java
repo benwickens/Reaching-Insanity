@@ -199,18 +199,22 @@ public class GameWindow {
 			switch (event.getCode()) {
 				case RIGHT:
 					nextX += 1;
+					direction = Direction.RIGHT;
 					break;
 				case LEFT:
 					nextX -= 1;
+					direction = Direction.LEFT;
 					break;
 				case UP:
 					nextY -= 1;
+					direction = Direction.UP;
 					break;
 				case DOWN:
 					nextY += 1;
+					direction = Direction.DOWN;
 					break;
 				default:
-					break;
+					return;
 			}
 			
 			Cell nextCell = gameState.getGrid()[nextX][nextY];
