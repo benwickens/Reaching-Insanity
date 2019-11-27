@@ -248,20 +248,6 @@ public class GameWindow {
 					nextY = gameState.getPlayer().getY();
 				}
 				break;
-			case TELEPORTER:
-				if(event.getCode().equals(KeyCode.RIGHT)) {
-					nextX = nextCell.getLinkX() + 1;
-					nextY = nextCell.getLinkY();
-				}else if(event.getCode().equals(KeyCode.LEFT)) {
-					nextX = nextCell.getLinkX() - 1;
-					nextY = nextCell.getLinkY();
-				}else if(event.getCode().equals(KeyCode.UP)) {
-					nextX = nextCell.getLinkX();
-					nextY = nextCell.getLinkY() - 1;
-				}else {
-					nextX = nextCell.getLinkX();
-					nextY = nextCell.getLinkY() + 1;
-				}
 			case FIRE:
 				if(!gameState.getPlayer().hasItem(Collectable.FIRE_BOOTS, 1)) {
 					// resetLevel();
@@ -277,6 +263,20 @@ public class GameWindow {
 					// resetLevel();
 				}
 				break;
+			case TELEPORTER:
+				if(event.getCode().equals(KeyCode.RIGHT)) {
+					nextX = nextCell.getLinkX() + 1;
+					nextY = nextCell.getLinkY();
+				}else if(event.getCode().equals(KeyCode.LEFT)) {
+					nextX = nextCell.getLinkX() - 1;
+					nextY = nextCell.getLinkY();
+				}else if(event.getCode().equals(KeyCode.UP)) {
+					nextX = nextCell.getLinkX();
+					nextY = nextCell.getLinkY() - 1;
+				}else {
+					nextX = nextCell.getLinkX();
+					nextY = nextCell.getLinkY() + 1;
+				}
 			case EMPTY:
 				for(Character enemy : gameState.getEnemies()) {
 					if(enemy.getX() == nextX && enemy.getY() == nextY) {
