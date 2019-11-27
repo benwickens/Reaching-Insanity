@@ -1,8 +1,3 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,13 +11,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class GameWindow {
 
@@ -240,13 +236,13 @@ public class GameWindow {
 
 	private ImageView getPlayerImage() throws FileNotFoundException {
 		if (direction == Direction.LEFT) {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_left.png")));
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "Enemy1.png")));
 		} else if (direction == Direction.RIGHT) {
 			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_right.png")));
 		} else if (direction == Direction.UP) {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_up.png")));
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "Enemy1.png")));
 		} else {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_down.png")));
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "Enemy1.png")));
 		}
 	}
 

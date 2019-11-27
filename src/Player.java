@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.HashMap;
 
 /**
  * Represents the player at any given time in the current game state
@@ -19,11 +19,15 @@ public class Player extends Character {
      * @param highestLevel is the players highest reached level
      */
 
-    public Player(int xLocation, int yLocation, String playerName, HashMap<Collectable, Integer> inventory, int highestLevel) {
-        super(xLocation, yLocation);
+    public Player( String playerName, HashMap<Collectable, Integer> inventory, int highestLevel) {
+        //super (xLocation,yLocation)  #### indented atm
         this.highestLevel = highestLevel;
         this.setPlayerName(playerName);
-        this.inventory = inventory;
+        if(inventory == null) {
+            this.inventory = new HashMap<Collectable, Integer>();
+        }else {
+            this.inventory = inventory;
+        }
     }
 
     //Adds a collectable to the players inventory
@@ -56,6 +60,10 @@ public class Player extends Character {
         return highestLevel;
     }
 
+
+    public int setPlayerX(){
+        return xLocation;
+    }
     public String getInventoryString() {
         String output = "";
         if(inventory.size() > 0) {

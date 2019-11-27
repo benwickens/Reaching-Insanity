@@ -26,19 +26,23 @@ public abstract class Character {
 		this.yLocation = yLocation;
 	}
 
-	public int getXLocation(){
+	public Character() {
+		//Added to avoid error
+	}
+
+	public int getX(){
 		 return xLocation;
 	}
 
-	public void setXLocation(int xLocation){
+	public void setX(int xLocation){
 		this.xLocation = xLocation;
 	}
 
-	public int getYLocation(){
+	public int getY(){
 		return yLocation;
 	}
 
-	public void setYLocation(int yLocation){
+	public void setY(int yLocation){
 		this.yLocation = yLocation;
 	}
 

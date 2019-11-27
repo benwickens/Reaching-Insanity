@@ -1,8 +1,8 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Represents a "cell" in the game (wall, empty, fire...)
@@ -44,14 +44,13 @@ public class Cell {
 				
 			 case RED_DOOR :
 	            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "RED-DOOR.png")));
-	                break;	
-					
+	                break;
             case WATER :
                 this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
                 break;
            
-            case EMPTY :
-            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
+            case ICE :
+            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "ice.png")));
                 break;
 
             case GOAL :

@@ -34,4 +34,6 @@ public abstract class Enemy extends Character{
 	}
 
 	public abstract void move(Cell [][] grid);
+
+
 }

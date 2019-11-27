@@ -36,10 +36,11 @@ public class GameState {
 	 * @param playerName the name of the player
 	 */
 	public GameState(File levelFile, String playerName) {
-		player = new Player(playerName, null, 0); // replace 0 w db query result
+		player = new Player(playerName,null,0); // replace 0 w db query result
 		enemies = new ArrayList<Enemy>();
 		readFileToGrid(levelFile);
 		convertTypeToString();
+
 	}
 	
 	/**
@@ -178,7 +179,7 @@ public class GameState {
 						boolean hasEnemy = false;
 						for(Enemy e : enemies) {
 							if(e.getX() == x && e.getY() == y) {
-								outputStr += e.getType();
+								outputStr += e.getEnemyType();
 								hasEnemy = true;
 							}
 						}
@@ -220,8 +221,8 @@ public class GameState {
 			System.out.println("ERROR: Cannot create file.");
 			e.printStackTrace();
 		}
-		
 	}
+
 	/**
 	 * Converts the given Cell type to it's string abbreviation
 	 */
@@ -308,5 +309,4 @@ public class GameState {
 	public void setMapTypeToString(HashMap<CellType,String> mapTypeToString) {
 		this.mapTypeToString = mapTypeToString;
 	}
-
 }
