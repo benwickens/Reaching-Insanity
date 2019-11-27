@@ -31,7 +31,14 @@ public class GameState {
 	private HashMap<CellType, String> cellAbbreviations;
 	/**Maps a Collectable to a the file abbreviation*/
 	private HashMap<Collectable, String> itemAbbreviations;
-	
+
+	private int a;
+	private int b;
+	private int c;
+	private int d;
+
+
+
 	/**
 	 * Creates a gamestate object
 	 * @param levelFile the level to be played
@@ -73,7 +80,7 @@ public class GameState {
 			while(s.hasNextLine()) {
 				String line = s.nextLine();
 				String[] cells = line.split(",");
-				
+
 				if(y == 0) {
 					int xSize = Integer.parseInt(cells[0]);
 					int ySize = Integer.parseInt(cells[1]);
@@ -82,7 +89,6 @@ public class GameState {
 					for(int x = 0; x < cells.length; x++) {
 						CellType type = null;
 						Collectable item = null;
-						
 						if(cells[x].contains(":")) {
 							// the type of cell is the first part
 							type = getCellType(cells[x].split(":")[0]);
@@ -92,7 +98,7 @@ public class GameState {
 								player.moveTo(x, y - 1);
 							} else if(extraInfo.equals("SLE")) {
 								enemies.add(new StraightLineEnemy(x, y - 1, Direction.RIGHT));
-							} 
+							}
 //							else if(extraInfo.equals("WFE")) {
 //								enemies.add(new WallFollowingEnemy(x, y - 1, Direction.RIGHT));
 //							}else if(extraInfo.equals("DTE")) {
@@ -100,13 +106,20 @@ public class GameState {
 //							}else if(extraInfo.equals("STE"))S {
 //								enemies.add(new SmartTargettingEnemy(x, y - 1, Direction.RIGHT));
 //							}
+							else if (extraInfo.equals("I")){
+										a = x;
+										b = y;
+							}else if (extraInfo.equals("O")){
+										c = x;
+										d = y;
+							}
 							else {
 								item = getItemType(cells[x].split(":")[1]);
 							}
 						}else {
 							type = getCellType(cells[x]);
 						}
-						
+
 						// after the above, if the cell type is null then the file is
 						// incorrectly formatted.
 						if(type == null) {
@@ -125,6 +138,31 @@ public class GameState {
 			System.out.println("Error: level file not found.");
 			System.exit(-1);
 		}
+	}
+
+	/**
+	 * returns the tp out X location
+	 */
+	public int locationIX(){
+		return  c ;
+	}
+	/**
+	 * returns the tp out Y location
+	 */
+	public int locationIY(){
+		return  d ;
+	}
+	/**
+	 * returns the tp in X location
+	 */
+	public int locationOX(){
+		return  a ;
+	}
+	/**
+	 * returns the tp in Y location
+	 */
+	public int locationOY(){
+		return  b ;
 	}
 	
 	public void exitGame(){
@@ -234,6 +272,7 @@ public class GameState {
 		itemAbbreviations.put(Collectable.FIRE_BOOTS, "FB");
 		itemAbbreviations.put(Collectable.DAGGER, "DG");
 	}
+
 
 	/**
 	 * @return the grid

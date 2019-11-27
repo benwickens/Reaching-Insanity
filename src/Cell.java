@@ -30,6 +30,7 @@ public class Cell {
 	 * @param item the item that the cell holds (null or Collectable.SOME_ITEM)
 	 */
 	public Cell(CellType type, Collectable item){
+
 		this.type = type;
 		this.item = item;
 
@@ -61,6 +62,9 @@ public class Cell {
 				break;
 			case GREEN_DOOR :
 				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				break;
+			case TELEPORTER:
+				fis = new FileInputStream(GRID_IMAGES + "Teleport.png");
 				break;
 			default: 
 				fis = new FileInputStream(GRID_IMAGES + "empty.png");    

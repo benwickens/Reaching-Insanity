@@ -246,12 +246,23 @@ public class GameWindow {
 					nextX = gameState.getPlayer().getX();
 					nextY = gameState.getPlayer().getY();
 				}
-				break; 
+				break;
+			case TELEPORTER:
+				if(nextCell.getType() == CellType.TELEPORTER){
+					if (nextX != gameState.locationIX()) {
+						nextX = gameState.locationIX();
+						nextY = gameState.locationIY();
+					}else {
+						nextX = gameState.locationOX();
+						nextY = gameState.locationOY();
+					}
+					System.out.println(nextX+":"+nextY);
+				}
 			case FIRE:
 				if(!gameState.getPlayer().hasItem(Collectable.FIRE_BOOTS, 1)) {
 					// resetLevel();
 				}
-				break; 
+				break;
 			case WATER:
 				if(!gameState.getPlayer().hasItem(Collectable.FLIPPERS, 1)) {
 					// resetLevel();
@@ -261,7 +272,7 @@ public class GameWindow {
 				if(!gameState.getPlayer().hasItem(Collectable.ICE_SKATES, 1)) {
 					// resetLevel();
 				}
-				break; 
+				break;
 			case EMPTY:
 				for(Character enemy : gameState.getEnemies()) {
 					if(enemy.getX() == nextX && enemy.getY() == nextY) {
