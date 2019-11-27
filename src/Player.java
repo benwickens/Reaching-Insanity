@@ -6,7 +6,7 @@ import java.util.HashMap;
  * @version 1.0 added attributes and methods (w/out implementation) <br>
  * 1.1 Implemented the constructor <br>.
  */
-
+//Millie testing to see if git/eclipse works
 public class Player extends Character {
     private String name;
     private Integer highestLevel;
