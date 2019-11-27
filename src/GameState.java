@@ -212,6 +212,8 @@ public class GameState {
 						|| t.equals(CellType.ICE)) {
 					if(player.getX() == x && player.getY() == y) {
 						outputStr += cellAbbreviations.get(t) + ":P";
+					}else {
+						outputStr += cellAbbreviations.get(t);
 					}
 				}else {
 					outputStr += cellAbbreviations.get(t);
@@ -221,7 +223,7 @@ public class GameState {
 					outputStr += ",";
 				}
 			}
-			if((y+1) < grid.length) { // ensures the last line is not empty
+			if((y) < grid.length) { // ensures the last line is not empty
 				outputStr += "\n";
 			}
 		}
