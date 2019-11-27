@@ -228,22 +228,23 @@ public class GameState {
 			}
 		}
 		
-		try {
-			File outputFolder = new File("src/SavedGames/" + player.getName());
-			if(!outputFolder.exists()) {
-				outputFolder.mkdirs();	
-			}
-			File outputFile = new File(outputFolder.getPath() + "/level" + level + ".txt");
-			outputFile.createNewFile();
-			PrintWriter w = new PrintWriter(outputFile);
-			w.print(outputStr);
-			w.print(player.getInventoryString());
-			w.flush();
-			w.close();
-		} catch (IOException e) {
-			System.out.println("ERROR: Cannot create file.");
-			e.printStackTrace();
-		}
+//		UNCOMMENT LATER, PREVENTS level0.txt being updated constantly
+//		try {
+//			File outputFolder = new File("src/SavedGames/" + player.getName());
+//			if(!outputFolder.exists()) {
+//				outputFolder.mkdirs();	
+//			}
+//			File outputFile = new File(outputFolder.getPath() + "/level" + level + ".txt");
+//			outputFile.createNewFile();
+//			PrintWriter w = new PrintWriter(outputFile);
+//			w.print(outputStr);
+//			w.print(player.getInventoryString());
+//			w.flush();
+//			w.close();
+//		} catch (IOException e) {
+//			System.out.println("ERROR: Cannot create file.");
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
