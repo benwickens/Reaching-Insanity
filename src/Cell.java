@@ -23,7 +23,11 @@ public class Cell {
 	private ImageView itemImage;
 	/** path to the folder contaning the image files */
 	private static final String GRID_IMAGES = "src/media/img/grid/";
-
+	/**The X location this cell links to (if a teleporter)*/
+	private int linkX;
+	/**The Y location this cell links to (if a teleporter)*/
+	private int linkY;
+	
 	/**
 	 * Constructs a cell object
 	 * @param type the type of cell
@@ -150,6 +154,22 @@ public class Cell {
 
 	public void setItemImage(ImageView itemImage) {
 		this.itemImage = itemImage;
+	}
+
+	public int getLinkX() {
+		return linkX;
+	}
+
+	public void setLinkX(int linkX) {
+		this.linkX = linkX;
+	}
+
+	public int getLinkY() {
+		return linkY;
+	}
+
+	public void setLinkY(int linkY) {
+		this.linkY = linkY;
 	}
 
 }

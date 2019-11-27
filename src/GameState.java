@@ -32,6 +32,9 @@ public class GameState {
 	/**Maps a Collectable to a the file abbreviation*/
 	private HashMap<Collectable, String> itemAbbreviations;
 
+	private int tempTeleportX = -1;
+	private int tempTeleportY = -1;
+	
 	private int a;
 	private int b;
 	private int c;
@@ -106,13 +109,11 @@ public class GameState {
 //							}else if(extraInfo.equals("STE"))S {
 //								enemies.add(new SmartTargettingEnemy(x, y - 1, Direction.RIGHT));
 //							}
-							else if (extraInfo.equals("I")){
-										a = x;
-										b = y;
-							}else if (extraInfo.equals("O")){
-										c = x;
-										d = y;
-							}
+							else if(extraInfo.contains("-")) {
+								// then a teleporter as cell is represented as TP:X-Y
+								tempTeleportX = Integer.parseInt(extraInfo.split("-")[0]);
+								tempTeleportY = Integer.parseInt(extraInfo.split("-")[1]);
+							}							
 							else {
 								item = getItemType(cells[x].split(":")[1]);
 							}
@@ -127,6 +128,12 @@ public class GameState {
 							System.exit(-1);
 						}else {
 							Cell c = new Cell(type, item);
+							if(type.equals(CellType.TELEPORTER) && tempTeleportX != -1) {
+								c.setLinkX(tempTeleportX);
+								c.setLinkY(tempTeleportY);
+								tempTeleportX = -1;
+								tempTeleportY = -1;
+							}
 							grid[x][y - 1] = c;
 						}
 					}
@@ -138,31 +145,6 @@ public class GameState {
 			System.out.println("Error: level file not found.");
 			System.exit(-1);
 		}
-	}
-
-	/**
-	 * returns the tp out X location
-	 */
-	public int locationIX(){
-		return  c ;
-	}
-	/**
-	 * returns the tp out Y location
-	 */
-	public int locationIY(){
-		return  d ;
-	}
-	/**
-	 * returns the tp in X location
-	 */
-	public int locationOX(){
-		return  a ;
-	}
-	/**
-	 * returns the tp in Y location
-	 */
-	public int locationOY(){
-		return  b ;
 	}
 	
 	public void exitGame(){

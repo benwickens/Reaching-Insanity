@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -248,15 +249,18 @@ public class GameWindow {
 				}
 				break;
 			case TELEPORTER:
-				if(nextCell.getType() == CellType.TELEPORTER){
-					if (nextX != gameState.locationIX()) {
-						nextX = gameState.locationIX();
-						nextY = gameState.locationIY();
-					}else {
-						nextX = gameState.locationOX();
-						nextY = gameState.locationOY();
-					}
-					System.out.println(nextX+":"+nextY);
+				if(event.getCode().equals(KeyCode.RIGHT)) {
+					nextX = nextCell.getLinkX() + 1;
+					nextY = nextCell.getLinkY();
+				}else if(event.getCode().equals(KeyCode.LEFT)) {
+					nextX = nextCell.getLinkX() - 1;
+					nextY = nextCell.getLinkY();
+				}else if(event.getCode().equals(KeyCode.UP)) {
+					nextX = nextCell.getLinkX();
+					nextY = nextCell.getLinkY() - 1;
+				}else {
+					nextX = nextCell.getLinkX();
+					nextY = nextCell.getLinkY() + 1;
 				}
 			case FIRE:
 				if(!gameState.getPlayer().hasItem(Collectable.FIRE_BOOTS, 1)) {
