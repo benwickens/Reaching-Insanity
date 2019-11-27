@@ -26,21 +26,22 @@ public class GameState {
 	/**The current level*/
 	private int level;
 	/**All of the enemies currently alive*/
-	private ArrayList<Enemy> enemies; 
-	
-	private HashMap<CellType,String>mapTypeToString;
+	private ArrayList<Character> enemies; 
+	/**Maps a CellType to a the file abbreviation*/
+	private HashMap<CellType, String> cellAbbreviations;
+	/**Maps a Collectable to a the file abbreviation*/
+	private HashMap<Collectable, String> itemAbbreviations;
 	
 	/**
 	 * Creates a gamestate object
 	 * @param levelFile the level to be played
 	 * @param playerName the name of the player
 	 */
-	public GameState(File levelFile, String playerName) {
+	public GameState(File levelFile, String playerName, int level) {
 		player = new Player(playerName,null,0); // replace 0 w db query result
-		enemies = new ArrayList<Enemy>();
+		enemies = new ArrayList<Character>();
 		readFileToGrid(levelFile);
-		convertTypeToString();
-
+		loadAbbreviations();
 	}
 	
 	/**
@@ -62,18 +63,15 @@ public class GameState {
 				}else {
 					for(int x = 0; x < cells.length; x++) {
 						String cellString = cells[x];
-						Cell c = null;
+						Cell c = new Cell(CellType.EMPTY, null);
 						switch(cellString) {
-						// Player
 						case "P":
-							c = new Cell(CellType.EMPTY, null);
 							player.moveTo(x, y);
-							break;
-						// Enemies							
-//						case "SLE" :
-//							c = new Cell(CellType.EMPTY, null);
-//							enemies.add(new StraightLineEnemy(x, y));
-//							break;
+							break;						
+						case "SLE":
+							enemies.add(new StraightLineEnemy(x, y, Direction.RIGHT));
+							enemies.get(enemies.size() - 1).moveTo(x, y);
+							break;						
 //						case "WFE" :
 //							c = new Cell(CellType.EMPTY, null);
 //							enemies.add(new WallFollowingEnemy(x, y));
@@ -171,29 +169,40 @@ public class GameState {
 		for(int y = 0; y < grid.length; y++) { // each row (line)
 			for(int x = 0; x < grid.length; x++) { // each cell in a row 
 				Cell c = grid[x][y];			
-
-				if(c.getType().equals(CellType.EMPTY)) {
+				CellType t = c.getType();
+				
+				if(t.equals(CellType.EMPTY)) {
 					if(player.getX() == x && player.getY() == y) {
 						outputStr += "P";
 					}else {
 						boolean hasEnemy = false;
-						for(Enemy e : enemies) {
+						for(Character e : enemies) {
 							if(e.getX() == x && e.getY() == y) {
-								outputStr += e.getEnemyType();
+								String enemyType =  e.getClass().getName();
+								String abbr = "";
+								for(int i = 0; i < enemyType.length(); i++) {
+									if(java.lang.Character.isUpperCase(enemyType.charAt(i))) {
+										abbr += enemyType.charAt(i);
+									}
+								}
+								outputStr += abbr;
 								hasEnemy = true;
 							}
 						}
-						
 						if(!hasEnemy) {
-							outputStr += "E";
+							outputStr += cellAbbreviations.get(t);
 						}
 					}
-				}else { 
-					// otherwise we store the type and the item the cell holds	
-					outputStr += c.getType().toString();
 					if(c.getItem() != null) {
-						outputStr += ":" + c.getItem().toString();
+						outputStr += ":" + itemAbbreviations.get(c.getItem());
 					}
+				}else if(t.equals(CellType.FIRE) || t.equals(CellType.WATER) 
+						|| t.equals(CellType.ICE)) {
+					if(player.getX() == x && player.getY() == y) {
+						outputStr += cellAbbreviations.get(t) + ":P";
+					}
+				}else {
+					outputStr += cellAbbreviations.get(t);
 				}
 
 				if((x+1) < grid.length) { // ensures the line doesn't end with a ','
@@ -226,18 +235,30 @@ public class GameState {
 	/**
 	 * Converts the given Cell type to it's string abbreviation
 	 */
-	public void convertTypeToString(){
-		mapTypeToString = new HashMap<>();
-		mapTypeToString.put(CellType.WALL, "W");
-		mapTypeToString.put(CellType.BLUE_DOOR,"CDB");
-		mapTypeToString.put(CellType.EMPTY, "E");
-		mapTypeToString.put(CellType.FIRE, "F");
-		mapTypeToString.put(CellType.GREEN_DOOR, "CDG");
-		mapTypeToString.put(CellType.RED_DOOR, "CDR");
-		mapTypeToString.put(CellType.ICE, "ICE");
-		mapTypeToString.put(CellType.TELEPORTER, "TPR");
-		mapTypeToString.put(CellType.WATER, "WA");
-		mapTypeToString.put(CellType.GOAL, "G");
+	private void loadAbbreviations(){
+		cellAbbreviations = new HashMap<>();
+		cellAbbreviations.put(CellType.WALL, "W");
+		cellAbbreviations.put(CellType.BLUE_DOOR,"CDB");
+		cellAbbreviations.put(CellType.EMPTY, "E");
+		cellAbbreviations.put(CellType.FIRE, "F");
+		cellAbbreviations.put(CellType.GREEN_DOOR, "CDG");
+		cellAbbreviations.put(CellType.RED_DOOR, "CDR");
+		cellAbbreviations.put(CellType.ICE, "I");
+		cellAbbreviations.put(CellType.TELEPORTER, "TP");
+		cellAbbreviations.put(CellType.WATER, "WA");
+		cellAbbreviations.put(CellType.GOAL, "G");
+		
+		itemAbbreviations = new HashMap<>();
+		itemAbbreviations.put(Collectable.TOKEN, "TK");
+		itemAbbreviations.put(Collectable.SPEAR, "SP");
+		itemAbbreviations.put(Collectable.SHIELD, "SH");
+		itemAbbreviations.put(Collectable.RED_KEY, "RK");
+		itemAbbreviations.put(Collectable.GREEN_KEY, "GK");
+		itemAbbreviations.put(Collectable.BLUE_KEY, "BK");
+		itemAbbreviations.put(Collectable.ICE_SKATES, "IS");
+		itemAbbreviations.put(Collectable.FLIPPERS, "FL");
+		itemAbbreviations.put(Collectable.FIRE_BOOTS, "FB");
+		itemAbbreviations.put(Collectable.DAGGER, "DG");
 	}
 
 	/**
@@ -285,28 +306,15 @@ public class GameState {
 	/**
 	 * @return the enemies
 	 */
-	public ArrayList<Enemy> getEnemies() {
+	public ArrayList<Character> getEnemies() {
 		return enemies;
 	}
 
 	/**
 	 * @param enemies the enemies to set
 	 */
-	public void setEnemies(ArrayList<Enemy> enemies) {
+	public void setEnemies(ArrayList<Character> enemies) {
 		this.enemies = enemies;
 	}
 
-	/**
-	 * @return the mapTypeToString
-	 */
-	public HashMap<CellType,String> getMapTypeToString() {
-		return mapTypeToString;
-	}
-
-	/**
-	 * @param mapTypeToString the mapTypeToString to set
-	 */
-	public void setMapTypeToString(HashMap<CellType,String> mapTypeToString) {
-		this.mapTypeToString = mapTypeToString;
-	}
 }
