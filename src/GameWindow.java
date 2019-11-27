@@ -41,7 +41,7 @@ public class GameWindow {
 		layout = new BorderPane();
 
 		try {
-			gameState = new GameState(levelFile, playerName);
+			gameState = new GameState(levelFile, playerName, 0);
 			direction = Direction.DOWN;
 
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
@@ -85,15 +85,18 @@ public class GameWindow {
 		for (int gridX = -4; gridX < 4; gridX++) {
 			for (int gridY = -4; gridY < 4; gridY++) {
 				try {
-					if (gridX == 0 && gridY == 0) {
-						StackPane stack = new StackPane();
-						ImageView img = (gameState.getGrid()[playerX + gridX][playerY + gridY]).getImage();
-						stack.getChildren().addAll(img, getPlayerImage());
-						pane.add(stack, 4, 4);
-					} else {
-						ImageView img = (gameState.getGrid()[playerX + gridX][playerY + gridY]).getImage();
-						pane.add(img, gridX + 4, gridY + 4);
+					Cell cell = gameState.getGrid()[playerX + gridX][playerY + gridY];
+					StackPane stack = new StackPane();
+					stack.getChildren().add(cell.getCellImage());
+					
+					if (gridX == 0 && gridY == 0) { // if drawing the center cell, add player
+						stack.getChildren().add(getPlayerImage());
+					} else { // otherwise, add item (if there is any)
+						if(cell.getItem() != null) {
+							stack.getChildren().add(cell.getItemImage());
+						}
 					}
+					pane.add(stack, gridX + 4, gridY + 4);
 				} catch (ArrayIndexOutOfBoundsException e) {
 					ImageView img = new ImageView(new Image(new FileInputStream(GRID_PATH + "black.png")));
 					pane.add(img, gridX + 4, gridY + 4);
@@ -107,7 +110,7 @@ public class GameWindow {
 		VBox left = new VBox(60);
 		left.setMinWidth(300);
 		left.setAlignment(Pos.CENTER);
-		Label nameLabel = new Label(gameState.getPlayer().getPlayerName());
+		Label nameLabel = new Label(gameState.getPlayer().getName());
 		nameLabel.setId("playerName");
 
 		ImageView playerIcon = new ImageView(new Image(new FileInputStream(PLAYER_PATH)));
@@ -236,13 +239,13 @@ public class GameWindow {
 
 	private ImageView getPlayerImage() throws FileNotFoundException {
 		if (direction == Direction.LEFT) {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "Enemy1.png")));
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_left.png")));
 		} else if (direction == Direction.RIGHT) {
 			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_right.png")));
 		} else if (direction == Direction.UP) {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "Enemy1.png")));
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_up.png")));
 		} else {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "Enemy1.png")));
+			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_down.png")));
 		}
 	}
 

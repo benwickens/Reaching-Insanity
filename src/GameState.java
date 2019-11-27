@@ -40,8 +40,26 @@ public class GameState {
 	public GameState(File levelFile, String playerName, int level) {
 		player = new Player(playerName,null,0); // replace 0 w db query result
 		enemies = new ArrayList<Character>();
-		readFileToGrid(levelFile);
 		loadAbbreviations();
+		readFileToGrid(levelFile);
+	}
+	
+	private CellType getCellType(String abbreviation) {
+		for(CellType type : cellAbbreviations.keySet()) {
+			if(cellAbbreviations.get(type).equals(abbreviation)) {
+				return type;
+			}
+		}
+		return null;
+	}
+	
+	private Collectable getItemType(String abbreviation) {
+		for(Collectable collectable : itemAbbreviations.keySet()) {
+			if(itemAbbreviations.get(collectable).equals(abbreviation)) {
+				return collectable;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -62,86 +80,42 @@ public class GameState {
 					grid = new Cell[xSize][ySize];
 				}else {
 					for(int x = 0; x < cells.length; x++) {
-						String cellString = cells[x];
-						Cell c = new Cell(CellType.EMPTY, null);
-						switch(cellString) {
-						case "P":
-							player.moveTo(x, y);
-							break;						
-						case "SLE":
-							enemies.add(new StraightLineEnemy(x, y, Direction.RIGHT));
-							enemies.get(enemies.size() - 1).moveTo(x, y);
-							break;						
-//						case "WFE" :
-//							c = new Cell(CellType.EMPTY, null);
-//							enemies.add(new WallFollowingEnemy(x, y));
-//							break;
-//						case "DTE" :
-//							c = new Cell(CellType.EMPTY, null);
-//							enemies.add(new DumbTargettingEnemy(x, y));
-//							break;
-//						case "STE" :
-//							c = new Cell(CellType.EMPTY, null);
-//							enemies.add(new SmartTargettingEnemy(x, y));
-//							break;
-							
-						// Tiles
-						case "W":
-							c = new Cell(CellType.WALL, null);
-							break;
-						case "I":
-							c = new Cell(CellType.ICE, null);
-							break;
-						case "F":
-							c = new Cell(CellType.FIRE, null);
-							break;
-						case "E":
-							c = new Cell(CellType.EMPTY, null);
-							break;
-						case "WA" :
-							c = new Cell(CellType.WATER, null);
-							break;
-						case "G" :
-							c = new Cell(CellType.GOAL, null);
-							break;
-						case "CDR" :
-							c = new Cell(CellType.RED_DOOR, null);
-							break;
-						case "CDG" :
-							c = new Cell(CellType.GREEN_DOOR, null);
-							break;
-						case "CDB" :
-							c = new Cell(CellType.BLUE_DOOR, null);
-							break;
-						case "CT" :
-							c = new Cell(CellType.EMPTY, Collectable.TOKEN);
-							break;
-						case "CF" :
-							c = new Cell(CellType.EMPTY, Collectable.FLIPPERS);
-							break;
-						case "CB" :
-							c = new Cell(CellType.EMPTY, Collectable.FIRE_BOOTS);
-							break;
-						case "CI" :
-							c = new Cell(CellType.EMPTY, Collectable.ICE_SKATES);
-							break;
-						case "CD" :
-							c = new Cell(CellType.EMPTY, Collectable.DAGGER);
-							break;
-						case "CS" :
-							c = new Cell(CellType.EMPTY, Collectable.SPEAR);
-							break;
-						case "S" :
-							c = new Cell(CellType.EMPTY, Collectable.SHIELD);
-							break;
-						case "GR" :
-							c = new Cell(CellType.EMPTY, Collectable.GHOST_REPELLENT);
-							break;
-						default:
-							System.out.println("ERROR: Incorrect abbreviation read from file.");
-							System.exit(-1);
+						CellType type = null;
+						Collectable item = null;
+						
+						if(cells[x].contains(":")) {
+							// the type of cell is the first part
+							type = getCellType(cells[x].split(":")[0]);
+							// now deal with the extra information
+							String extraInfo = cells[x].split(":")[1];
+							if(extraInfo.equals("P")) {
+								player.moveTo(x, y - 1);
+							} else if(extraInfo.equals("SLE")) {
+								enemies.add(new StraightLineEnemy(x, y - 1, Direction.RIGHT));
+							} 
+//							else if(extraInfo.equals("WFE")) {
+//								enemies.add(new WallFollowingEnemy(x, y - 1, Direction.RIGHT));
+//							}else if(extraInfo.equals("DTE")) {
+//								enemies.add(new DumbTargettingEnemy(x, y - 1, Direction.RIGHT));
+//							}else if(extraInfo.equals("STE")) {
+//								enemies.add(new SmartTargettingEnemy(x, y - 1, Direction.RIGHT));
+//							}
+							else {
+								item = getItemType(cells[x].split(":")[1]);
+							}
+						}else {
+							type = getCellType(cells[x]);
 						}
-						grid[x][y-1] = c;
+						
+						// after the above, if the cell type is null then the file is
+						// incorrectly formatted.
+						if(type == null) {
+							System.out.println("ERROR: File not formatted properly.");
+							System.exit(-1);
+						}else {
+							Cell c = new Cell(type, item);
+							grid[x][y - 1] = c;
+						}
 					}
 				}
 				y++;
@@ -215,7 +189,7 @@ public class GameState {
 		}
 		
 		try {
-			File outputFolder = new File("src/SavedGames/" + player.getPlayerName());
+			File outputFolder = new File("src/SavedGames/" + player.getName());
 			if(!outputFolder.exists()) {
 				outputFolder.mkdirs();	
 			}

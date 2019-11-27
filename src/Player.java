@@ -8,21 +8,20 @@ import java.util.HashMap;
  */
 
 public class Player extends Character {
-    private String playerName;
+    private String name;
     private Integer highestLevel;
     private HashMap<Collectable, Integer> inventory;
 
     /**
      * Constructs a player object
-     * @param playerName name of the current player
+     * @param name name of the current player
      * @param inventory a hashmap of the players current collectables
      * @param highestLevel is the players highest reached level
      */
 
-    public Player( String playerName, HashMap<Collectable, Integer> inventory, int highestLevel) {
-        //super (xLocation,yLocation)  #### indented atm
+    public Player(String name, HashMap<Collectable, Integer> inventory, int highestLevel) {
         this.highestLevel = highestLevel;
-        this.setPlayerName(playerName);
+        this.name = name;
         if(inventory == null) {
             this.inventory = new HashMap<Collectable, Integer>();
         }else {
@@ -48,22 +47,18 @@ public class Player extends Character {
         inventory.replace(item, inventory.get(item) - amount);
     }
 
-    public String getPlayerName() {
-        return playerName;
+    public String getName() {
+        return name;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getHighestLevel() {
         return highestLevel;
     }
 
-
-    public int setPlayerX(){
-        return xLocation;
-    }
     public String getInventoryString() {
         String output = "";
         if(inventory.size() > 0) {

@@ -12,76 +12,106 @@ import java.io.FileNotFoundException;
  */
 
 public class Cell {
-	
+
 	/**	the type of the cell (e.g. wall, fire, door...) */
 	private CellType type;
 	/** the item which the cell holds (e.g. token, red key...) - normally null*/
-    private Collectable item;
-    /** an image which can be drawn to the screen representing this cell */
-    private ImageView image;
-    /** path to the folder contaning the image files */
-    private static final String GRID_IMAGES = "src/media/img/grid/";
+	private Collectable item;
+	/** an image which can be drawn to the screen representing this cell */
+	private ImageView cellImage;
+	/** an image which can be drawn to the screen representing this cell's item */
+	private ImageView itemImage;
+	/** path to the folder contaning the image files */
+	private static final String GRID_IMAGES = "src/media/img/grid/";
 
-    /**
-     * Constructs a cell object
-     * @param type the type of cell
-     * @param item the item that the cell holds (null or Collectable.SOME_ITEM)
-     */
+	/**
+	 * Constructs a cell object
+	 * @param type the type of cell
+	 * @param item the item that the cell holds (null or Collectable.SOME_ITEM)
+	 */
 	public Cell(CellType type, Collectable item){
 		this.type = type;
 		this.item = item;
-		
-		// sets the imageView for the cell.
+
 		try {
-			switch (type) {
-			 case WALL :
-            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "wall.png")));
-            	break;
-			 case FIRE:
-				this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "fire.png")));
-				break;
-			 case RED_DOOR :
-	            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "RED-DOOR.png")));
-	                break;
-            case WATER :
-                this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
-                break;
-            case ICE :
-            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "ice.png")));
-                break;
-            case GOAL :
-            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
-                break;
-            case BLUE_DOOR :
-				this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
-				break;
-            case GREEN_DOOR :
-            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));
-                break;
-            default: 
-            	this.image = new ImageView(new Image(new FileInputStream(GRID_IMAGES + "empty.png")));    
-
-            //hasn't been implemented yet (
-		/*
-		case "K:#" :
-			result = new Cell(CellType.,null);
-			break;
-
-		case "TD" : //token door TD:#
-			result = new Cell(CellType.,null);
-			break;
-		case "T" : // teleporter
-			result = new Cell(CellType.,null);
-			break;	 */
-        }
+			FileInputStream fis = null;
 			
+			// sets the cellImage
+			switch (type) {
+			case WALL :
+				fis = new FileInputStream(GRID_IMAGES + "wall.png");
+				break;
+			case FIRE:
+				fis = new FileInputStream(GRID_IMAGES + "fire.png");
+				break;
+			case RED_DOOR :
+				fis = new FileInputStream(GRID_IMAGES + "RED-DOOR.png");
+				break;
+			case WATER :
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				break;
+			case ICE :
+				fis = new FileInputStream(GRID_IMAGES + "ice.png");
+				break;
+			case GOAL :
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				break;
+			case BLUE_DOOR :
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				break;
+			case GREEN_DOOR :
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				break;
+			default: 
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");    
+			}
+			cellImage = new ImageView(new Image(fis));
+			
+			// sets the item image
+			if(item != null) {
+				switch (item) {
+				case TOKEN :
+					fis = new FileInputStream(GRID_IMAGES + "items/token.jpg");
+					break;
+				case RED_KEY:
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case GREEN_KEY :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case BLUE_KEY :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case FIRE_BOOTS :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case FLIPPERS :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case ICE_SKATES :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case DAGGER :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case SPEAR :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				case SHIELD :
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					break;
+				default: 
+					fis = new FileInputStream(GRID_IMAGES + "empty.png");    
+				}
+				itemImage = new ImageView(new Image(fis));
+			}
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: could not load image(s).");
 			System.exit(-1);
 		}
-		
+
 	}
-	
+
 	public void removeItem() {
 		this.item = null;
 	}
@@ -102,12 +132,20 @@ public class Cell {
 		this.type = type;
 	}
 
-	public ImageView getImage() {
-		return image;
+	public ImageView getCellImage() {
+		return cellImage;
 	}
 
-	public void setImage(ImageView image) {
-		this.image = image;
+	public void setCellImage(ImageView cellImage) {
+		this.cellImage = cellImage;
+	}
+
+	public ImageView getItemImage() {
+		return itemImage;
+	}
+
+	public void setItemImage(ImageView itemImage) {
+		this.itemImage = itemImage;
 	}
 
 }

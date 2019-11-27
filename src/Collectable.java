@@ -26,6 +26,5 @@ public enum Collectable {
 	ICE_SKATES,
 	DAGGER,
 	SPEAR,
-	SHIELD,
-	GHOST_REPELLENT
+	SHIELD
 }
