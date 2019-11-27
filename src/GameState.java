@@ -23,6 +23,9 @@ public class GameState {
 	private Cell[][] grid;
 	/**Reference to player class which stores player location/inventory ... */
 	private Player player;
+	/**Reference to the second player (null if single player) */
+	private Player player2;
+	private boolean multiplayer;
 	/**The current level*/
 	private int level;
 	/**All of the enemies currently alive*/
@@ -31,24 +34,26 @@ public class GameState {
 	private HashMap<CellType, String> cellAbbreviations;
 	/**Maps a Collectable to a the file abbreviation*/
 	private HashMap<Collectable, String> itemAbbreviations;
-
+	/**Used when reading teleporters from a file*/
 	private int tempTeleportX = -1;
+	/**Used when reading teleporters from a file*/
 	private int tempTeleportY = -1;
-	
-	private int a;
-	private int b;
-	private int c;
-	private int d;
-
-
 
 	/**
 	 * Creates a gamestate object
 	 * @param levelFile the level to be played
 	 * @param playerName the name of the player
 	 */
-	public GameState(File levelFile, String playerName, int level) {
-		player = new Player(playerName,null,0); // replace 0 w db query result
+	public GameState(File levelFile, String player1Name, String player2Name, int level) {
+		player = new Player(player1Name, null, 0); // replace 0 w db query result
+		
+		if(player2Name == null) {
+			multiplayer = false;
+			player2 = null;
+		}else {
+			player2 = new Player(player2Name, null, 0);
+		}
+		
 		enemies = new ArrayList<Character>();
 		loadAbbreviations();
 		readFileToGrid(levelFile);

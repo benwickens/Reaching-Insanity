@@ -42,7 +42,7 @@ public class GameWindow {
 		layout = new BorderPane();
 
 		try {
-			gameState = new GameState(levelFile, playerName, 0);
+			gameState = new GameState(levelFile, playerName, null, 0);
 			direction = Direction.DOWN;
 
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
