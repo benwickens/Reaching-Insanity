@@ -31,12 +31,16 @@ public class Player extends Character {
 
     //Adds a collectable to the players inventory
     public void addToInventory(Collectable item) {
-        inventory.replace(item, inventory.get(item) + 1);
+    	if(inventory.containsKey(item)) {
+            inventory.replace(item, inventory.get(item) + 1);
+    	}else {
+            inventory.put(item, 1);
+    	}
     }
 
     //Checks to see if the player has the item in their inventory
     public boolean hasItem(Collectable item, Integer amount) {
-        if(inventory.get(item) >= amount) {
+        if(inventory.containsKey(item) && inventory.get(item) >= amount) {
             return true;
         }
         return false;

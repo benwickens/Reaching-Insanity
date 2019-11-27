@@ -97,7 +97,7 @@ public class GameState {
 //								enemies.add(new WallFollowingEnemy(x, y - 1, Direction.RIGHT));
 //							}else if(extraInfo.equals("DTE")) {
 //								enemies.add(new DumbTargettingEnemy(x, y - 1, Direction.RIGHT));
-//							}else if(extraInfo.equals("STE")) {
+//							}else if(extraInfo.equals("STE"))S {
 //								enemies.add(new SmartTargettingEnemy(x, y - 1, Direction.RIGHT));
 //							}
 							else {

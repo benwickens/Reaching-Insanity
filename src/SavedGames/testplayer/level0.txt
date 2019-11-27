@@ -1,15 +1,15 @@
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
-W,W,W,E,E,E:TK,P,E,E,E,E,E,W,W,W
+W,W,W,E,E,E,P,E,E,E,E,E,W,W,W
 W,W,W,E,E,SLE,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
-W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,E,E,E,E:TK,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,,,,,,,,E,W,W,W
 W,W,W,E,,,,,,,,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
-W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
+W,W,W,W,W,W,W,W,W,W,W,W,W,W,WTOKEN:1, RED_KEY:null, GREEN_KEY:null, BLUE_KEY:null, FIRE_BOOTS:null, FLIPPERS:null, ICE_SKATES:null, DAGGER:null, SPEAR:null, SHIELD:null

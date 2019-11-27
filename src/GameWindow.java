@@ -192,47 +192,98 @@ public class GameWindow {
 
 	public void processKeyEvent(KeyEvent event) {
 		if (!paused) {
+			int nextX = gameState.getPlayer().getX();
+			int nextY = gameState.getPlayer().getY();
+			
 			switch (event.getCode()) {
 				case RIGHT:
-					CellType nextTypeR = getGameState().getGrid()[gameState.getPlayer().getX() + 1][gameState.getPlayer().getY()].getType();
-					if (nextTypeR.equals(CellType.WALL)) {
-						gameState.getPlayer().setX(gameState.getPlayer().getX());
-					} else {
-						gameState.getPlayer().setX(gameState.getPlayer().getX() + 1);
-					}
+					nextX += 1;
 					break;
 				case LEFT:
-					CellType nextTypeL = getGameState().getGrid()[gameState.getPlayer().getX() - 1][gameState.getPlayer().getY()].getType();
-					if (nextTypeL.equals(CellType.WALL)) {
-						gameState.getPlayer().setX(gameState.getPlayer().getX());
-					} else {
-						gameState.getPlayer().setX(gameState.getPlayer().getX() - 1);
-					}
+					nextX -= 1;
 					break;
 				case UP:
-					CellType nextTypeU = getGameState().getGrid()[gameState.getPlayer().getX()][gameState.getPlayer().getY() - 1].getType();
-					if (nextTypeU.equals(CellType.WALL)) {
-						gameState.getPlayer().setX(gameState.getPlayer().getX());
-					} else {
-						gameState.getPlayer().setY(gameState.getPlayer().getY() - 1);
-					}
+					nextY -= 1;
 					break;
 				case DOWN:
-					CellType nextTypeD = getGameState().getGrid()[gameState.getPlayer().getX()][gameState.getPlayer().getY() + 1].getType();
-					if (nextTypeD.equals(CellType.WALL)) {
-						gameState.getPlayer().setX(gameState.getPlayer().getX());
-					} else {
-						gameState.getPlayer().setY(gameState.getPlayer().getY() + 1);
-					}
+					nextY += 1;
 					break;
 				default:
 					break;
 			}
+			
+			Cell nextCell = gameState.getGrid()[nextX][nextY];
+			
+			switch(nextCell.getType()) {
+			case WALL:
+				// set the next location to the same values as before
+				nextX = gameState.getPlayer().getX();
+				nextY = gameState.getPlayer().getY();
+				break; 
+			case RED_DOOR:
+				if(gameState.getPlayer().hasItem(Collectable.RED_KEY, 1)) {
+					gameState.getPlayer().useItem(Collectable.RED_KEY, 1);
+					nextCell.setType(CellType.EMPTY);
+				}else {
+					nextX = gameState.getPlayer().getX();
+					nextY = gameState.getPlayer().getY();
+				}
+				break; 
+			case GREEN_DOOR:
+				if(gameState.getPlayer().hasItem(Collectable.GREEN_KEY, 1)) {
+					gameState.getPlayer().useItem(Collectable.GREEN_KEY, 1);
+					nextCell.setType(CellType.EMPTY);
+				}else {
+					nextX = gameState.getPlayer().getX();
+					nextY = gameState.getPlayer().getY();
+				}
+				break; 
+			case BLUE_DOOR:
+				if(gameState.getPlayer().hasItem(Collectable.BLUE_KEY, 1)) {
+					gameState.getPlayer().useItem(Collectable.BLUE_KEY, 1);
+					nextCell.setType(CellType.EMPTY);
+				}else {
+					nextX = gameState.getPlayer().getX();
+					nextY = gameState.getPlayer().getY();
+				}
+				break; 
+			case FIRE:
+				if(!gameState.getPlayer().hasItem(Collectable.FIRE_BOOTS, 1)) {
+					// resetLevel();
+				}
+				break; 
+			case WATER:
+				if(!gameState.getPlayer().hasItem(Collectable.FLIPPERS, 1)) {
+					// resetLevel();
+				}
+				break; 
+			case ICE:
+				if(!gameState.getPlayer().hasItem(Collectable.ICE_SKATES, 1)) {
+					// resetLevel();
+				}
+				break; 
+			case EMPTY:
+				for(Character enemy : gameState.getEnemies()) {
+					if(enemy.getX() == nextX && enemy.getY() == nextY) {
+						// resetLevel();
+					}
+				}
+				
+				// if next cell does not hold an enemy then check if has an item
+				if(nextCell.getItem() != null) {
+					gameState.getPlayer().addToInventory(nextCell.getItem());
+					nextCell.setItem(null);
+				}
+				break; 
+			default:
+				break;
+			}
+			gameState.getPlayer().moveTo(nextX, nextY);
 			update();
 		}
 		event.consume();
 	}
-
+	
 	public GameState getGameState() {
 		return gameState;
 	}
