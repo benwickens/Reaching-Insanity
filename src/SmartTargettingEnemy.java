@@ -17,7 +17,8 @@ public class SmartTargettingEnemy extends Character {
 			int newCol = this.y + directionCol[i];
 			if ((newRow > 0) && (newCol > 0)) {
 				if (input[newCol][newRow].getType() == CellType.EMPTY) { //Add node to queue
-					//neighbours.add(e) // what to add to queue? Cell or coordinates?
+					//neighbours.add(e) // what to add to queue? Cell or coordinates
+					
 				}
 			}
 		}
