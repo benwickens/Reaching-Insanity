@@ -21,13 +21,20 @@ public class DumbTargetingEnemy extends Character{
 	 * direction that wpuld make it get closer to the player
 	 *this is a very dumb enemy and easily gets stuck
 	 */
+	//Direction the enemy is currently moving in
 	private Direction currentDirection;
 	
-	
+	/**
+	 * Creates a DumbTargetingEnemy object
+	 * @param x the x coordinate the enemy is in
+	 * @param y the y coordinate the enemy is in
+	 * @param currentDirection the current direction the enemy is in
+	 */
 	public DumbTargetingEnemy(int x, int y, Direction currentDirection) {
 		super(x, y, "Enemy3.png");
 		this.currentDirection = currentDirection;
 	}
+	
 	
 	//Find player
 	//calculate how far away player is
