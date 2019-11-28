@@ -89,7 +89,7 @@ public class GameWindow {
 					Cell cell = gameState.getGrid()[playerX + gridX][playerY + gridY];
 					StackPane stack = new StackPane();
 					stack.getChildren().add(cell.getCellImage());
-
+					
 					if (gridX == 0 && gridY == 0) { // if drawing the center cell, add player
 						stack.getChildren().add(getPlayerImage());
 					} else { // otherwise, add item (if there is any)
@@ -216,8 +216,7 @@ public class GameWindow {
 				default:
 					return;
 			}
-			gameState.getEnemies();
-
+			
 			Cell nextCell = gameState.getGrid()[nextX][nextY];
 			
 			switch(nextCell.getType()) {
