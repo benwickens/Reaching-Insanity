@@ -73,6 +73,7 @@ public class Cell {
 			default: 
 				fis = new FileInputStream(GRID_IMAGES + "empty.png");    
 			}
+
 			cellImage = new ImageView(new Image(fis));
 			
 			// sets the item image
