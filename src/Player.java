@@ -20,7 +20,9 @@ public class Player extends Character {
      */
 
     public Player(String name, HashMap<Collectable, Integer> inventory, int highestLevel) {
-        this.highestLevel = highestLevel;
+        super(-1, -1, "player_down.png");
+    	
+    	this.highestLevel = highestLevel;
         this.name = name;
         if(inventory == null) {
             this.inventory = new HashMap<Collectable, Integer>();
@@ -72,5 +74,9 @@ public class Player extends Character {
             return output.substring(0, output.length() - 2);
         }
         return output;
+    }
+    
+    public void move(Cell[][] grid) {
+    	
     }
 }

@@ -1,13 +1,13 @@
 15,15
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
-W,W,W,E:P,E,E:TK,E,E,E,E,E,E,W,W,W
-W,W,W,E,TP:10-7,E:SLE,E,E,E,E,E,E,W,W,W
+W,W,W,E:WFE,E:P,E:TK,E,E,E,E,E,E,W,W,W
+W,W,W,E,TP:10-7,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,CDG,E,E,E,E,E,E,E,W,W,W
-W,W,W,E,E:GK,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,E:GK,E,E,E:WFE,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E:TK,E,E,TP:4-2,E,W,W,W
-W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,E,E,E,W,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,I,I,I,I,I,I,I,E,W,W,W

@@ -1,3 +1,9 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 /**
  * File name: Character.java
  *
@@ -20,10 +26,21 @@ public abstract class Character {
 	
 	protected int x;
 	protected int y;
+	
+	private ImageView image;
+	private final String IMAGE_PATH = "src/media/img/grid/";
 
-	public Character(int x, int y){
+	public Character(int x, int y, String imageName){
 		this.x = x;
 		this.y = y;
+		
+        try {
+			image = new ImageView(new Image(new FileInputStream(IMAGE_PATH + imageName)));
+		} catch (FileNotFoundException e) {
+			System.out.println("ERORR: character image not found.");
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 
 	public Character() {
@@ -45,9 +62,15 @@ public abstract class Character {
 	public void setY(int y){
 		this.y = y;
 	}
+	
+	public abstract void move(Cell[][] grid);
 
 	public void moveTo(int exactX, int exactY) {
 		x = exactX;
 		y = exactY;
+	}
+
+	public ImageView getImage() {
+		return image;
 	}
 }

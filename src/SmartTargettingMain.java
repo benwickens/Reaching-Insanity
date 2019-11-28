@@ -10,7 +10,7 @@ public class SmartTargettingMain {
 				String input2 = Integer.toString(i);
 				map[i][x] = input1 + " . " + input2;
 			}
-		test.adjacenyMatrix(map);
+//		test.adjacenyMatrix(map);
 		
 		}
 	}

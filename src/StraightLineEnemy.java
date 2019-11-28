@@ -30,7 +30,7 @@ public class StraightLineEnemy extends Character{
     private Direction currentDirection;
 
     public StraightLineEnemy(int x, int y, Direction currentDirection){
-        super(x, y);
+        super(x, y, "Enemy1.png");
         this.currentDirection = currentDirection;
     }
 

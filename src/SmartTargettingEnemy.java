@@ -4,7 +4,7 @@ public class SmartTargettingEnemy extends Character {
 	private  Queue<Cell> queue = new LinkedList<>(); 
 	
 	public SmartTargettingEnemy(int x, int y, Direction currentDirection) {
-		super(x,y);
+		super(x,y, "Enemy2.png");
 		this.direction = currentDirection;		
 	}
 	
@@ -24,6 +24,10 @@ public class SmartTargettingEnemy extends Character {
 		}
 		
 		return null;
+	}
+	
+	public void move(Cell[][] grid) {
+		
 	}
 
 }

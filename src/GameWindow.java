@@ -86,16 +86,29 @@ public class GameWindow {
 		for (int gridX = -4; gridX < 4; gridX++) {
 			for (int gridY = -4; gridY < 4; gridY++) {
 				try {
-					Cell cell = gameState.getGrid()[playerX + gridX][playerY + gridY];
+					int currentGridX = playerX + gridX;
+					int currentGridY = playerY + gridY;
+					Cell cell = gameState.getGrid()[currentGridX][currentGridY];
 					StackPane stack = new StackPane();
 					stack.getChildren().add(cell.getCellImage());
 					
 					if (gridX == 0 && gridY == 0) { // if drawing the center cell, add player
-						stack.getChildren().add(getPlayerImage());
-					} else { // otherwise, add item (if there is any)
-						if(cell.getItem() != null) {
-							stack.getChildren().add(cell.getItemImage());
+						stack.getChildren().add(gameState.getPlayer().getImage());
+					} else {
+						boolean enemyFound = false;
+						for(Character enemy : gameState.getEnemies()) {
+							if(enemy.getX() == currentGridX && enemy.getY() == currentGridY) {
+								stack.getChildren().add(enemy.getImage());
+								enemyFound = true;
+							}
 						}
+						
+						if(!enemyFound) {
+							if(cell.getItem() != null) {
+								stack.getChildren().add(cell.getItemImage());
+							}
+						}
+						
 					}
 					pane.add(stack, gridX + 4, gridY + 4);
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -298,6 +311,9 @@ public class GameWindow {
 				break;
 			}
 			gameState.getPlayer().moveTo(nextX, nextY);
+			for(Character e : gameState.getEnemies()) {
+				e.move(gameState.getGrid());
+			}
 			update();
 		}
 		event.consume();
