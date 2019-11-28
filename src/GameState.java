@@ -1,9 +1,5 @@
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -23,6 +19,9 @@ public class GameState {
 	private Cell[][] grid;
 	/**Reference to player class which stores player location/inventory ... */
 	private Player player;
+	/**Reference to the second player (null if single player) */
+	private Player player2;
+	private boolean multiplayer;
 	/**The current level*/
 	private int level;
 	/**All of the enemies currently alive*/
@@ -31,21 +30,25 @@ public class GameState {
 	private HashMap<CellType, String> cellAbbreviations;
 	/**Maps a Collectable to a the file abbreviation*/
 	private HashMap<Collectable, String> itemAbbreviations;
-
-	private int a;
-	private int b;
-	private int c;
-	private int d;
-
-
+	/**Used when reading teleporters from a file*/
+	private int tempTeleportX = -1;
+	/**Used when reading teleporters from a file*/
+	private int tempTeleportY = -1;
 
 	/**
 	 * Creates a gamestate object
 	 * @param levelFile the level to be played
-	 * @param playerName the name of the player
+	 * @param player1Name the name of the player1
 	 */
-	public GameState(File levelFile, String playerName, int level) {
-		player = new Player(playerName,null,0); // replace 0 w db query result
+	public GameState(File levelFile, String player1Name, String player2Name, int level) {
+		player = new Player(player1Name, null, 0); // replace 0 w db query result
+		if(player2Name == null) {
+			multiplayer = false;
+			player2 = null;
+		}else {
+			player2 = new Player(player2Name, null, 0);
+		}
+		
 		enemies = new ArrayList<Character>();
 		loadAbbreviations();
 		readFileToGrid(levelFile);
@@ -106,13 +109,11 @@ public class GameState {
 //							}else if(extraInfo.equals("STE"))S {
 //								enemies.add(new SmartTargettingEnemy(x, y - 1, Direction.RIGHT));
 //							}
-							else if (extraInfo.equals("I")){
-										a = x;
-										b = y;
-							}else if (extraInfo.equals("O")){
-										c = x;
-										d = y;
-							}
+							else if(extraInfo.contains("-")) {
+								// then a teleporter as cell is represented as TP:X-Y
+								tempTeleportX = Integer.parseInt(extraInfo.split("-")[0]);
+								tempTeleportY = Integer.parseInt(extraInfo.split("-")[1]);
+							}							
 							else {
 								item = getItemType(cells[x].split(":")[1]);
 							}
@@ -127,6 +128,12 @@ public class GameState {
 							System.exit(-1);
 						}else {
 							Cell c = new Cell(type, item);
+							if(type.equals(CellType.TELEPORTER) && tempTeleportX != -1) {
+								c.setLinkX(tempTeleportX);
+								c.setLinkY(tempTeleportY);
+								tempTeleportX = -1;
+								tempTeleportY = -1;
+							}
 							grid[x][y - 1] = c;
 						}
 					}
@@ -138,31 +145,6 @@ public class GameState {
 			System.out.println("Error: level file not found.");
 			System.exit(-1);
 		}
-	}
-
-	/**
-	 * returns the tp out X location
-	 */
-	public int locationIX(){
-		return  c ;
-	}
-	/**
-	 * returns the tp out Y location
-	 */
-	public int locationIY(){
-		return  d ;
-	}
-	/**
-	 * returns the tp in X location
-	 */
-	public int locationOX(){
-		return  a ;
-	}
-	/**
-	 * returns the tp in Y location
-	 */
-	public int locationOY(){
-		return  b ;
 	}
 	
 	public void exitGame(){

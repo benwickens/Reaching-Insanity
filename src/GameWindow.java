@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -41,7 +42,7 @@ public class GameWindow {
 		layout = new BorderPane();
 
 		try {
-			gameState = new GameState(levelFile, playerName, 0);
+			gameState = new GameState(levelFile, playerName, null, 0);
 			direction = Direction.DOWN;
 
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
@@ -198,18 +199,22 @@ public class GameWindow {
 			switch (event.getCode()) {
 				case RIGHT:
 					nextX += 1;
+					direction = Direction.RIGHT;
 					break;
 				case LEFT:
 					nextX -= 1;
+					direction = Direction.LEFT;
 					break;
 				case UP:
 					nextY -= 1;
+					direction = Direction.UP;
 					break;
 				case DOWN:
 					nextY += 1;
+					direction = Direction.DOWN;
 					break;
 				default:
-					break;
+					return;
 			}
 			
 			Cell nextCell = gameState.getGrid()[nextX][nextY];
@@ -247,17 +252,6 @@ public class GameWindow {
 					nextY = gameState.getPlayer().getY();
 				}
 				break;
-			case TELEPORTER:
-				if(nextCell.getType() == CellType.TELEPORTER){
-					if (nextX != gameState.locationIX()) {
-						nextX = gameState.locationIX();
-						nextY = gameState.locationIY();
-					}else {
-						nextX = gameState.locationOX();
-						nextY = gameState.locationOY();
-					}
-					System.out.println(nextX+":"+nextY);
-				}
 			case FIRE:
 				if(!gameState.getPlayer().hasItem(Collectable.FIRE_BOOTS, 1)) {
 					// resetLevel();
@@ -273,6 +267,20 @@ public class GameWindow {
 					// resetLevel();
 				}
 				break;
+			case TELEPORTER:
+				if(event.getCode().equals(KeyCode.RIGHT)) {
+					nextX = nextCell.getLinkX() + 1;
+					nextY = nextCell.getLinkY();
+				}else if(event.getCode().equals(KeyCode.LEFT)) {
+					nextX = nextCell.getLinkX() - 1;
+					nextY = nextCell.getLinkY();
+				}else if(event.getCode().equals(KeyCode.UP)) {
+					nextX = nextCell.getLinkX();
+					nextY = nextCell.getLinkY() - 1;
+				}else {
+					nextX = nextCell.getLinkX();
+					nextY = nextCell.getLinkY() + 1;
+				}
 			case EMPTY:
 				for(Character enemy : gameState.getEnemies()) {
 					if(enemy.getX() == nextX && enemy.getY() == nextY) {

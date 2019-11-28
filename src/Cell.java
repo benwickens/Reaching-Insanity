@@ -23,7 +23,11 @@ public class Cell {
 	private ImageView itemImage;
 	/** path to the folder contaning the image files */
 	private static final String GRID_IMAGES = "src/media/img/grid/";
-
+	/**The X location this cell links to (if a teleporter)*/
+	private int linkX;
+	/**The Y location this cell links to (if a teleporter)*/
+	private int linkY;
+	
 	/**
 	 * Constructs a cell object
 	 * @param type the type of cell
@@ -61,7 +65,7 @@ public class Cell {
 				fis = new FileInputStream(GRID_IMAGES + "empty.png");
 				break;
 			case GREEN_DOOR :
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				fis = new FileInputStream(GRID_IMAGES + "greenDoor.png");
 				break;
 			case TELEPORTER:
 				fis = new FileInputStream(GRID_IMAGES + "Teleport.png");
@@ -69,6 +73,7 @@ public class Cell {
 			default: 
 				fis = new FileInputStream(GRID_IMAGES + "empty.png");    
 			}
+
 			cellImage = new ImageView(new Image(fis));
 			
 			// sets the item image
@@ -81,7 +86,7 @@ public class Cell {
 					fis = new FileInputStream(GRID_IMAGES + "empty.png");
 					break;
 				case GREEN_KEY :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					fis = new FileInputStream(GRID_IMAGES + "GreenKey.png");
 					break;
 				case BLUE_KEY :
 					fis = new FileInputStream(GRID_IMAGES + "empty.png");
@@ -150,6 +155,22 @@ public class Cell {
 
 	public void setItemImage(ImageView itemImage) {
 		this.itemImage = itemImage;
+	}
+
+	public int getLinkX() {
+		return linkX;
+	}
+
+	public void setLinkX(int linkX) {
+		this.linkX = linkX;
+	}
+
+	public int getLinkY() {
+		return linkY;
+	}
+
+	public void setLinkY(int linkY) {
+		this.linkY = linkY;
 	}
 
 }
