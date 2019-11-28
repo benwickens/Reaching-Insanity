@@ -25,7 +25,7 @@ public class Player extends Character {
     	
     	this.highestLevel = highestLevel;
         this.name = name;
-        this.setImageID(imageID);
+        this.imageID = imageID;
         
         if(inventory == null) {
             this.inventory = new HashMap<Collectable, Integer>();

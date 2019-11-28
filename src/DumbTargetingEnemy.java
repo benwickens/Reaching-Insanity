@@ -34,6 +34,12 @@ public class DumbTargetingEnemy extends Character{
 		super(x, y, "Enemy3.png");
 		this.currentDirection = currentDirection;
 	}
+
+	@Override
+	public void move(Cell[][] grid) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	//Find player

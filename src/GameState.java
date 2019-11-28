@@ -41,12 +41,12 @@ public class GameState {
 	 * @param player1Name the name of the player1
 	 */
 	public GameState(File levelFile, String player1Name, String player2Name, int level) {
-		player = new Player(player1Name, null, 0); // replace 0 w db query result
+		player = new Player(player1Name, null, level, 1); // replace 0 w db query result
 		if(player2Name == null) {
 			multiplayer = false;
 			player2 = null;
 		}else {
-			player2 = new Player(player2Name, null, 0);
+			player2 = new Player(player2Name, null, level, 1);
 		}
 		
 		enemies = new ArrayList<Character>();

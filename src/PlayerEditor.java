@@ -46,6 +46,7 @@ public class PlayerEditor {
 			for(Player p : players) {
 				playerNames.add(p.getName());
 			}
+			box.setItems(playerNames);
 			
 			
 			Button back = new Button("Back to Main Menu"); //Back button
@@ -60,7 +61,7 @@ public class PlayerEditor {
 			});
 
 			
-			base.getChildren().addAll(logo, title, back);
+			base.getChildren().addAll(logo, title, box, back);
 			
 			scene = new Scene(base, 1200, 700);
 			scene.getStylesheets().add("playerEditor.css");
@@ -75,7 +76,7 @@ public class PlayerEditor {
 	private ObservableList<Player> getPlayers(){
 		ObservableList<Player> players = FXCollections.observableArrayList();
 		try {
-			Database db = new Database("jdbc:mysql://localhost:3306/reaching-insanity", "root", "");
+			Database db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
 			
 			ResultSet result = db.query("SELECT name, image_id FROM player");
 			while(result.next()) {
@@ -90,7 +91,7 @@ public class PlayerEditor {
 			System.exit(-1);
 		}
 		
-		return null;
+		return players;
 	}
 	
 	public Scene getScene() {
