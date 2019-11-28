@@ -1,9 +1,5 @@
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -42,11 +38,10 @@ public class GameState {
 	/**
 	 * Creates a gamestate object
 	 * @param levelFile the level to be played
-	 * @param playerName the name of the player
+	 * @param player1Name the name of the player1
 	 */
 	public GameState(File levelFile, String player1Name, String player2Name, int level) {
 		player = new Player(player1Name, null, 0); // replace 0 w db query result
-		
 		if(player2Name == null) {
 			multiplayer = false;
 			player2 = null;

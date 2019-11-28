@@ -65,7 +65,7 @@ public class Cell {
 				fis = new FileInputStream(GRID_IMAGES + "empty.png");
 				break;
 			case GREEN_DOOR :
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				fis = new FileInputStream(GRID_IMAGES + "greenDoor.png");
 				break;
 			case TELEPORTER:
 				fis = new FileInputStream(GRID_IMAGES + "Teleport.png");
@@ -85,7 +85,7 @@ public class Cell {
 					fis = new FileInputStream(GRID_IMAGES + "empty.png");
 					break;
 				case GREEN_KEY :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					fis = new FileInputStream(GRID_IMAGES + "GreenKey.png");
 					break;
 				case BLUE_KEY :
 					fis = new FileInputStream(GRID_IMAGES + "empty.png");
