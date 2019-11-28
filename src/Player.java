@@ -11,6 +11,7 @@ public class Player extends Character {
     private String name;
     private Integer highestLevel;
     private HashMap<Collectable, Integer> inventory;
+    private int imageID;
 
     /**
      * Constructs a player object
@@ -19,11 +20,13 @@ public class Player extends Character {
      * @param highestLevel is the players highest reached level
      */
 
-    public Player(String name, HashMap<Collectable, Integer> inventory, int highestLevel) {
+    public Player(String name, HashMap<Collectable, Integer> inventory, int highestLevel, int imageID) {
         super(-1, -1, "player_down.png");
     	
     	this.highestLevel = highestLevel;
         this.name = name;
+        this.setImageID(imageID);
+        
         if(inventory == null) {
             this.inventory = new HashMap<Collectable, Integer>();
         }else {
@@ -79,4 +82,12 @@ public class Player extends Character {
     public void move(Cell[][] grid) {
     	
     }
+
+	public int getImageID() {
+		return imageID;
+	}
+
+	public void setImageID(int imageID) {
+		this.imageID = imageID;
+	}
 }
