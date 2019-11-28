@@ -26,11 +26,13 @@ public class PlayerEditor {
 	
 	private final String LOGO_PATH = "src/media/img/logo.png";
 	private final String PLAYER_EDITOR_FOLDER = "src/media/img/Player_Editor/";
-	
+	private Database db;
 	private Scene scene;
 	
 	public PlayerEditor() {				
 		try {
+			db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
+			
 			// create a base layout for the scene
 			VBox base = new VBox(50);
 			base.setId("base");
@@ -48,6 +50,10 @@ public class PlayerEditor {
 			}
 			box.setItems(playerNames);
 			
+			Button deletePlayer = new Button("Delete Player");
+			deletePlayer.setOnAction(e -> {
+				
+			});
 			
 			Button back = new Button("Back to Main Menu"); //Back button
 			back.setOnAction(e -> {
@@ -69,15 +75,21 @@ public class PlayerEditor {
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: Failed to load image(s).");
 			e.printStackTrace();
-			System.exit(1);
+			System.exit(-1);
+		} catch (SQLException e2) {
+			System.out.println("ERROR: SQL.");
+			e2.printStackTrace();
+			System.exit(-1);
 		}
+	}
+	
+	private void deletePlayer(String name) {
+		db.query("DELETE FROM player WHERE name=\"" + name + "\";");
 	}
 	
 	private ObservableList<Player> getPlayers(){
 		ObservableList<Player> players = FXCollections.observableArrayList();
-		try {
-			Database db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
-			
+		try {			
 			ResultSet result = db.query("SELECT name, image_id FROM player");
 			while(result.next()) {
 				String name = result.getString("name");
