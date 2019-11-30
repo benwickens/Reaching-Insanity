@@ -80,7 +80,7 @@ public class Cell {
 			if(item != null) {
 				switch (item) {
 				case TOKEN :
-					fis = new FileInputStream(GRID_IMAGES + "items/token.jpg");
+					fis = new FileInputStream(GRID_IMAGES + "items/token.png");
 					break;
 				case RED_KEY:
 					fis = new FileInputStream(GRID_IMAGES + "empty.png");
@@ -116,6 +116,7 @@ public class Cell {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: could not load image(s).");
+			e.printStackTrace();
 			System.exit(-1);
 		}
 

@@ -24,7 +24,7 @@ import java.io.IOException;
 public class GameWindow {
 
 	private final String LOGO_PATH = "src/media/img/logo.png";
-	private final String PLAYER_PATH = "src/media/img/grid/player_down.png";
+	private final String PLAYER_PATH = "src/media/img/grid/player1_down.png";
 	private final String GRID_PATH = "src/media/img/grid/";
 	private Timeline timeline;
 	private Scene scene;

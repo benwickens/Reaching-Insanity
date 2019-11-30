@@ -52,6 +52,22 @@ public class Database {
 		}
 	}
 	
+	public void manipulate(String query) {
+		if(query.contains(";")) {
+			System.out.println("ERROR: Query contains ';'. To protect from SQL Injection this query was aborted.");
+		}else {
+			query += ";";
+		}
+		try {
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(query);
+		} catch (SQLException e) {
+			System.out.println("ERROR: Failed to send query to the MySQL Database");
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public Connection getConnection() {
 		return connection;
 	}
