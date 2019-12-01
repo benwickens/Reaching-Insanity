@@ -1,9 +1,0 @@
-#base {
-    -fx-background-image: url("src/media/img/background.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-}
-
-.label {
-	-fx-font-size: 25;
-}

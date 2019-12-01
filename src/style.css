@@ -30,41 +30,26 @@
 	-fx-font-size: 20;
 }
 
-
-
-.table-view{
-    -fx-background-color: #4d0000
+#base {
+    -fx-background-image: url("src/media/img/background.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
 }
 
-.table-view .column-header-background{
-    -fx-background-color: #3e0e0e
+.label {
+	-fx-font-size: 25;
 }
 
-.table-view .column-header-background .label{
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-font-size: 23;
+.button {
+	-fx-background-color: #6C6564;
+	-fx-font-size: 17;
+	-fx-text-alignment: center;
+	-fx-padding: 7px;
+	-fx-opacity: 0.4;
+	-fx-text-fill: white;
 }
 
-.table-view .column-header {
-    -fx-background-color: transparent;
-}
-
-.table-view .table-cell{
-    -fx-text-fill: white;
-    -fx-alignment: center;
-    -fx-font-size: 18;
-}
-
-.table-row-cell:even{
-    -fx-background-color: -fx-table-cell-border-color, #616161;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */
-}
-
-.table-row-cell:odd{
-    -fx-background-color: -fx-table-cell-border-color, #424242;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */  
+.button:hover {
+	-fx-opacity: 1;
 }
 

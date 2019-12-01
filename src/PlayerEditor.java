@@ -94,16 +94,7 @@ public class PlayerEditor {
 //			playerSelect.setAlignment(Pos.CENTER);
 //			Label oldPlayer = new Label("Select a Player:");
 //			
-//			existingPlayers = new ComboBox<String>();
-//			ObservableList<Player> players = getPlayers();
-//			ObservableList<String> playerNames = FXCollections.observableArrayList();
-//			for(Player p : players) {
-//				playerNames.add(p.getName());
-//			}
-//			existingPlayers.setItems(playerNames);
-//			existingPlayers.setEditable(false);
-//			existingPlayers.setPrefHeight(30);
-//			existingPlayers.setPrefWidth(150);
+
 //			
 //			playerSelect.getChildren().addAll(oldPlayer, existingPlayers);
 //			
@@ -119,7 +110,7 @@ public class PlayerEditor {
 			baseLayout.getChildren().add(contents);
 			
 			scene = new Scene(baseLayout, 1200, 700);
-			scene.getStylesheets().add("playerEditor.css");
+			scene.getStylesheets().add("style.css");
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: Failed to load image(s).");
@@ -208,6 +199,17 @@ public class PlayerEditor {
 	}
 	
 	private void displayOldPlayerContent() {
+		existingPlayers = new ComboBox<String>();
+		ObservableList<Player> players = getPlayers();
+		ObservableList<String> playerNames = FXCollections.observableArrayList();
+		for(Player p : players) {
+			playerNames.add(p.getName());
+		}
+		existingPlayers.setItems(playerNames);
+		existingPlayers.setEditable(false);
+		existingPlayers.setPrefHeight(30);
+		existingPlayers.setPrefWidth(150);
+		
 		contents.getChildren().add(existingPlayers);
 		displayNewPlayerContent();
 		// add delete button
