@@ -1,10 +1,10 @@
 /**
  * File name: StraightLineEnemy.java
  *
- * @version 1.2
+ * @version 1.3
  * Creation Date: 18/11/2019
- * Last Modification date: 23/11/2019
- * @author Gursimran Randhawa, Yassine Abdalass, Millie Quinn
+ * Last Modification date: 2/12/2019
+ * @author Gursimran Randhawa, Yassine Abdalass
  * <br>
  * No copyright.
  * <br>
@@ -14,9 +14,10 @@
  * <br>
  * Version History
  * 1.0 - basic structure and methods laid out
- * 1.1 - started the move method implemention
+ * 1.1 - started the move method implementation
  * 1.2 - changed the move method to use the new direction enum.
- *
+ * 1.3 - Fixed the Y position alterations in the move method for up and down, so that
+ * for up the y value is decreased by 1 (rather than increased) and vice versa for down.
  */
 
 public class StraightLineEnemy extends Character{
@@ -52,20 +53,20 @@ public class StraightLineEnemy extends Character{
                 x += 1;
             }
         }else if(currentDirection.equals(Direction.UP)){
-            CellType nextType = grid[x][y + 1].getType();
-            if(nextType.equals(CellType.EMPTY)){
-                y += 1;
-            }else{
-                currentDirection = Direction.DOWN;
-                y -= 1;
-            }
-        }else{
             CellType nextType = grid[x][y - 1].getType();
             if(nextType.equals(CellType.EMPTY)){
                 y -= 1;
             }else{
-                currentDirection = Direction.UP;
+                currentDirection = Direction.DOWN;
                 y += 1;
+            }
+        }else{
+            CellType nextType = grid[x][y + 1].getType();
+            if(nextType.equals(CellType.EMPTY)){
+                y += 1;
+            }else{
+                currentDirection = Direction.UP;
+                y -= 1;
             }
         }
     }

@@ -58,7 +58,6 @@ public class ControllerMenu implements Initializable {
     private SetupWindow setupWindow;
     private GameWindow gameWindow;
     
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
         String path = new File("src/media/video/DummyTest.mp4").getAbsolutePath();
         look = new Media(new File(path).toURI().toString());
