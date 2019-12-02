@@ -63,7 +63,7 @@ public abstract class Character {
 		this.y = y;
 	}
 	
-	//public abstract void move(Cell[][] grid);
+	public abstract void move(Cell[][] grid);
 
 	public void moveTo(int exactX, int exactY) {
 		x = exactX;
