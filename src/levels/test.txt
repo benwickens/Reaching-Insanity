@@ -1,7 +1,7 @@
 15,15
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
 W,W,W,E:WFE,E:P,E:TK,E,E,E,E,E,E,W,W,W
-W,W,W,E,TP:10-7,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,TP:10-7,E:L,E,E,E,E,E,E,W,W,W
 W,W,W,E,CDG,E,E,E,E,E,E,E,W,W,W
 W,W,W,E,E:GK,E,E,E:WFE,E,E,E,E,W,W,W
 W,W,W,E,E,E,E,E,E,E,E,E,W,W,W

@@ -55,6 +55,7 @@ public class ControllerMenu implements Initializable {
     @FXML
     private AnchorPane layout;
 
+    private SetupWindow setupWindow;
     private GameWindow gameWindow;
     
     @Override
@@ -86,8 +87,9 @@ public class ControllerMenu implements Initializable {
         video.stop();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Reaching Insanity");
-        gameWindow = new GameWindow("testplayer", new File("src/levels/test"));
-        stage.setScene(gameWindow.getScene());
+        setupWindow = new SetupWindow();
+//        gameWindow = new GameWindow("testplayer", new File("src/levels/test"));
+        stage.setScene(setupWindow.getScene());
     }
     
     @FXML

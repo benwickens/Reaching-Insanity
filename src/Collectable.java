@@ -24,7 +24,5 @@ public enum Collectable {
 	FIRE_BOOTS,
 	FLIPPERS,
 	ICE_SKATES,
-	DAGGER,
-	SPEAR,
-	SHIELD
+	LIFE
 }

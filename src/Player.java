@@ -1,5 +1,8 @@
 import java.util.HashMap;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
 /**
  * Represents the player at any given time in the current game state
  * @author Gursimran Randhawa, Millie Quinn, and Yassine Abdalass
@@ -79,14 +82,127 @@ public class Player extends Character {
         return output;
     }
     
-    public void move(Cell[][] grid) {
-    	
+    public void move(Cell[][] grid) {}
+    
+    public Cell[][] move(Cell[][] grid, KeyEvent event) {
+		int nextX = x;
+		int nextY = y;
+		
+		switch (event.getCode()) {
+			case RIGHT:
+				nextX += 1;
+				break;
+			case LEFT:
+				nextX -= 1;
+				break;
+			case UP:
+				nextY -= 1;
+				break;
+			case DOWN:
+				nextY += 1;
+				break;
+			default:
+				return grid;
+		}
+		
+		Cell nextCell = grid[nextX][nextY];
+		
+		switch(nextCell.getType()) {
+		case WALL:
+			nextX = x;
+			nextY = y;
+			break; 
+		case RED_DOOR:
+			if(hasItem(Collectable.RED_KEY, 1)) {
+				useItem(Collectable.RED_KEY, 1);
+				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+			}else {
+				nextX = x;
+				nextY = y;
+			}
+			break; 
+		case GREEN_DOOR:
+			if(hasItem(Collectable.GREEN_KEY, 1)) {
+				useItem(Collectable.GREEN_KEY, 1);
+				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+			}else {
+				nextX = x;
+				nextY = y;
+			}
+			break; 
+		case BLUE_DOOR:
+			if(hasItem(Collectable.BLUE_KEY, 1)) {
+				useItem(Collectable.BLUE_KEY, 1);
+				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+			}else {
+				nextX = x;
+				nextY = y;
+			}
+			break;
+		case TOKEN_DOOR:
+			if(hasItem(Collectable.BLUE_KEY, 1)) {
+				useItem(Collectable.BLUE_KEY, 1);
+				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+			}else {
+				nextX = x;
+				nextY = y;
+			}
+			break;
+		case FIRE:
+			if(!hasItem(Collectable.FIRE_BOOTS, 1)) {
+				// resetLevel();
+			}
+			break;
+		case WATER:
+			if(!hasItem(Collectable.FLIPPERS, 1)) {
+				// resetLevel();
+			}
+			break; 
+		case ICE:
+			if(!hasItem(Collectable.ICE_SKATES, 1)) {
+				// resetLevel();
+			}
+			break;
+		case TELEPORTER:
+			if(event.getCode().equals(KeyCode.RIGHT)) {
+				nextX = nextCell.getLinkX() + 1;
+				nextY = nextCell.getLinkY();
+			}else if(event.getCode().equals(KeyCode.LEFT)) {
+				nextX = nextCell.getLinkX() - 1;
+				nextY = nextCell.getLinkY();
+			}else if(event.getCode().equals(KeyCode.UP)) {
+				nextX = nextCell.getLinkX();
+				nextY = nextCell.getLinkY() - 1;
+			}else {
+				nextX = nextCell.getLinkX();
+				nextY = nextCell.getLinkY() + 1;
+			}
+		case EMPTY:			
+			// if next cell does not hold an enemy then check if has an item
+			if(nextCell.getItem() != null) {
+				addToInventory(nextCell.getItem());
+				nextCell.setItem(null);
+			}
+			break; 
+		default:
+			break;
+		}
+		moveTo(nextX, nextY);
+		return grid;
     }
 
 	public int getImageID() {
 		return imageID;
 	}
 
+	public int getAmount(Collectable c) {
+		if(inventory.size() > 0 && inventory.get(c) != null) {
+			return inventory.get(c);
+		}else {
+			return 0;
+		}
+	}
+	
 	public void setImageID(int imageID) {
 		this.imageID = imageID;
 	}

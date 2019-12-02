@@ -25,37 +25,52 @@ public class GameWindow {
 
 	private final String LOGO_PATH = "src/media/img/logo.png";
 	private final String PLAYER_PATH = "src/media/img/grid/player1_down.png";
-	private final String GRID_PATH = "src/media/img/grid/";
+	private final String IMG_FOLDER = "src/media/img/grid/";
+	
+	/**Used to update the timer*/
 	private Timeline timeline;
+	/**the scene to put on the window*/
 	private Scene scene;
+	/**true if the game is paused*/
 	private boolean paused;
+	/**the number of hours spent on the current level*/
 	private int hours;
+	/**the number of minutes spent on the current level*/
 	private int minutes;
+	/**the number of seconds spent on the current level*/
 	private int seconds;
+	/**the pane containing the grid*/
 	private GridPane gridPane;
-	private GameState gameState;
-	private BorderPane layout;
-	private Direction direction;
-
+	/**holds a reference to the current game state*/
+	private static GameState gameState;
+	/**the overall layout of the scene*/
+	private BorderPane borderPane;
+	/**used to put a background underneath borderpane*/
+	private StackPane layout;
 
 	public GameWindow(String playerName, File levelFile) {
-		layout = new BorderPane();
+		layout = new StackPane();
+		borderPane = new BorderPane();
 
 		try {
 			gameState = new GameState(levelFile, playerName, null, 0);
-			direction = Direction.DOWN;
 
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
 			HBox top = new HBox();
 			top.getChildren().add(logo);
 			top.setAlignment(Pos.CENTER);
-			layout.setTop(top);
-			layout.setLeft(getLeft());
-			layout.setRight(getRight());
+			borderPane.setTop(top);
+			borderPane.setLeft(getLeft());
+			borderPane.setRight(getRight());
 
 			gridPane = getGrid();
-			layout.setCenter(gridPane);
+			borderPane.setCenter(gridPane);
 
+			
+			ImageView background = new ImageView(new Image(
+					new FileInputStream("src/media/img/background.png")));
+			
+			layout.getChildren().addAll(background, borderPane);
 			scene = new Scene(layout, 1200, 700);
 			scene.setOnKeyPressed(e -> processKeyEvent(e));
 			scene.getStylesheets().add("gameWindow.css");
@@ -112,7 +127,7 @@ public class GameWindow {
 					}
 					pane.add(stack, gridX + 4, gridY + 4);
 				} catch (ArrayIndexOutOfBoundsException e) {
-					ImageView img = new ImageView(new Image(new FileInputStream(GRID_PATH + "black.png")));
+					ImageView img = new ImageView(new Image(new FileInputStream(IMG_FOLDER + "black.png")));
 					pane.add(img, gridX + 4, gridY + 4);
 				}
 			}
@@ -128,20 +143,42 @@ public class GameWindow {
 		nameLabel.setId("playerName");
 
 		ImageView playerIcon = new ImageView(new Image(new FileInputStream(PLAYER_PATH)));
-		playerIcon.setScaleX(2.5);
-		playerIcon.setScaleY(2.5);
-
-		HBox inv1 = new HBox(20);
+		playerIcon.setScaleX(2.25);
+		playerIcon.setScaleY(2.25);
+		
+		HBox inv1 = new HBox(30);
 		inv1.setId("inventoryRow");
 		inv1.setMinHeight(60);
-		// add items
-
-		HBox inv2 = new HBox(20);
+		
+		HBox inv2 = new HBox(30);
 		inv2.setId("inventoryRow");
 		inv2.setMinHeight(60);
-		// add items
+		
+		VBox invs = new VBox(10);
+		invs.getChildren().addAll(inv1, inv2);
+		
+		int items = 0;
+		for(Collectable c : Collectable.values()) {
+			ImageView img = new ImageView(new Image(new FileInputStream(
+					IMG_FOLDER + c.toString().toLowerCase() + ".png")));
+			
+			int count = gameState.getPlayer().getAmount(c);
+			
+			Label countLabel = new Label(String.valueOf(count));
+			countLabel.setId("countLabel");
+			
+			StackPane pane = new StackPane();
+			pane.getChildren().addAll(img, countLabel);
+			
+			if(items < 4) {
+				inv1.getChildren().add(pane);
+			}else {
+				inv2.getChildren().add(pane);
+			}
+			items++;
+		}
 
-		left.getChildren().addAll(nameLabel, playerIcon, inv1, inv2);
+		left.getChildren().addAll(nameLabel, playerIcon, invs);
 		return left;
 	}
 
@@ -206,139 +243,37 @@ public class GameWindow {
 
 	public void processKeyEvent(KeyEvent event) {
 		if (!paused) {
-			int nextX = gameState.getPlayer().getX();
-			int nextY = gameState.getPlayer().getY();
+			gameState.getPlayer().move(gameState.getGrid(), event);
 			
-			switch (event.getCode()) {
-				case RIGHT:
-					nextX += 1;
-					direction = Direction.RIGHT;
-					break;
-				case LEFT:
-					nextX -= 1;
-					direction = Direction.LEFT;
-					break;
-				case UP:
-					nextY -= 1;
-					direction = Direction.UP;
-					break;
-				case DOWN:
-					nextY += 1;
-					direction = Direction.DOWN;
-					break;
-				default:
-					return;
-			}
-			
-			Cell nextCell = gameState.getGrid()[nextX][nextY];
-			
-			switch(nextCell.getType()) {
-			case WALL:
-				// set the next location to the same values as before
-				nextX = gameState.getPlayer().getX();
-				nextY = gameState.getPlayer().getY();
-				break; 
-			case RED_DOOR:
-				if(gameState.getPlayer().hasItem(Collectable.RED_KEY, 1)) {
-					gameState.getPlayer().useItem(Collectable.RED_KEY, 1);
-					nextCell.setType(CellType.EMPTY);
-				}else {
-					nextX = gameState.getPlayer().getX();
-					nextY = gameState.getPlayer().getY();
-				}
-				break; 
-			case GREEN_DOOR:
-				if(gameState.getPlayer().hasItem(Collectable.GREEN_KEY, 1)) {
-					gameState.getPlayer().useItem(Collectable.GREEN_KEY, 1);
-					nextCell.setType(CellType.EMPTY);
-				}else {
-					nextX = gameState.getPlayer().getX();
-					nextY = gameState.getPlayer().getY();
-				}
-				break; 
-			case BLUE_DOOR:
-				if(gameState.getPlayer().hasItem(Collectable.BLUE_KEY, 1)) {
-					gameState.getPlayer().useItem(Collectable.BLUE_KEY, 1);
-					nextCell.setType(CellType.EMPTY);
-				}else {
-					nextX = gameState.getPlayer().getX();
-					nextY = gameState.getPlayer().getY();
-				}
-				break;
-			case FIRE:
-				if(!gameState.getPlayer().hasItem(Collectable.FIRE_BOOTS, 1)) {
-					// resetLevel();
-				}
-				break;
-			case WATER:
-				if(!gameState.getPlayer().hasItem(Collectable.FLIPPERS, 1)) {
-					// resetLevel();
-				}
-				break; 
-			case ICE:
-				if(!gameState.getPlayer().hasItem(Collectable.ICE_SKATES, 1)) {
-					// resetLevel();
-				}
-				break;
-			case TELEPORTER:
-				if(event.getCode().equals(KeyCode.RIGHT)) {
-					nextX = nextCell.getLinkX() + 1;
-					nextY = nextCell.getLinkY();
-				}else if(event.getCode().equals(KeyCode.LEFT)) {
-					nextX = nextCell.getLinkX() - 1;
-					nextY = nextCell.getLinkY();
-				}else if(event.getCode().equals(KeyCode.UP)) {
-					nextX = nextCell.getLinkX();
-					nextY = nextCell.getLinkY() - 1;
-				}else {
-					nextX = nextCell.getLinkX();
-					nextY = nextCell.getLinkY() + 1;
-				}
-			case EMPTY:
-				for(Character enemy : gameState.getEnemies()) {
-					if(enemy.getX() == nextX && enemy.getY() == nextY) {
-						// resetLevel();
-					}
-				}
-				
-				// if next cell does not hold an enemy then check if has an item
-				if(nextCell.getItem() != null) {
-					gameState.getPlayer().addToInventory(nextCell.getItem());
-					nextCell.setItem(null);
-				}
-				break; 
-			default:
-				break;
-			}
-			gameState.getPlayer().moveTo(nextX, nextY);
+			int i = 0;
 			for(Character e : gameState.getEnemies()) {
 				e.move(gameState.getGrid());
+				Player p = gameState.getPlayer();
+				if(e.getX() == p.getX() && e.getY() == p.getY()) {
+					if(p.hasItem(Collectable.LIFE, 1)) {
+						p.useItem(Collectable.LIFE, 1);
+						GameState.killEnemy(i);
+					}else {
+						// kill player
+					}
+				}
+				i++;
 			}
 			update();
 		}
 		event.consume();
 	}
 	
-	public GameState getGameState() {
+	public static GameState getGameState() {
 		return gameState;
-	}
-
-	private ImageView getPlayerImage() throws FileNotFoundException {
-		if (direction == Direction.LEFT) {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_left.png")));
-		} else if (direction == Direction.RIGHT) {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_right.png")));
-		} else if (direction == Direction.UP) {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_up.png")));
-		} else {
-			return new ImageView(new Image(new FileInputStream(GRID_PATH + "player_down.png")));
-		}
 	}
 
 	public void update() {
 		try {
 			gridPane = getGrid();
-			layout.setCenter(gridPane);
+			borderPane.setCenter(gridPane);
+			borderPane.setLeft(getLeft());
+			layout.getChildren().set(1, borderPane);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

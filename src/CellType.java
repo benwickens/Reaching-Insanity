@@ -27,5 +27,6 @@ public enum CellType {
 	ICE,
 	RED_DOOR,
 	GREEN_DOOR,
-	BLUE_DOOR
+	BLUE_DOOR,
+	TOKEN_DOOR
 }

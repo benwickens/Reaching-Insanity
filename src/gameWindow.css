@@ -1,40 +1,47 @@
-.root{
-	-fx-background-color: #FFFFFF;
-}
-
 #playerName {
-	-fx-text-fill: #dd2424;
+	-fx-text-fill: #b2babb;
 	-fx-font-size: 40;
 	-fx-font-family: impact;
 	-fx-font-weight: bold;
 }
 
 #timeLabel {
-	-fx-text-fill: #dd2424;
+	-fx-text-fill: #b2babb;
 	-fx-font-size: 40;
 	-fx-font-family: impact;
 	-fx-font-weight: bold;
 }
 
 #optionsLabel {
-	-fx-text-fill: #dd2424;
+	-fx-text-fill: #b2babb;
 	-fx-font-size: 30;
 	-fx-font-family: impact;
 	-fx-font-weight: bold;
 }
 
 #inventoryRow{
-	-fx-background-color: #2E8B57;
-	-fx-border-color: #006400;
+	-fx-background-color: #616a6b;
+	-fx-border-color: #1c2833;
+	-fx-alignment: center;
 }
 
-VBox, HBox, GridPane{
-	-fx-background-color: #00e0ff;
-	-fx-border-color: #006400;
+#countLabel{
+	-fx-font-size: 35;
+	-fx-font-family: impact;
+	-fx-font-weight: bold;
+	-fx-text-fill: #fdfefe;
 }
 
-.button{
+.button {
+	-fx-background-color: #6C6564;
 	-fx-font-size: 17;
-	
+	-fx-text-alignment: center;
+	-fx-padding: 7px;
+	-fx-opacity: 0.4;
+	-fx-text-fill: white;
+}
+
+.button:hover {
+	-fx-opacity: 1;
 }
 

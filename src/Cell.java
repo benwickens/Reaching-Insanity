@@ -1,8 +1,9 @@
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Random;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Represents a "cell" in the game (wall, empty, fire...)
@@ -46,32 +47,36 @@ public class Cell {
 			case WALL :
 				fis = new FileInputStream(GRID_IMAGES + "wall.png");
 				break;
+			case RED_DOOR :
+				fis = new FileInputStream(GRID_IMAGES + "redDoor.png");
+				break;
+			case GREEN_DOOR :
+				fis = new FileInputStream(GRID_IMAGES + "greenDoor.png");
+				break;
+			case BLUE_DOOR :
+				fis = new FileInputStream(GRID_IMAGES + "blueDoor.png");
+				break;
+			case TOKEN_DOOR :
+				fis = new FileInputStream(GRID_IMAGES + "tokenDoor.png");
+				break;
 			case FIRE:
 				fis = new FileInputStream(GRID_IMAGES + "fire.png");
 				break;
-			case RED_DOOR :
-				fis = new FileInputStream(GRID_IMAGES + "RED-DOOR.png");
-				break;
 			case WATER :
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				fis = new FileInputStream(GRID_IMAGES + "water.jpg");
 				break;
 			case ICE :
 				fis = new FileInputStream(GRID_IMAGES + "ice.png");
 				break;
 			case GOAL :
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");
-				break;
-			case BLUE_DOOR :
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");
-				break;
-			case GREEN_DOOR :
-				fis = new FileInputStream(GRID_IMAGES + "greenDoor.png");
+				fis = new FileInputStream(GRID_IMAGES + "goal.png");
 				break;
 			case TELEPORTER:
-				fis = new FileInputStream(GRID_IMAGES + "Teleport.png");
+				fis = new FileInputStream(GRID_IMAGES + "teleporter.png");
 				break;
-			default: 
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");    
+			default:
+				Random r = new Random();
+				fis = new FileInputStream(GRID_IMAGES + "floor_" + (r.nextInt(3) + 1) + ".png");    
 			}
 
 			cellImage = new ImageView(new Image(fis));
@@ -80,34 +85,28 @@ public class Cell {
 			if(item != null) {
 				switch (item) {
 				case TOKEN :
-					fis = new FileInputStream(GRID_IMAGES + "items/token.png");
+					fis = new FileInputStream(GRID_IMAGES + "token.png");
 					break;
 				case RED_KEY:
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					fis = new FileInputStream(GRID_IMAGES + "red_key.png");
 					break;
 				case GREEN_KEY :
-					fis = new FileInputStream(GRID_IMAGES + "GreenKey.png");
+					fis = new FileInputStream(GRID_IMAGES + "green_key.png");
 					break;
 				case BLUE_KEY :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					fis = new FileInputStream(GRID_IMAGES + "blue_key.png");
 					break;
 				case FIRE_BOOTS :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					fis = new FileInputStream(GRID_IMAGES + "fire_boots.png");
 					break;
 				case FLIPPERS :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					fis = new FileInputStream(GRID_IMAGES + "flippers.png");
 					break;
 				case ICE_SKATES :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+					fis = new FileInputStream(GRID_IMAGES + "ice_skates.png");
 					break;
-				case DAGGER :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
-					break;
-				case SPEAR :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
-					break;
-				case SHIELD :
-					fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				case LIFE :
+					fis = new FileInputStream(GRID_IMAGES + "life.png");
 					break;
 				default: 
 					fis = new FileInputStream(GRID_IMAGES + "empty.png");    

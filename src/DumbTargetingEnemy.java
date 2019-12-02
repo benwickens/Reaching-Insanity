@@ -27,7 +27,7 @@ public class DumbTargetingEnemy extends Character {
 	 * @param currentDirection the current direction the enemy is in
 	 */
 	public DumbTargetingEnemy(int x, int y) {
-		super(x, y, "Enemy3.png");
+		super(x, y, "DTE.png");
 	}
 
 	public void moveDumbEnemy(Cell[][] grid, int playerX, int playerY) {

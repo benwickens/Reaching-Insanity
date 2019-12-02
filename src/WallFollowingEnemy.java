@@ -16,7 +16,7 @@ public class WallFollowingEnemy extends Character{
 
 
     public WallFollowingEnemy(int x, int y, Direction startingDirection){
-        super(x, y, "Enemy4.png");
+        super(x, y, "WFE.png");
         currentDirection = startingDirection;        
     }
 

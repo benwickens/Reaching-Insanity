@@ -25,7 +25,7 @@ public class GameState {
 	/**The current level*/
 	private int level;
 	/**All of the enemies currently alive*/
-	private ArrayList<Character> enemies; 
+	private static ArrayList<Character> enemies; 
 	/**Maps a CellType to a the file abbreviation*/
 	private HashMap<CellType, String> cellAbbreviations;
 	/**Maps a Collectable to a the file abbreviation*/
@@ -248,15 +248,13 @@ public class GameState {
 		
 		itemAbbreviations = new HashMap<>();
 		itemAbbreviations.put(Collectable.TOKEN, "TK");
-		itemAbbreviations.put(Collectable.SPEAR, "SP");
-		itemAbbreviations.put(Collectable.SHIELD, "SH");
+		itemAbbreviations.put(Collectable.LIFE, "L");
 		itemAbbreviations.put(Collectable.RED_KEY, "RK");
 		itemAbbreviations.put(Collectable.GREEN_KEY, "GK");
 		itemAbbreviations.put(Collectable.BLUE_KEY, "BK");
 		itemAbbreviations.put(Collectable.ICE_SKATES, "IS");
 		itemAbbreviations.put(Collectable.FLIPPERS, "FL");
 		itemAbbreviations.put(Collectable.FIRE_BOOTS, "FB");
-		itemAbbreviations.put(Collectable.DAGGER, "DG");
 	}
 
 
@@ -308,12 +306,10 @@ public class GameState {
 	public ArrayList<Character> getEnemies() {
 		return enemies;
 	}
-
-	/**
-	 * @param enemies the enemies to set
-	 */
-	public void setEnemies(ArrayList<Character> enemies) {
-		this.enemies = enemies;
+	
+	public static void killEnemy(int index) {
+		enemies.remove(index);
+		System.out.println("killed enemy");
 	}
 
 }
