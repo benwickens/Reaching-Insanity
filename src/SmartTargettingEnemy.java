@@ -8,7 +8,7 @@ public class SmartTargettingEnemy extends Character {
 		super(x, y, "Enemy5.png");
 	}
 	
-	public int[] getMove(Player player, char[][] map){
+	public int[] getMove(Player player, char[][] map){ //Replace char with Cell
 		int playerX = player.getX();
 		int playerY = player.getY();
 		char[] dirs  = {'u', 'd', 'l', 'r'};
@@ -31,13 +31,13 @@ public class SmartTargettingEnemy extends Character {
 		return outCoOrd;	
 	}
 	
-	private Boolean checkValid(String start, char[][] map) {
+	private Boolean checkValid(String start, char[][] map) { //Replace char with Cell
 		int length = start.length();
 		int[] coords = movesNewCoOrd(start);
 		int endX = coords[0];
 		int endY = coords[1];
 		if (map[endX][endY] == '_') {
-//		if (map[x][y].getType() == CellType.EMPTY) {
+//		if (map[x][y].getType() == CellType.EMPTY) { // use this instead
 			return true;
 		} else {
 			return false;
