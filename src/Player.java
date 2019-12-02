@@ -20,6 +20,11 @@ public class Player extends Character {
      * @param highestLevel is the players highest reached level
      */
 
+    //testing for bfs - TO REMOVE
+    public Player(int x, int y) {
+    	super(x,y, "player1_down.png");
+    	
+    }
     public Player(String name, HashMap<Collectable, Integer> inventory, int highestLevel, int imageID) {
         super(-1, -1, "player1_down.png");
     	
