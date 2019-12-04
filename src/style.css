@@ -37,7 +37,8 @@
 }
 
 .label {
-	-fx-font-size: 25;
+	-fx-font-size: 20;
+	-fx-text-fill: whitesmoke;
 }
 
 .button {
@@ -57,7 +58,7 @@
 	-fx-padding: 5;
 	-fx-font-size: 20;
 	-fx-font-weight: bold;
-	-fx-text-fill: #dd2424;
+	-fx-text-fill: whitesmoke;
 	-fx-text-alignment: center;
 }
 

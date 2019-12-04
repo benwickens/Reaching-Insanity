@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Iterator;
 
 public class GameWindow {
 
@@ -49,13 +51,25 @@ public class GameWindow {
 	private BorderPane borderPane;
 	/**used to put a background underneath borderpane*/
 	private StackPane layout;
+	private boolean multiPlayer;
+	private int currentPlayer;
 
-	public GameWindow(String playerName, File levelFile) {
+	public GameWindow(String player1Name, String player2Name, int level) {
 		layout = new StackPane();
 		borderPane = new BorderPane();
+		currentPlayer = 1;
 
+		if(player2Name != null) {
+			multiPlayer = true;
+		}
+		
 		try {
-			gameState = new GameState(levelFile, playerName, null, 0);
+			try {
+				gameState = new GameState(player1Name, player2Name, level);
+			} catch (SQLException e1) {
+				System.exit(-1);
+				e1.printStackTrace();
+			}
 
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
 			HBox top = new HBox();
@@ -96,9 +110,19 @@ public class GameWindow {
 	private GridPane getGrid() throws FileNotFoundException {
 		GridPane pane = new GridPane();
 		pane.setAlignment(Pos.CENTER);
+		
+		Player player;
+		Player otherPlayer;
+		if(currentPlayer == 1 || !multiPlayer) {
+			player  = gameState.getPlayer1();
+			otherPlayer  = gameState.getPlayer2();
+		}else{
+			player  = gameState.getPlayer2();
+			otherPlayer  = gameState.getPlayer1();
+		}
 
-		int playerX = gameState.getPlayer().getX();
-		int playerY = gameState.getPlayer().getY();
+		int playerX = player.getX();
+		int playerY = player.getY();
 
 		for (int gridX = -4; gridX < 4; gridX++) {
 			for (int gridY = -4; gridY < 4; gridY++) {
@@ -110,8 +134,8 @@ public class GameWindow {
 					stack.getChildren().add(cell.getCellImage());
 					
 					if (gridX == 0 && gridY == 0) { // if drawing the center cell, add player
-						stack.getChildren().add(gameState.getPlayer().getImage());
-					} else {
+						stack.getChildren().add(player.getImage());
+					}else {
 						boolean enemyFound = false;
 						for(Character enemy : gameState.getEnemies()) {
 							if(enemy.getX() == currentGridX && enemy.getY() == currentGridY) {
@@ -126,6 +150,11 @@ public class GameWindow {
 							}
 						}
 						
+						if(multiPlayer && otherPlayer.getX() == currentGridX && otherPlayer.getY() == currentGridY) {
+							stack.getChildren().add(otherPlayer.getImage());
+						}
+						
+						
 					}
 					pane.add(stack, gridX + 4, gridY + 4);
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -138,13 +167,20 @@ public class GameWindow {
 	}
 
 	private VBox getLeft() throws FileNotFoundException {
+		Player player;
+		if(currentPlayer == 1 || !multiPlayer) {
+			player  = gameState.getPlayer1();
+		}else {
+			player  = gameState.getPlayer2();
+		}
+		
 		VBox left = new VBox(60);
 		left.setMinWidth(300);
 		left.setAlignment(Pos.CENTER);
-		Label nameLabel = new Label(gameState.getPlayer().getName());
+		Label nameLabel = new Label(player.getName());
 		nameLabel.setId("playerName");
 
-		ImageView playerIcon = new ImageView(new Image(new FileInputStream(PLAYER_PATH)));
+		ImageView playerIcon = new ImageView(new Image(new FileInputStream("src/media/img/grid/player" + player.getImageID() + "_down.png")));
 		playerIcon.setScaleX(2.25);
 		playerIcon.setScaleY(2.25);
 		
@@ -164,7 +200,7 @@ public class GameWindow {
 			ImageView img = new ImageView(new Image(new FileInputStream(
 					IMG_FOLDER + c.toString().toLowerCase() + ".png")));
 			
-			int count = gameState.getPlayer().getAmount(c);
+			int count = player.getAmount(c);
 			
 			Label countLabel = new Label(String.valueOf(count));
 			countLabel.setId("countLabel");
@@ -245,29 +281,57 @@ public class GameWindow {
 
 	public void processKeyEvent(KeyEvent event) {
 		if (!paused) {
-			gameState.getPlayer().move(gameState.getGrid(), event);
+			Player player;
+			if(currentPlayer == 1 || !multiPlayer) {
+				player  = gameState.getPlayer1();
+			}else {
+				player  = gameState.getPlayer2();
+			}
 			
-			int i = 0;
-			for(Character e : gameState.getEnemies()) {
+			// move player
+			player.move(gameState.getGrid(), event);
+			
+			// move enemies and use life or die if same location as player
+			Iterator<Character> iter = gameState.getEnemies().iterator();
+			while(iter.hasNext()) {
+				Character e = iter.next();
 				e.move(gameState.getGrid());
-				Player p = gameState.getPlayer();
-				if(e.getX() == p.getX() && e.getY() == p.getY()) {
-					if(p.hasItem(Collectable.LIFE, 1)) {
-						p.useItem(Collectable.LIFE, 1);
-						GameState.killEnemy(i);
+				if(e.getX() == player.getX() && e.getY() == player.getY()) {
+					if(player.hasItem(Collectable.LIFE, 1)) {
+						player.useItem(Collectable.LIFE, 1);
+						iter.remove();
 						
 						String bip = "src/media/sound/life_lost.mp3";
 						Media hit = new Media(new File(bip).toURI().toString());
 						MediaPlayer mediaPlayer = new MediaPlayer(hit);
 						mediaPlayer.play();
-						
 					}else {
 						// kill player
 					}
 				}
-				i++;
 			}
-			update();
+			
+			updateView(); // update view for the current player
+			
+			// if multiplayer, wait .5s and then swap to new player
+			if(multiPlayer) {
+				// wait a while to give the player chance to acknowledge their new state.
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				// swap to next player
+				if(currentPlayer == 1) {
+					currentPlayer = 2;
+				}else {
+					currentPlayer = 1;
+				}
+				
+				// update view for the new player
+				updateView();
+			}			
 		}
 		event.consume();
 	}
@@ -276,8 +340,8 @@ public class GameWindow {
 		return gameState;
 	}
 
-	public void update() {
-		try {
+	public void updateView() {
+		try {			
 			gridPane = getGrid();
 			borderPane.setCenter(gridPane);
 			borderPane.setLeft(getLeft());

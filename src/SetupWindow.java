@@ -34,12 +34,16 @@ public class SetupWindow {
 	private Database db;
 	private Scene scene;
 	private StackPane baseLayout;
-	private VBox contents;
-	private ComboBox<String> existingPlayers;
 	private ComboBox<String> levelSelector;
-	private HBox singleOrMulti;
+	private ComboBox<String> player1Selector;
+	private ComboBox<String> player2Selector;
+	private int player1Highest;
+	private int player2Highest;
 	private ImageView player1Icon;
 	private ImageView player2Icon;
+	private HBox playerSelectors;
+	private RadioButton singlePlayer;
+	private RadioButton multiPlayer;
 	
 	public SetupWindow() {				
 		try {
@@ -53,64 +57,41 @@ public class SetupWindow {
 			
 			baseLayout.getChildren().add(background);
 			
-			// set default player image
-			player1Icon = new ImageView(new Image(new FileInputStream(
-					IMG_FOLDER + "grid/player1_down.png")));
-			
+						
 			// main contents
-			contents = new VBox(20);
+			VBox contents = new VBox(20);
 			contents.setAlignment(Pos.CENTER);
 			
-			ImageView title = new ImageView(new Image(
-					new FileInputStream(IMG_FOLDER + "setup_title.png")));
-			contents.getChildren().add(title);
+			ImageView title = new ImageView(new Image(new FileInputStream(IMG_FOLDER + "setup_title.png")));			
 			
-			/*
-			 * Single Player or Multi-Player Selection
-			 */
-			singleOrMulti = new HBox(50);
-			singleOrMulti.setAlignment(Pos.CENTER);
+			Button back = new Button("Back to Main Menu"); //Back button
+			back.setOnAction(e -> {
+				backToMain(e);
+			});
 			
-			ToggleGroup singleOrMultiRadio = new ToggleGroup();
-			RadioButton singlePlayer = new RadioButton("Single Player");
-			singlePlayer.setSelected(true);
-			RadioButton multiPlayer = new RadioButton("Multi-Player");
-			singlePlayer.setToggleGroup(singleOrMultiRadio);
-			multiPlayer.setToggleGroup(singleOrMultiRadio);
-			
-			singleOrMulti.getChildren().addAll(singlePlayer, multiPlayer);
-			
-			/*
-			 * USER SELECTOR
-			 */
-			HBox singleMultiMain = new HBox(50);
-			singleMultiMain.setAlignment(Pos.CENTER);
-			
-			VBox singlePlayerBox = new VBox(20);
-			singlePlayerBox.setAlignment(Pos.CENTER);
-			
-			ObservableList<Player> players = getPlayers();
-			ObservableList<String> playerNames = FXCollections.observableArrayList();
-			for(Player p : players) {
-				playerNames.add(p.getName());
-			}
-			existingPlayers = new ComboBox<String>();
-			existingPlayers.setItems(playerNames);
-			existingPlayers.setEditable(false);
-			existingPlayers.setPrefHeight(30);
-			existingPlayers.setPrefWidth(150);
-			
-			existingPlayers.setOnAction(e -> {
-				try {
-					ResultSet rs = db.query("SELECT image_id FROM player WHERE name=\"" + 
-							existingPlayers.getValue() + "\"");
-					rs.next();
-					player1Icon.setImage(new Image(new FileInputStream(
-							IMG_FOLDER + "grid/player" + rs.getInt("image_id") + "_down.png")));
-				} catch (FileNotFoundException | SQLException e1) {
-					System.out.println("ERROR: getting player image");
-					e1.printStackTrace();
-					System.exit(-1);
+			Button play = new Button("Play Game");
+			play.setOnAction(e -> {
+				if(player1Selector.getValue() != null) {
+			        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			        stage.setTitle("Reaching Insanity");
+					
+					 if(singlePlayer.isSelected()) {
+					        GameWindow gameWindow = new GameWindow(
+					        		player1Selector.getValue(),
+					        		null,
+					        		Integer.parseInt(levelSelector.getValue().substring(levelSelector.getValue().length() - 1)));
+					        stage.setScene(gameWindow.getScene());
+					 }else {
+						 if(!player1Selector.getValue().equals(player2Selector.getValue())) {
+						     GameWindow gameWindow = new GameWindow(
+						        		player1Selector.getValue(),
+						        		player2Selector.getValue(),
+						        		Integer.parseInt(levelSelector.getValue().substring(levelSelector.getValue().length() - 1)));
+						     stage.setScene(gameWindow.getScene());
+						 }else {
+							 System.out.println("ERROR: Must select two different players.");
+						 }
+					 }					
 				}
 			});
 			
@@ -124,30 +105,13 @@ public class SetupWindow {
 			levelSelector.setEditable(false);
 			levelSelector.setPrefHeight(30);
 			levelSelector.setPrefWidth(150);
+			levelSelector.setPromptText("Select a Level");
 			
+			playerSelectors = new HBox(50);
+			playerSelectors.setAlignment(Pos.CENTER);
+			playerSelectors.getChildren().addAll(getPlayerSelector(1));
 			
-			
-			singlePlayerBox.getChildren().addAll(existingPlayers, player1Icon, levelSelector);
-			
-			singleMultiMain.getChildren().add(singlePlayerBox);
-			
-			
-			Button back = new Button("Back to Main Menu"); //Back button
-			back.setOnAction(e -> {
-				backToMain(e);
-			});
-			
-			Button play = new Button("Play Game");
-			play.setOnAction(e -> {
-		        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-		        stage.setTitle("Reaching Insanity");
-		        GameWindow gameWindow = new GameWindow(
-		        		existingPlayers.getValue(),
-		        		new File("src/levels/" + levelSelector.getValue() + ".txt"));
-		        stage.setScene(gameWindow.getScene());
-			});
-			
-			contents.getChildren().addAll(singleOrMulti, singleMultiMain, play, back);
+			contents.getChildren().addAll(title, getSingleOrMulti(), playerSelectors, levelSelector, play, back);
 			
 			baseLayout.getChildren().add(contents);
 			
@@ -165,9 +129,89 @@ public class SetupWindow {
 		}
 	}
 	
-	private void comboAction(ActionEvent e) {
+	private VBox getPlayerSelector(int playerNumber) {
+		VBox contents = new VBox(20);
+		contents.setAlignment(Pos.CENTER);
 		
+		ObservableList<Player> players = getPlayers();
+		ObservableList<String> playerNames = FXCollections.observableArrayList();
+		for(Player p : players) {
+			playerNames.add(p.getName());
+		}
+		
+		
+		ComboBox<String> existingPlayers = new ComboBox<String>();
+		existingPlayers.setItems(playerNames);
+		existingPlayers.setEditable(false);
+		existingPlayers.setPrefHeight(30);
+		existingPlayers.setPrefWidth(150);
+		existingPlayers.setPromptText("Select a Player");
+				
+		try {
+			if(playerNumber == 1) {
+				player1Icon = new ImageView(new Image(new FileInputStream(IMG_FOLDER + "grid/empty.png")));
+				player1Selector = existingPlayers;
+				contents.getChildren().addAll(existingPlayers, player1Icon);
+			}else {
+				player2Icon = new ImageView(new Image(new FileInputStream(IMG_FOLDER + "grid/empty.png")));
+				player2Selector = existingPlayers;
+				contents.getChildren().addAll(existingPlayers, player2Icon);
+			}
+		}catch(FileNotFoundException e) {
+			System.out.println("ERROR: getting player image");
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
+		existingPlayers.setOnAction(e -> {
+			try {
+				ResultSet rs = db.query("SELECT image_id, highest_level FROM player WHERE name=\"" + existingPlayers.getValue() + "\"");
+				rs.next(); // gets us to the first tuple, otherwise null
+				
+				if(playerNumber == 1) {
+					System.out.println("PLAYER 1: " + rs.getInt("image_id"));
+					player1Icon.setImage(new Image(new FileInputStream(IMG_FOLDER + "grid/player" + rs.getInt("image_id") + "_down.png")));
+				}else {
+					System.out.println("PLAYER 2: " + rs.getInt("image_id"));
+					player2Icon.setImage(new Image(new FileInputStream(IMG_FOLDER + "grid/player" + rs.getInt("image_id") + "_down.png")));
+				}
+			} catch (FileNotFoundException | SQLException e1) {
+				System.out.println("ERROR: getting player image");
+				e1.printStackTrace();
+				System.exit(-1);
+			}
+		});
+		return contents;
 	}
+	
+
+	private HBox getSingleOrMulti() {
+		HBox singleOrMulti = new HBox(75);
+		singleOrMulti.setAlignment(Pos.CENTER);
+		
+		ToggleGroup singleOrMultiRadio = new ToggleGroup();
+		
+		singlePlayer = new RadioButton("Single Player");
+		singlePlayer.setToggleGroup(singleOrMultiRadio);
+		singlePlayer.setSelected(true);
+		singlePlayer.setOnAction(e -> {
+			if(playerSelectors.getChildren().size() == 2) {
+				playerSelectors.getChildren().remove(1);
+			}
+		});
+		
+		multiPlayer = new RadioButton("Multi-Player");
+		multiPlayer.setToggleGroup(singleOrMultiRadio);
+		multiPlayer.setOnAction(e -> {
+			if(playerSelectors.getChildren().size() == 1) {
+				playerSelectors.getChildren().add(getPlayerSelector(2));
+			}
+		});
+		
+		singleOrMulti.getChildren().addAll(singlePlayer, multiPlayer);
+		return singleOrMulti;
+	}
+	
 	
 	private void backToMain(ActionEvent e) {
 		try {

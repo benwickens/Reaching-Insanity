@@ -33,7 +33,7 @@ public class Player extends Character {
     	
     }
     public Player(String name, HashMap<Collectable, Integer> inventory, int highestLevel, int imageID) {
-        super(-1, -1, "player1_down.png");
+        super(-1, -1, "player" + imageID + "_down.png");
     	
     	this.highestLevel = highestLevel;
         this.name = name;
