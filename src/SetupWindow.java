@@ -75,23 +75,27 @@ public class SetupWindow {
 			        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			        stage.setTitle("Reaching Insanity");
 					
-					 if(singlePlayer.isSelected()) {
-					        GameWindow gameWindow = new GameWindow(
-					        		player1Selector.getValue(),
-					        		null,
-					        		Integer.parseInt(levelSelector.getValue().substring(levelSelector.getValue().length() - 1)));
-					        stage.setScene(gameWindow.getScene());
-					 }else {
-						 if(!player1Selector.getValue().equals(player2Selector.getValue())) {
-						     GameWindow gameWindow = new GameWindow(
+			        if(levelSelector.getValue() != null) {
+						 if(singlePlayer.isSelected()) {
+						        GameWindow gameWindow = new GameWindow(
 						        		player1Selector.getValue(),
-						        		player2Selector.getValue(),
+						        		null,
 						        		Integer.parseInt(levelSelector.getValue().substring(levelSelector.getValue().length() - 1)));
-						     stage.setScene(gameWindow.getScene());
+						        stage.setScene(gameWindow.getScene());
 						 }else {
-							 System.out.println("ERROR: Must select two different players.");
-						 }
-					 }					
+							 if(player2Selector.getValue() != null && !player1Selector.getValue().equals(player2Selector.getValue())) {
+							     GameWindow gameWindow = new GameWindow(
+							        		player1Selector.getValue(),
+							        		player2Selector.getValue(),
+							        		Integer.parseInt(levelSelector.getValue().substring(levelSelector.getValue().length() - 1)));
+							     stage.setScene(gameWindow.getScene());
+							 }else {
+								 System.out.println("ERROR: Must select two different players."); // replace with pop up window
+							 }
+						 }	
+			        }else {
+			        	System.out.println("ERROR: Must select a level."); // replace with pop up window
+			        }
 				}
 			});
 			
