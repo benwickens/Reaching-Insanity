@@ -315,13 +315,6 @@ public class GameWindow {
 			
 			// if multiplayer, wait .5s and then swap to new player
 			if(multiPlayer) {
-				// wait a while to give the player chance to acknowledge their new state.
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
 				// swap to next player
 				if(currentPlayer == 1) {
 					currentPlayer = 2;

@@ -190,34 +190,32 @@ public class Player extends Character {
 			if(!hasItem(Collectable.ICE_SKATES, 1)) {
 				// resetLevel();
 			}else {
-				playSound("src/media/sound/teleport.wav");
-					boolean foundEnd = false;
-					int x1 = nextX;
-					int y1 = nextY;
-					
-					if(event.getCode().equals(KeyCode.RIGHT)) {
-						while(grid[x1][nextY].getType().equals(CellType.ICE)) {
-							x1+=1;
-						}
-						nextX = x1;
-					}else if(event.getCode().equals(KeyCode.LEFT)) {
-						while(grid[x1][nextY].getType().equals(CellType.ICE)) {
-							x1-=1;
-						}
-						nextX = x1;
-					}else if(event.getCode().equals(KeyCode.UP)) {
-						while(grid[nextX][y1].getType().equals(CellType.ICE)) {
-							y1 -= 1;
-						}
-						nextY = y1;
-					}else if(event.getCode().equals(KeyCode.DOWN)) {
-						while(grid[nextX][y1].getType().equals(CellType.ICE)) {
-							y1+= 1;
-						}
-						nextY = y1;
-					}else {
-						foundEnd = false;
+				playSound("src/media/sound/ice.wav");
+
+				int x1 = nextX;
+				int y1 = nextY;
+				
+				if(event.getCode().equals(KeyCode.RIGHT)) {
+					while(grid[x1][nextY].getType().equals(CellType.ICE)) {
+						x1+=1;
 					}
+					nextX = x1;
+				}else if(event.getCode().equals(KeyCode.LEFT)) {
+					while(grid[x1][nextY].getType().equals(CellType.ICE)) {
+						x1-=1;
+					}
+					nextX = x1;
+				}else if(event.getCode().equals(KeyCode.UP)) {
+					while(grid[nextX][y1].getType().equals(CellType.ICE)) {
+						y1 -= 1;
+					}
+					nextY = y1;
+				}else if(event.getCode().equals(KeyCode.DOWN)) {
+					while(grid[nextX][y1].getType().equals(CellType.ICE)) {
+						y1+= 1;
+					}
+					nextY = y1;
+				}
 			}
 			break;
 		case TELEPORTER:
