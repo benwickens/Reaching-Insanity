@@ -242,7 +242,7 @@ public class Player extends Character {
 				nextCell.setItem(null);
 				playSound("src/media/sound/pickup.wav");
 			}
-			break; 
+			break;
 		default:
 			break;
 		}
