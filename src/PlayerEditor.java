@@ -22,6 +22,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class PlayerEditor {
@@ -168,19 +170,24 @@ public class PlayerEditor {
 			
 			Button continueButton = new Button("Continue");
 			continueButton.setOnAction(e ->{
+				boolean b;
 				if(name.getText() != null && name.getLength() >= 1) {
 					try {
 						ResultSet r = db.query("SELECT * FROM player WHERE name=\"" + 
 								name.getText() + "\"");
 						if(r.next()) {
 							// show error - name already taken
+							b = false;
+
 						}else {
 							// name is fine, continue
 							db.manipulate("INSERT INTO player VALUES (\"" + 
 									name.getText() + "\", 0, " + currentPlayerNum + ")");
 							// show success
+							b = true;
 							backToMain(e);
 						}
+						displaySucess(name,b);
 					}catch(SQLException e2) {
 						System.out.println("ERROR: SQL");
 						e2.printStackTrace();
@@ -197,7 +204,32 @@ public class PlayerEditor {
 			e.printStackTrace();
 		}		
 	}
-	
+	/*
+	display success or fail message
+	 */
+	private void displaySucess(TextField name,boolean ab) {
+		String abc;
+		final Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		VBox dialogVbox = new VBox(20);
+		Scene dialogScene = new Scene(dialogVbox, 300, 100);
+		if(ab == true){
+			abc = name.getText() + " created";
+			dialogVbox.getChildren().add(new Text(abc));
+		}else{
+			abc = (name.getText() + " is already taken  \nPlease choose another name");
+			Button back = new Button("Back");
+			back.setOnAction(e -> {
+				dialog.close();
+			});
+			dialogVbox.getChildren().addAll(new Text(abc),back);
+		}
+		dialogVbox.setAlignment(Pos.CENTER);
+		dialog.setResizable(false);
+		dialog.setScene(dialogScene);
+		dialog.show();
+	}
+
 	private void displayOldPlayerContent() {
 		existingPlayers = new ComboBox<String>();
 		ObservableList<Player> players = getPlayers();
