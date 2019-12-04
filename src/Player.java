@@ -1,7 +1,10 @@
+import java.io.File;
 import java.util.HashMap;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * Represents the player at any given time in the current game state
@@ -15,6 +18,7 @@ public class Player extends Character {
     private Integer highestLevel;
     private HashMap<Collectable, Integer> inventory;
     private int imageID;
+    
 
     /**
      * Constructs a player object
@@ -29,7 +33,7 @@ public class Player extends Character {
     	
     }
     public Player(String name, HashMap<Collectable, Integer> inventory, int highestLevel, int imageID) {
-        super(-1, -1, "player1_down.png");
+        super(-1, -1, "player" + imageID + "_down.png");
     	
     	this.highestLevel = highestLevel;
         this.name = name;
@@ -89,7 +93,13 @@ public class Player extends Character {
     
     public void move(Cell[][] grid) {}
     
-    public Cell[][] move(Cell[][] grid, KeyEvent event) {
+    private void playSound(String path) {
+		Media media = new Media(new File(path).toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
+    }
+    
+    public Cell[][] move(Cell[][] grid, KeyEvent event) {    	
 		int nextX = x;
 		int nextY = y;
 		
@@ -116,56 +126,96 @@ public class Player extends Character {
 		case WALL:
 			nextX = x;
 			nextY = y;
+			playSound("src/media/sound/bump.wav");
 			break; 
 		case RED_DOOR:
 			if(hasItem(Collectable.RED_KEY, 1)) {
 				useItem(Collectable.RED_KEY, 1);
 				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+				playSound("src/media/sound/unlock.wav");
 			}else {
 				nextX = x;
 				nextY = y;
+				playSound("src/media/sound/bump.wav");
 			}
 			break; 
 		case GREEN_DOOR:
 			if(hasItem(Collectable.GREEN_KEY, 1)) {
 				useItem(Collectable.GREEN_KEY, 1);
 				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+				playSound("src/media/sound/unlock.wav");
 			}else {
 				nextX = x;
 				nextY = y;
+				playSound("src/media/sound/bump.wav");
 			}
 			break; 
 		case BLUE_DOOR:
 			if(hasItem(Collectable.BLUE_KEY, 1)) {
 				useItem(Collectable.BLUE_KEY, 1);
 				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+				playSound("src/media/sound/unlock.wav");
 			}else {
 				nextX = x;
 				nextY = y;
+				playSound("src/media/sound/bump.wav");
 			}
 			break;
 		case TOKEN_DOOR:
-			if(hasItem(Collectable.BLUE_KEY, 1)) {
-				useItem(Collectable.BLUE_KEY, 1);
+			if(hasItem(Collectable.TOKEN, 5)) {
+				useItem(Collectable.TOKEN, 5);
 				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+				playSound("src/media/sound/unlock.wav");
 			}else {
 				nextX = x;
 				nextY = y;
+				playSound("src/media/sound/bump.wav");
 			}
 			break;
 		case FIRE:
 			if(!hasItem(Collectable.FIRE_BOOTS, 1)) {
 				// resetLevel();
+			}else {
+				playSound("src/media/sound/fire.wav");
 			}
 			break;
 		case WATER:
 			if(!hasItem(Collectable.FLIPPERS, 1)) {
 				// resetLevel();
+			}else {
+				playSound("src/media/sound/water.wav");
 			}
 			break; 
 		case ICE:
 			if(!hasItem(Collectable.ICE_SKATES, 1)) {
 				// resetLevel();
+			}else {
+				playSound("src/media/sound/ice.wav");
+
+				int x1 = nextX;
+				int y1 = nextY;
+				
+				if(event.getCode().equals(KeyCode.RIGHT)) {
+					while(grid[x1][nextY].getType().equals(CellType.ICE)) {
+						x1+=1;
+					}
+					nextX = x1;
+				}else if(event.getCode().equals(KeyCode.LEFT)) {
+					while(grid[x1][nextY].getType().equals(CellType.ICE)) {
+						x1-=1;
+					}
+					nextX = x1;
+				}else if(event.getCode().equals(KeyCode.UP)) {
+					while(grid[nextX][y1].getType().equals(CellType.ICE)) {
+						y1 -= 1;
+					}
+					nextY = y1;
+				}else if(event.getCode().equals(KeyCode.DOWN)) {
+					while(grid[nextX][y1].getType().equals(CellType.ICE)) {
+						y1+= 1;
+					}
+					nextY = y1;
+				}
 			}
 			break;
 		case TELEPORTER:
@@ -182,13 +232,15 @@ public class Player extends Character {
 				nextX = nextCell.getLinkX();
 				nextY = nextCell.getLinkY() + 1;
 			}
+			playSound("src/media/sound/teleport.wav");
 		case EMPTY:			
 			// if next cell does not hold an enemy then check if has an item
 			if(nextCell.getItem() != null) {
 				addToInventory(nextCell.getItem());
 				nextCell.setItem(null);
+				playSound("src/media/sound/pickup.wav");
 			}
-			break; 
+			break;
 		default:
 			break;
 		}

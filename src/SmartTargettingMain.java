@@ -1,16 +1,16 @@
 //TESTING TO BE REMOVED
+import java.util.*;
 public class SmartTargettingMain {
 
 	public static void main(String[] args) {
-		SmartTargettingEnemy test = new SmartTargettingEnemy(1,3);
-	
-		Player player = new Player(4,3);
+		SmartTargettingEnemy test = new SmartTargettingEnemy(2,2);
+		Player player = new Player(4,4);
 		char[][] map = {
 				{'W', 'W', 'W', 'W', 'W', 'W'},
-				{'W', '_', '_', '_', '_', 'W'},
-				{'W', '_', '_', '_', '_', 'W'},
-				{'W', '_', '_', '_', '_', 'W'},
-				{'W', '_', '_', '_', '_', 'W'},
+				{'W', '_', '_', 'W', '_', 'W'},
+				{'W', '_', '_', 'W', '_', 'W'},
+				{'W', '_', '_', 'W', '_', 'W'},
+				{'W', '_', '_', 'W', '_', 'W'},
 				{'W', 'W', 'W', 'W', 'W', 'W'}
 		};
 		for (int y = 0; y < 6; y++) {
@@ -27,6 +27,5 @@ public class SmartTargettingMain {
 		}
 		int[] nextMove = test.getMove(player, map);
 		System.out.println(nextMove[0] + "," + nextMove[1]);
-		
 	}
 }
