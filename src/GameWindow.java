@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -253,6 +255,12 @@ public class GameWindow {
 					if(p.hasItem(Collectable.LIFE, 1)) {
 						p.useItem(Collectable.LIFE, 1);
 						GameState.killEnemy(i);
+						
+						String bip = "src/media/sound/life_lost.mp3";
+						Media hit = new Media(new File(bip).toURI().toString());
+						MediaPlayer mediaPlayer = new MediaPlayer(hit);
+						mediaPlayer.play();
+						
 					}else {
 						// kill player
 					}
