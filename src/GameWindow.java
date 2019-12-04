@@ -85,11 +85,13 @@ public class GameWindow {
 			
 			ImageView background = new ImageView(new Image(
 					new FileInputStream("src/media/img/background.png")));
-			
+
 			layout.getChildren().addAll(background, borderPane);
 			scene = new Scene(layout, 1200, 700);
 			scene.setOnKeyPressed(e -> processKeyEvent(e));
 			scene.getStylesheets().add("gameWindow.css");
+			background.fitHeightProperty().bind(scene.heightProperty());
+			background.fitWidthProperty().bind(scene.widthProperty());
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: Failed to load image(s).");
 			e.printStackTrace();
