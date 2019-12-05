@@ -11,7 +11,6 @@ public class PopUp {
     private String message;
     private boolean success;
     
-
     public PopUp(String message, boolean success) {
     	this.message = message; 
     	this.success = success;
@@ -30,7 +29,7 @@ public class PopUp {
     	
     	Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        Scene scene = new Scene(dBox, 300, 100);
+        Scene scene = new Scene(dBox, 500, 100);
         scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.show();
