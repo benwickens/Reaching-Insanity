@@ -62,3 +62,14 @@
 	-fx-text-alignment: center;
 }
 
+VBox, HBox{
+	-fx-alignment: center;
+}
+
+#success{
+	-fx-text-fill: green;
+}
+
+#error{
+	-fx-text-fill: red;
+}

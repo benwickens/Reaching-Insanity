@@ -180,19 +180,19 @@ public class PlayerEditor {
 								name.getText() + "\"");
 						if(r.next()) {
 							// show error - name already taken
-							PopUp a = new PopUp("ERROR: name already taken",true);
-							Stage stageP = new Stage();
-							stageP.setScene(a.getScene());
-							stageP.show();
+//							PopUp a = new PopUp("ERROR: name already taken",true);
+//							Stage stageP = new Stage();
+//							stageP.setScene(a.getScene());
+//							stageP.show();
 						}else {
 							// name is fine, continue
 							db.manipulate("INSERT INTO player VALUES (\"" + 
 									name.getText() + "\", 0, " + currentPlayerNum + ")");
 							// show success
-							PopUp a = new PopUp("success",false);
-							Stage stageP = new Stage();
-							stageP.setScene(a.getScene());
-							stageP.show();
+//							PopUp a = new PopUp("success",false);
+//							Stage stageP = new Stage();
+//							stageP.setScene(a.getScene());
+//							stageP.show();
 							backToMain(e);
 						}
 					}catch(SQLException e2) {
@@ -208,10 +208,10 @@ public class PlayerEditor {
 			contents.getChildren().add(box);
 			
 		}catch(FileNotFoundException e) {
-			PopUp a = new PopUp("ERROR: Failed to load image(s).",false);
-			Stage stageP = new Stage();
-			stageP.setScene(a.getScene());
-			stageP.show();
+//			PopUp a = new PopUp("ERROR: Failed to load image(s).",false);
+//			Stage stageP = new Stage();
+//			stageP.setScene(a.getScene());
+//			stageP.show();
 			System.out.println("ERROR: Failed to load image(s).");
 			e.printStackTrace();
 		}		
@@ -258,10 +258,10 @@ public class PlayerEditor {
 		return players;
 	}
 	private void messageSQL(){
-		PopUp a = new PopUp("ERROR: SQL",true);
-		Stage stageP = new Stage();
-		stageP.setScene(a.getScene());
-		stageP.show();
+//		PopUp a = new PopUp("ERROR: SQL",true);
+//		Stage stageP = new Stage();
+//		stageP.setScene(a.getScene());
+//		stageP.show();
 	}
 
 	public Scene getScene() {
