@@ -296,6 +296,7 @@ public class GameState {
 		cellAbbreviations.put(CellType.TELEPORTER, "TP");
 		cellAbbreviations.put(CellType.WATER, "WA");
 		cellAbbreviations.put(CellType.GOAL, "G");
+		cellAbbreviations.put(CellType.TOKEN_DOOR, "CDT");
 		
 		itemAbbreviations = new HashMap<>();
 		itemAbbreviations.put(Collectable.TOKEN, "TK");

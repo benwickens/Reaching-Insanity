@@ -76,7 +76,8 @@ public class Cell {
 				break;
 			default:
 				Random r = new Random();
-				fis = new FileInputStream(GRID_IMAGES + "floor_" + (r.nextInt(3) + 1) + ".png");    
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");
+				//(r.nextInt(3) + 1) + ".png");    
 			}
 
 			cellImage = new ImageView(new Image(fis));

@@ -49,7 +49,7 @@ public class PlayerEditor {
 			// background
 			ImageView background = new ImageView(new Image(
 					new FileInputStream(IMG_FOLDER + "background.png")));
-			
+
 			baseLayout.getChildren().add(background);
 			
 			// main contents
@@ -112,6 +112,8 @@ public class PlayerEditor {
 			baseLayout.getChildren().add(contents);
 			
 			scene = new Scene(baseLayout, 1200, 700);
+            background.fitHeightProperty().bind(scene.heightProperty());
+            background.fitWidthProperty().bind(scene.widthProperty());
 			scene.getStylesheets().add("style.css");
 			
 		} catch (FileNotFoundException e) {
