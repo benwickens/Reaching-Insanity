@@ -23,37 +23,19 @@ public class PopUp {
     public Scene getScene() {
         switch (message){
             case "ERROR: name already taken":
+            case "ERROR: you need to select two different players":
+            case "ERROR: you need to select a player and a level":
+            case "Error: level file not found":
+            case "ERROR: File not formatted properly.":
+            case "ERROR: Failed to load image(s).":
+            case "ERROR: SQL":
+            case "ERROR: getting player image":
+            case "ERORR: character image not found.":
+            case "ERROR: Cannot create file.":
                 abc = message;
                 break;
             case "success":
                 abc = "Player Created !";
-                break;
-            case "ERROR: you need to select two different players":
-                abc = "you need to select two different players";
-                break;
-            case "ERROR: you need to select a player and a level":
-                abc = " you need to select a player and a level";
-                break;
-            case "Error: level file not found":
-                abc = "Error: level file not found.";
-                break;
-            case "ERROR: File not formatted properly.":
-                abc = "ERROR: File not formatted properly.";
-                break;
-            case "ERROR: Failed to load image(s).":
-                abc = "ERROR: Failed to load image(s).";
-                break;
-            case "ERROR: SQL":
-                abc = "ERROR: SQL";
-                break;
-            case "ERROR: getting player image":
-                abc = "ERROR: getting player image";
-                break;
-            case "ERORR: character image not found.":
-                abc = "ERORR: character image not found.";
-                break;
-            case "ERROR: Cannot create file.":
-                abc ="ERROR: Cannot create file.";
                 break;
         }
             if (b=true){
