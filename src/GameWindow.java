@@ -21,12 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class GameWindow {
 
@@ -98,6 +94,7 @@ public class GameWindow {
 	private Timeline viewUpdater;
 
 
+	
 	public GameWindow(String player1Name, String player2Name, File levelFile) {		
 		try {
 			// start with instantiating the base layout 
@@ -155,6 +152,10 @@ public class GameWindow {
 			
 			// all data needed by this class is now stored. This is all
 			// a constructor should really do so we are done.
+			System.out.println("GAMEWINDOW");
+			System.out.println(hours);
+			System.out.println(minutes);
+			System.out.println(seconds);
 		} catch (FileNotFoundException | SQLException e) {
 			System.out.println("ERROR: Failed to load image(s) or SQL Exception.");
 			e.printStackTrace();
@@ -166,7 +167,7 @@ public class GameWindow {
 		return scene;
 	}
 
-	public String getTime() {
+	private String getTime() {
 		String h = (hours >= 10 ? "" : "0") + hours;
 		String m = (minutes >= 10 ? "" : "0") + minutes;
 		String s = (seconds >= 10 ? "" : "0") + seconds;
@@ -355,7 +356,7 @@ public class GameWindow {
 		return right;
 	}
 
-	public void processKeyEvent(KeyEvent event) {
+	private void processKeyEvent(KeyEvent event) {
 		if (!paused && !updatingView) {
 			Player player;
 			if(currentPlayer == 1 || !multiPlayer) {
@@ -366,6 +367,8 @@ public class GameWindow {
 			
 			// move player
 			player.move(gameState.getGrid(), event);
+			
+			
 			
 			// move enemies and use life or die if same location as player
 			Iterator<Character> iter = gameState.getEnemies().iterator();
@@ -440,14 +443,38 @@ public class GameWindow {
 		}
 		event.consume();
 	}
+
 	
-	public static GameState getGameState() {
-		return gameState;
+
+
+	// this is static because we need to be able to get the seconds 
+	// spent on the level from multiple locations that don't
+	// have a reference to the game window and would make little
+	// sense if they did.
+	// e.g. the FileManager needs to be able to get the seconds spent on
+	// the level for saving purposes, however it doesn't make sense for
+	// the file manager to "store" the Game Window. Hence we need static
+	// access to this.
+	public static int getSeconds() {
+		return seconds + (60 * minutes) + (60 * 60 * hours);
 	}
-
-
 	
-	public void updateView() {
+	// same goes for the setters of the respective variables
+	public static void setSeconds(int x) {
+		seconds = x;
+	}
+	
+	public static void setMinutes(int x) {
+		minutes = x;
+	}
+	
+	public static void setHours(int x) {
+		hours = x;
+	}
+	
+	
+	
+	private void updateView() {
 		try {			
 			gridPane = getGrid();
 			borderPane.setCenter(gridPane);

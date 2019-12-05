@@ -28,9 +28,6 @@ public class GameState {
 	
 	/**All of the enemies currently alive*/
 	private static ArrayList<Character> enemies; 
-
-	/**The epoch at which the level started*/
-	private long startTimeMillis;
 	
 	private Database db;
 
@@ -47,9 +44,6 @@ public class GameState {
 		// instantiate the database - needed to find the image and 
 		// highest level, which are parameters to the player class.
 		db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
-		
-		// set the start time millis (milliseconds since jan 1st 1990)
-		startTimeMillis = System.currentTimeMillis();
 		
 		// create the player objects from data retrieved from sql query
 		ResultSet rs = db.query("SELECT highest_level, image_id FROM player WHERE name=\"" + player1Name + "\"");
@@ -136,13 +130,4 @@ public class GameState {
 	public int getLevel() {
 		return level;
 	}
-
-	public long getStartTimeMillis() {
-		return startTimeMillis;
-	}
-
-	public void setStartTimeMillis(long startTimeMillis) {
-		this.startTimeMillis = startTimeMillis;
-	}
-	
 }
