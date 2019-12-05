@@ -152,10 +152,6 @@ public class GameWindow {
 			
 			// all data needed by this class is now stored. This is all
 			// a constructor should really do so we are done.
-			System.out.println("GAMEWINDOW");
-			System.out.println(hours);
-			System.out.println(minutes);
-			System.out.println(seconds);
 		} catch (FileNotFoundException | SQLException e) {
 			System.out.println("ERROR: Failed to load image(s) or SQL Exception.");
 			e.printStackTrace();

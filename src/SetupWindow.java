@@ -83,7 +83,6 @@ public class SetupWindow {
 						File player1Folder = new File("src/SavedGames/" + player1Selector.getValue());
 						if(player1Folder.isDirectory()) {
 							for(File f : player1Folder.listFiles()) {
-								System.out.println(f.getName());
 								if(f.getName().startsWith(levelSelector.getValue())) {
 									previouslySaved = true;
 								}

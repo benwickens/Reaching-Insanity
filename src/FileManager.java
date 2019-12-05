@@ -216,11 +216,6 @@ public class FileManager {
 					int minutes = (timeTaken % 3600) / 60;
 					int seconds = ((timeTaken % 3600) % 60) % 60;
 					
-					System.out.println("FILE READER");
-					System.out.println(hours);
-					System.out.println(minutes);
-					System.out.println(seconds);
-					
 					GameWindow.setHours(hours);
 					GameWindow.setMinutes(minutes);
 					GameWindow.setSeconds(seconds);

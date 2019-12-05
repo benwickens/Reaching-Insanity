@@ -1,6 +1,7 @@
 15,13
-null,
-null,
+null
+null
+0
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
 W,E:P1,E,E,W,W,W,E:P2,E,E,E,E,E,E,W
 W,E,E,E,E,E,W,E:SLE,E,E,W,CDB,W,E:FL,W
