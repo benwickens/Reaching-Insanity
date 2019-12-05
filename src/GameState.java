@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,8 +45,11 @@ public class GameState {
 	 * @param player1Name the name of the player1
 	 * @throws SQLException 
 	 */
-	public GameState(String player1Name, String player2Name, int level) throws SQLException {
-		File levelFile = new File("src/levels/Level " + level + ".txt");
+	public GameState(String player1Name, String player2Name, File levelFile) throws SQLException {
+		this.level = Integer.parseInt(levelFile.getName().substring(6, levelFile.getName().indexOf(".txt")));
+		// multiplayer is level 100, so don't update highest level for players on completion.
+		
+
 		
 		db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
 		
@@ -83,12 +88,32 @@ public class GameState {
 					grid = new Cell[xSize][ySize];
 				}else if(y == 1) { // second line is the inventory of player 1
 					if(!cells[0].equals("null")) {
-						// read in player1 inventory
-					}					
+						for(int i = 0; i < cells.length; i++) {
+							String[] parts = cells[i].split(":");
+							String itemAbbr = parts[0].replace(" ", "");
+							int amount = Integer.parseInt(parts[1]);
+							
+							for(Collectable c : Collectable.values()) {
+								if(itemAbbreviations.get(c).equals(itemAbbr)) {
+									player1.addToInventory(c, amount);
+								}
+							}
+						}
+					}	
 				}else if(y == 2){ // third line is the inventory of player 2
 					if(!cells[0].equals("null")) {
-						//read in player2 inventory
-					}
+						for(int i = 0; i < cells.length; i++) {
+							String[] parts = cells[i].split(":");
+							String itemAbbr = parts[0].replace(" ", "");
+							int amount = Integer.parseInt(parts[1]);
+							
+							for(Collectable c : Collectable.values()) {
+								if(itemAbbreviations.get(c).equals(itemAbbr)) {
+									player2.addToInventory(c, amount);
+								}
+							}
+						}
+					}	
 				}else {
 					for(int x = 0; x < cells.length; x++) {
 						CellType type = null;
@@ -166,6 +191,17 @@ public class GameState {
 	 */
 	public void save(){
 		String outputStr = "";
+		
+		outputStr += grid.length + "," + grid.length + "\n";
+		
+		outputStr += player1.getInventoryString() + "\n";
+		
+		if(player2 == null) {
+			outputStr += "null\n";
+		}else {
+			outputStr += player2.getInventoryString() + "\n";
+		}
+		
 		for(int y = 0; y < grid.length; y++) { // each row (line)
 			for(int x = 0; x < grid.length; x++) { // each cell in a row 
 				Cell c = grid[x][y];			
@@ -173,13 +209,15 @@ public class GameState {
 				
 				if(t.equals(CellType.EMPTY)) {
 					if(player1.getX() == x && player1.getY() == y) {
-						outputStr += "P";
+						outputStr += "E:P1";
+					}else if(player2 != null && player2.getX() == x && player2.getY() == y) {
+						outputStr += "E:P2";
 					}else {
 						boolean hasEnemy = false;
 						for(Character e : enemies) {
 							if(e.getX() == x && e.getY() == y) {
 								String enemyType =  e.getClass().getName();
-								String abbr = "";
+								String abbr = "E:";
 								for(int i = 0; i < enemyType.length(); i++) {
 									if(java.lang.Character.isUpperCase(enemyType.charAt(i))) {
 										abbr += enemyType.charAt(i);
@@ -216,25 +254,32 @@ public class GameState {
 			}
 		}
 		
-//		UNCOMMENT LATER, PREVENTS level0.txt being updated constantly
-//		try {
-//			File outputFolder = new File("src/SavedGames/" + player.getName());
-//			if(!outputFolder.exists()) {
-//				outputFolder.mkdirs();	
-//			}
-//			File outputFile = new File(outputFolder.getPath() + "/level" + level + ".txt");
-//			outputFile.createNewFile();
-//			PrintWriter w = new PrintWriter(outputFile);
-//			w.print(outputStr);
-//			w.print(player.getInventoryString());
-//			w.flush();
-//			w.close();
-//		} catch (IOException e) {
-//			System.out.println("ERROR: Cannot create file.");
-//			e.printStackTrace();
-//		}
+		try {
+			saveFile(player1, outputStr);
+			if(player2 != null) {
+				saveFile(player2, outputStr);
+			}
+		} catch (IOException e) {
+			System.out.println("ERROR: Cannot create file.");
+			e.printStackTrace();
+		}
 	}
 
+	private void saveFile(Player p, String outputStr) throws IOException {
+		File outputFolder = new File("src/SavedGames/" + p.getName());
+		if(!outputFolder.exists()) {
+			outputFolder.mkdirs();	
+		}
+		String outputFilePath = outputFolder.getPath() + "/Level " + level + ".txt";
+		
+		File outputFile = new File(outputFilePath);
+		outputFile.createNewFile();
+		PrintWriter w = new PrintWriter(outputFile);
+		w.print(outputStr);
+		w.flush();
+		w.close();
+	}
+	
 	/**
 	 * Converts the given Cell type to it's string abbreviation
 	 */
@@ -246,6 +291,7 @@ public class GameState {
 		cellAbbreviations.put(CellType.FIRE, "F");
 		cellAbbreviations.put(CellType.GREEN_DOOR, "CDG");
 		cellAbbreviations.put(CellType.RED_DOOR, "CDR");
+		cellAbbreviations.put(CellType.TOKEN_DOOR, "TDR");
 		cellAbbreviations.put(CellType.ICE, "I");
 		cellAbbreviations.put(CellType.TELEPORTER, "TP");
 		cellAbbreviations.put(CellType.WATER, "WA");

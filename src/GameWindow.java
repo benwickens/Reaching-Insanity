@@ -33,31 +33,45 @@ public class GameWindow {
 	
 	/**Used to update the timer*/
 	private Timeline timeline;
+	
 	/**the scene to put on the window*/
 	private Scene scene;
+	
 	/**true if the game is paused*/
 	private boolean paused;
+	
 	/**the number of hours spent on the current level*/
 	private int hours;
+	
 	/**the number of minutes spent on the current level*/
 	private int minutes;
+	
 	/**the number of seconds spent on the current level*/
 	private int seconds;
+	
 	/**the pane containing the grid*/
 	private GridPane gridPane;
+	
 	/**holds a reference to the current game state*/
 	private static GameState gameState;
+	
 	/**the overall layout of the scene*/
 	private BorderPane borderPane;
+	
 	/**used to put a background underneath borderpane*/
 	private StackPane layout;
+	
+	private Timeline viewUpdater;
+	private boolean updatingView;
+	
 	private boolean multiPlayer;
 	private int currentPlayer;
 
-	public GameWindow(String player1Name, String player2Name, int level) {
+	public GameWindow(String player1Name, String player2Name, File level) {
 		layout = new StackPane();
 		borderPane = new BorderPane();
 		currentPlayer = 1;
+		updatingView = false;
 
 		if(player2Name != null) {
 			multiPlayer = true;
@@ -261,10 +275,19 @@ public class GameWindow {
 		});
 
 		Button exitGame = new Button("Exit and Save");
+		
+		if(multiPlayer) {
+			exitGame.setText("Exit Game");
+		}
+		
 		exitGame.setOnAction(e -> {
 			timeline.pause();
 			paused = true;
-			gameState.save();
+			
+			if(!multiPlayer) {
+				gameState.save();
+			}
+			
 			try {
 				Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
 				Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -280,7 +303,7 @@ public class GameWindow {
 	}
 
 	public void processKeyEvent(KeyEvent event) {
-		if (!paused) {
+		if (!paused && !updatingView) {
 			Player player;
 			if(currentPlayer == 1 || !multiPlayer) {
 				player  = gameState.getPlayer1();
@@ -312,19 +335,28 @@ public class GameWindow {
 			}
 			
 			updateView(); // update view for the current player
+			System.out.println("update player " + currentPlayer + " view");
 			
-			// if multiplayer, wait .5s and then swap to new player
+			// if multiplayer, wait 1s and then swap to new player
 			if(multiPlayer) {
-				// swap to next player
-				if(currentPlayer == 1) {
-					currentPlayer = 2;
-				}else {
-					currentPlayer = 1;
-				}
+				updatingView = true;
+				viewUpdater = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
+					// swap to next player
+					if(currentPlayer == 1) {
+						currentPlayer = 2;
+					}else {
+						currentPlayer = 1;
+					}
+					System.out.println("update player " + currentPlayer + " view");
+					updateView();
+					updatingView = false;
+				}));
+				viewUpdater.setCycleCount(1);
+				viewUpdater.play();
 				
-				// update view for the new player
-				updateView();
 			}			
+		}else {
+			System.out.println("UPDATING VIEW, WAIT");
 		}
 		event.consume();
 	}

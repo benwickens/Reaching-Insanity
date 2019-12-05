@@ -54,6 +54,15 @@ public class Player extends Character {
             inventory.put(item, 1);
     	}
     }
+    
+    //Adds a collectable to the players inventory
+    public void addToInventory(Collectable item, int amount) {
+    	if(inventory.containsKey(item)) {
+            inventory.replace(item, inventory.get(item) + amount);
+    	}else {
+            inventory.put(item, amount);
+    	}
+    }
 
     //Checks to see if the player has the item in their inventory
     public boolean hasItem(Collectable item, Integer amount) {
@@ -81,10 +90,23 @@ public class Player extends Character {
     }
 
     public String getInventoryString() {
+		HashMap<Collectable, String> itemAbbreviations = new HashMap<Collectable, String>();
+		itemAbbreviations.put(Collectable.TOKEN, "TK");
+		itemAbbreviations.put(Collectable.LIFE, "L");
+		itemAbbreviations.put(Collectable.RED_KEY, "RK");
+		itemAbbreviations.put(Collectable.GREEN_KEY, "GK");
+		itemAbbreviations.put(Collectable.BLUE_KEY, "BK");
+		itemAbbreviations.put(Collectable.ICE_SKATES, "IS");
+		itemAbbreviations.put(Collectable.FLIPPERS, "FL");
+		itemAbbreviations.put(Collectable.FIRE_BOOTS, "FB");
+    	
         String output = "";
         if(inventory.size() > 0) {
             for(Collectable c : Collectable.values()) {
-                output += c.toString() + ":" + inventory.get(c) + ", ";
+            	if(inventory.get(c) == null) {
+            		inventory.put(c, 0);
+            	}
+                output += itemAbbreviations.get(c) + ":" + inventory.get(c) + ", ";
             }
             return output.substring(0, output.length() - 2);
         }
@@ -233,6 +255,13 @@ public class Player extends Character {
 				nextY = nextCell.getLinkY() + 1;
 			}
 			playSound("src/media/sound/teleport.wav");
+		case GOAL:
+			// multiplayer is level 100, so don't update highest level for players on completion.
+			// also to make things simpler, if multiplayer only require that one player steps on the goal
+//			if(GameWindow.multiPlayer) {
+//				
+//			}
+			break;
 		case EMPTY:			
 			// if next cell does not hold an enemy then check if has an item
 			if(nextCell.getItem() != null) {
