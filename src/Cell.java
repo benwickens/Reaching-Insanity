@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * Represents a "cell" in the game (wall, empty, fire...)
@@ -116,6 +117,10 @@ public class Cell {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: could not load image(s).");
+			PopUp a = new PopUp("ERROR: could not load image(s).",false);
+			Stage stageP = new Stage();
+			stageP.setScene(a.getScene());
+			stageP.show();
 			e.printStackTrace();
 			System.exit(-1);
 		}

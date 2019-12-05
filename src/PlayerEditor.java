@@ -121,6 +121,7 @@ public class PlayerEditor {
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (SQLException e2) {
+			messageSQL();
 			System.out.println("ERROR: SQL.");
 			e2.printStackTrace();
 			System.exit(-1);
@@ -179,18 +180,23 @@ public class PlayerEditor {
 								name.getText() + "\"");
 						if(r.next()) {
 							// show error - name already taken
-							b = false;
-
+							PopUp a = new PopUp("ERROR: name already taken",true);
+							Stage stageP = new Stage();
+							stageP.setScene(a.getScene());
+							stageP.show();
 						}else {
 							// name is fine, continue
 							db.manipulate("INSERT INTO player VALUES (\"" + 
 									name.getText() + "\", 0, " + currentPlayerNum + ")");
 							// show success
-							b = true;
+							PopUp a = new PopUp("success",false);
+							Stage stageP = new Stage();
+							stageP.setScene(a.getScene());
+							stageP.show();
 							backToMain(e);
 						}
-						displaySucess(name,b);
 					}catch(SQLException e2) {
+						messageSQL();
 						System.out.println("ERROR: SQL");
 						e2.printStackTrace();
 						System.exit(-1);
@@ -202,34 +208,13 @@ public class PlayerEditor {
 			contents.getChildren().add(box);
 			
 		}catch(FileNotFoundException e) {
+			PopUp a = new PopUp("ERROR: Failed to load image(s).",false);
+			Stage stageP = new Stage();
+			stageP.setScene(a.getScene());
+			stageP.show();
 			System.out.println("ERROR: Failed to load image(s).");
 			e.printStackTrace();
 		}		
-	}
-	/*
-	display success or fail message
-	 */
-	private void displaySucess(TextField name,boolean ab) {
-		String abc;
-		final Stage dialog = new Stage();
-		dialog.initModality(Modality.APPLICATION_MODAL);
-		VBox dialogVbox = new VBox(20);
-		Scene dialogScene = new Scene(dialogVbox, 300, 100);
-		if(ab == true){
-			abc = name.getText() + " created";
-			dialogVbox.getChildren().add(new Text(abc));
-		}else{
-			abc = (name.getText() + " is already taken  \nPlease choose another name");
-			Button back = new Button("Back");
-			back.setOnAction(e -> {
-				dialog.close();
-			});
-			dialogVbox.getChildren().addAll(new Text(abc),back);
-		}
-		dialogVbox.setAlignment(Pos.CENTER);
-		dialog.setResizable(false);
-		dialog.setScene(dialogScene);
-		dialog.show();
 	}
 
 	private void displayOldPlayerContent() {
@@ -264,6 +249,7 @@ public class PlayerEditor {
 			}
 			
 		} catch (SQLException e) {
+			messageSQL();
 			System.out.println("ERROR: SQL");
 			e.printStackTrace();
 			System.exit(-1);
@@ -271,7 +257,13 @@ public class PlayerEditor {
 		
 		return players;
 	}
-	
+	private void messageSQL(){
+		PopUp a = new PopUp("ERROR: SQL",true);
+		Stage stageP = new Stage();
+		stageP.setScene(a.getScene());
+		stageP.show();
+	}
+
 	public Scene getScene() {
 		return scene;
 	}

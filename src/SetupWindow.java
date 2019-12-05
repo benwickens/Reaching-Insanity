@@ -99,6 +99,10 @@ public class SetupWindow {
 							stage.setScene(gameWindow.getScene());
 						}						
 					}else {
+						PopUp a = new PopUp("ERROR: you need to select a player and a level",true);
+						Stage stageP = new Stage();
+						stageP.setScene(a.getScene());
+						stageP.show();
 						System.out.println("ERROR: you need to select a player and a level");
 					}
 				}else {
@@ -109,6 +113,10 @@ public class SetupWindow {
 						GameWindow gameWindow = new GameWindow(player1Selector.getValue(), player2Selector.getValue(), f);
 						stage.setScene(gameWindow.getScene());
 					}else {
+						PopUp a = new PopUp("ERROR: you need to select two different players",true);
+						Stage stageP = new Stage();
+						stageP.setScene(a.getScene());
+						stageP.show();
 						System.out.println("ERROR: you need to select two different players");
 					}
 				}
@@ -132,10 +140,15 @@ public class SetupWindow {
 			scene.getStylesheets().add("style.css");
 
 		} catch (FileNotFoundException e) {
+			PopUp a = new PopUp("ERROR: Failed to load image(s).",true);
+			Stage stageP = new Stage();
+			stageP.setScene(a.getScene());
+			stageP.show();
 			System.out.println("ERROR: Failed to load image(s).");
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (SQLException e2) {
+			messageSQL();
 			System.out.println("ERROR: SQL.");
 			e2.printStackTrace();
 			System.exit(-1);
@@ -171,6 +184,7 @@ public class SetupWindow {
 				contents.getChildren().addAll(existingPlayers, player2Icon);
 			}
 		}catch(FileNotFoundException e) {
+			messagePLI();
 			System.out.println("ERROR: getting player image");
 			e.printStackTrace();
 			System.exit(-1);
@@ -194,6 +208,7 @@ public class SetupWindow {
 
 
 			} catch (FileNotFoundException | SQLException e1) {
+				messagePLI();
 				System.out.println("ERROR: getting player image");
 				e1.printStackTrace();
 				System.exit(-1);
@@ -267,6 +282,7 @@ public class SetupWindow {
 			}
 
 		} catch (SQLException e) {
+			messageSQL();
 			System.out.println("ERROR: SQL");
 			e.printStackTrace();
 			System.exit(-1);
@@ -274,7 +290,18 @@ public class SetupWindow {
 
 		return players;
 	}
-
+	private void messageSQL(){
+		PopUp a = new PopUp("ERROR: SQL",true);
+		Stage stageP = new Stage();
+		stageP.setScene(a.getScene());
+		stageP.show();
+	}
+	private void messagePLI(){
+		PopUp a = new PopUp("ERROR: getting player image",true);
+		Stage stageP = new Stage();
+		stageP.setScene(a.getScene());
+		stageP.show();
+	}
 	public Scene getScene() {
 		return scene;
 	}
