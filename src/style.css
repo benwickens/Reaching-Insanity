@@ -62,3 +62,34 @@
 	-fx-text-alignment: center;
 }
 
+VBox, HBox{
+	-fx-alignment: center;
+}
+
+TextField{
+	-fx-background-color: #6C6564;
+	-fx-font-size: 13;
+	-fx-padding: 5px;
+	-fx-opacity: 1.0;
+	-fx-text-fill: white;
+}
+
+#success{
+	-fx-text-fill: green;
+}
+
+#error{
+	-fx-text-fill: red;
+}
+
+#danger{
+	-fx-background-color: #D25757;
+}
+#safe{
+	-fx-background-color: #3CB371;
+}
+
+.check-box {
+	-fx-font-size: 20;
+	-fx-text-fill: red;
+}

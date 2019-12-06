@@ -1,6 +1,10 @@
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
@@ -18,6 +22,8 @@ public class Player extends Character {
     private Integer highestLevel;
     private HashMap<Collectable, Integer> inventory;
     private int imageID;
+    private boolean isDead;
+    private boolean hasWon;
     
 
     /**
@@ -54,6 +60,15 @@ public class Player extends Character {
             inventory.put(item, 1);
     	}
     }
+    
+    //Adds a collectable to the players inventory
+    public void addToInventory(Collectable item, int amount) {
+    	if(inventory.containsKey(item)) {
+            inventory.replace(item, inventory.get(item) + amount);
+    	}else {
+            inventory.put(item, amount);
+    	}
+    }
 
     //Checks to see if the player has the item in their inventory
     public boolean hasItem(Collectable item, Integer amount) {
@@ -81,10 +96,23 @@ public class Player extends Character {
     }
 
     public String getInventoryString() {
+		HashMap<Collectable, String> itemAbbreviations = new HashMap<Collectable, String>();
+		itemAbbreviations.put(Collectable.TOKEN, "TK");
+		itemAbbreviations.put(Collectable.LIFE, "L");
+		itemAbbreviations.put(Collectable.RED_KEY, "RK");
+		itemAbbreviations.put(Collectable.GREEN_KEY, "GK");
+		itemAbbreviations.put(Collectable.BLUE_KEY, "BK");
+		itemAbbreviations.put(Collectable.ICE_SKATES, "IS");
+		itemAbbreviations.put(Collectable.FLIPPERS, "FL");
+		itemAbbreviations.put(Collectable.FIRE_BOOTS, "FB");
+    	
         String output = "";
         if(inventory.size() > 0) {
             for(Collectable c : Collectable.values()) {
-                output += c.toString() + ":" + inventory.get(c) + ", ";
+            	if(inventory.get(c) == null) {
+            		inventory.put(c, 0);
+            	}
+                output += itemAbbreviations.get(c) + ":" + inventory.get(c) + ", ";
             }
             return output.substring(0, output.length() - 2);
         }
@@ -162,33 +190,62 @@ public class Player extends Character {
 			}
 			break;
 		case TOKEN_DOOR:
-			if(hasItem(Collectable.TOKEN, 5)) {
-				useItem(Collectable.TOKEN, 5);
-				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
-				playSound("src/media/sound/unlock.wav");
+			if(nextCell.getTokens() == 5) {
+				if(hasItem(Collectable.TOKEN, 5)) {
+					grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+					playSound("src/media/sound/unlock.wav");
+				}else {
+					nextX = x;
+					nextY = y;
+					playSound("src/media/sound/bump.wav");
+				}
 			}else {
-				nextX = x;
-				nextY = y;
-				playSound("src/media/sound/bump.wav");
+				if(hasItem(Collectable.TOKEN, 2)) {
+					grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+					playSound("src/media/sound/unlock.wav");
+				}else {
+					nextX = x;
+					nextY = y;
+					playSound("src/media/sound/bump.wav");
+				}
 			}
+			
 			break;
 		case FIRE:
 			if(!hasItem(Collectable.FIRE_BOOTS, 1)) {
-				// resetLevel();
+				// set player to dead
+				isDead = true;
+				playSound("src/media/sound/life_lost.mp3");
+				// update location
+				nextX = x;
+				nextY = y;
+				// now check in gamestate after move if player is dead
 			}else {
 				playSound("src/media/sound/fire.wav");
 			}
 			break;
 		case WATER:
 			if(!hasItem(Collectable.FLIPPERS, 1)) {
-				// resetLevel();
+				// set player to dead
+				isDead = true;
+				playSound("src/media/sound/life_lost.mp3");
+				// update location
+				nextX = x;
+				nextY = y;
+				// now check in gamestate after move if player is dead
 			}else {
 				playSound("src/media/sound/water.wav");
 			}
 			break; 
 		case ICE:
 			if(!hasItem(Collectable.ICE_SKATES, 1)) {
-				// resetLevel();
+				// set player to dead
+				isDead = true;
+				playSound("src/media/sound/life_lost.mp3");
+				// update location
+				nextX = x;
+				nextY = y;
+				// now check in gamestate after move if player is dead
 			}else {
 				playSound("src/media/sound/ice.wav");
 
@@ -233,8 +290,20 @@ public class Player extends Character {
 				nextY = nextCell.getLinkY() + 1;
 			}
 			playSound("src/media/sound/teleport.wav");
-		case EMPTY:			
-			// if next cell does not hold an enemy then check if has an item
+			break;
+		case GOAL:
+			// multiplayer is level 100, so don't update highest level for players on completion.
+			nextX = x;
+			nextY = y;
+			hasWon = true;
+			break;
+		case EMPTY:						
+			for(Character e : GameWindow.getGameState().getEnemies()) {
+				if(e.getX() == nextX && e.getY() == nextY) {
+					isDead = true;
+				}
+			}
+			
 			if(nextCell.getItem() != null) {
 				addToInventory(nextCell.getItem());
 				nextCell.setItem(null);
@@ -263,4 +332,22 @@ public class Player extends Character {
 	public void setImageID(int imageID) {
 		this.imageID = imageID;
 	}
+	public boolean hasWon() {
+		return hasWon;
+	}
+	public void setHasWon(boolean hasWon) {
+		this.hasWon = hasWon;
+	}
+	public boolean isDead() {
+		return isDead;
+	}
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
+	
+	public void clearInventory() {
+		inventory.clear();
+	}
+
+	
 }

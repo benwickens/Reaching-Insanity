@@ -1,14 +1,11 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * Represents the state of the game at any point in time (enemy/player locations, state of cells...)
- * @author Stefan, Alan
+ * @author Stefan, Alan, Millie 
  * @version 1.0 Created the rough outline of the class (attributes 
  * and methods but with little implementation) - Stefan <br>
  * 1.1 implemented the constructor which creates a player and loads the cells into the grid - Alan
@@ -19,23 +16,22 @@ public class GameState {
 	
 	/**Represents the state of the cells in the grid*/
 	private Cell[][] grid;
+	
 	/**Reference to player class which stores player location/inventory ... */
 	private Player player1;
+	
 	/**Reference to the second player (null if single player) */
 	private Player player2;
+	
 	/**The current level*/
 	private int level;
+	
 	/**All of the enemies currently alive*/
 	private static ArrayList<Character> enemies; 
-	/**Maps a CellType to a the file abbreviation*/
-	private HashMap<CellType, String> cellAbbreviations;
-	/**Maps a Collectable to a the file abbreviation*/
-	private HashMap<Collectable, String> itemAbbreviations;
-	/**Used when reading teleporters from a file*/
-	private int tempTeleportX = -1;
-	/**Used when reading teleporters from a file*/
-	private int tempTeleportY = -1;
+	
 	private Database db;
+	
+	private File levelFile;
 
 	/**
 	 * Creates a gamestate object
@@ -43,11 +39,16 @@ public class GameState {
 	 * @param player1Name the name of the player1
 	 * @throws SQLException 
 	 */
-	public GameState(String player1Name, String player2Name, int level) throws SQLException {
-		File levelFile = new File("src/levels/Level " + level + ".txt");
+	public GameState(String player1Name, String player2Name, File levelFile) throws SQLException {
+		// as with game window and all other constructors, we have to "set-up" the class,
+		// so set the classes attributes - thats all we really need to do in here!
 		
+		// instantiate the database - needed to find the image and 
+		// highest level, which are parameters to the player class.
 		db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
+		this.levelFile = levelFile;
 		
+		// create the player objects from data retrieved from sql query
 		ResultSet rs = db.query("SELECT highest_level, image_id FROM player WHERE name=\"" + player1Name + "\"");
 		rs.next();
 		player1 = new Player(player1Name, null, rs.getInt("highest_level"), rs.getInt("image_id"));
@@ -58,211 +59,41 @@ public class GameState {
 			player2 = new Player(player2Name, null, rs.getInt("highest_level"), rs.getInt("image_id"));
 		}
 		
-		enemies = new ArrayList<Character>();
-		loadAbbreviations();
-		readFile(levelFile);
+		// now players created we can read in the player inventories, grid and enemies.
+		FileManager fManager = new FileManager();
+		fManager.readFileToGS(levelFile, this);		
+		
+		// all data needed by this class is stored. this is all
+		// a constructor should really do so we are done.
+		//System.out.println("new game state created");
 	}
-	
-
-	
-	/**
-	 * Loads the Cells specified in the input file into the grid 
-	 * @param levelFile the file representing a level
-	 */
-	private void readFile(File levelFile) {
-		try {
-			Scanner s = new Scanner(levelFile);
-			int y = 0;
-			while(s.hasNextLine()) {
-				String line = s.nextLine();
-				String[] cells = line.split(",");
-
-				if(y == 0) { // first line is the size of the grid
-					int xSize = Integer.parseInt(cells[0]);
-					int ySize = Integer.parseInt(cells[1]);
-					grid = new Cell[xSize][ySize];
-				}else if(y == 1) { // second line is the inventory of player 1
-					if(!cells[0].equals("null")) {
-						// read in player1 inventory
-					}					
-				}else if(y == 2){ // third line is the inventory of player 2
-					if(!cells[0].equals("null")) {
-						//read in player2 inventory
-					}
-				}else {
-					for(int x = 0; x < cells.length; x++) {
-						CellType type = null;
-						Collectable item = null;
-						if(cells[x].contains(":")) {
-							// the type of cell is the first part
-							type = getCellType(cells[x].split(":")[0]);
-							// now deal with the extra information
-							String extraInfo = cells[x].split(":")[1];
-							if(extraInfo.equals("P1")) {
-								player1.moveTo(x, y - 3);
-							}else if(extraInfo.equals("P2")) {
-								if(player2 != null) {
-									player2.moveTo(x, y - 3);
-								}
-							}else if(extraInfo.equals("SLE")) {
-								enemies.add(new StraightLineEnemy(x, y - 3, Direction.RIGHT));
-							}
-							else if(extraInfo.equals("WFE")) {
-								enemies.add(new WallFollowingEnemy(x, y - 3, Direction.DOWN));
-							}
-							else if(extraInfo.equals("DTE")) {
-								enemies.add(new DumbTargetingEnemy(x, y - 3));
-							}else if(extraInfo.equals("STE")) {
-								enemies.add(new SmartTargettingEnemy(x, y - 3));
-							}
-							else if(extraInfo.contains("-")) {
-								// then a teleporter as cell is represented as TP:X-Y
-								tempTeleportX = Integer.parseInt(extraInfo.split("-")[0]);
-								tempTeleportY = Integer.parseInt(extraInfo.split("-")[1]);
-							}							
-							else {
-								item = getItemType(cells[x].split(":")[1]);
-							}
-						}else {
-							type = getCellType(cells[x]);
-						}
-
-						// after the above, if the cell type is null then the file is
-						// incorrectly formatted.
-						if(type == null) {
-							System.out.println("ERROR: File not formatted properly.");
-							System.exit(-1);
-						}else {
-							Cell c = new Cell(type, item);
-							if(type.equals(CellType.TELEPORTER) && tempTeleportX != -1) {
-								c.setLinkX(tempTeleportX);
-								c.setLinkY(tempTeleportY);
-								tempTeleportX = -1;
-								tempTeleportY = -1;
-							}
-							grid[x][y - 3] = c;
-						}
-					}
-				}
-				y++;
-			}
-			s.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Error: level file not found.");
-			System.exit(-1);
-		}
-	}
-	
+		
 	public void exitGame(){
 		
 	}
 	
-	public void progressToNextLevel(){
-		
+	//public void progressToNextLevel(GameState gameState){}
+
+	
+
+
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 	
-	/**
-	 * Saves the current state of the game.
-	 */
-	public void save(){
-		String outputStr = "";
-		for(int y = 0; y < grid.length; y++) { // each row (line)
-			for(int x = 0; x < grid.length; x++) { // each cell in a row 
-				Cell c = grid[x][y];			
-				CellType t = c.getType();
-				
-				if(t.equals(CellType.EMPTY)) {
-					if(player1.getX() == x && player1.getY() == y) {
-						outputStr += "P";
-					}else {
-						boolean hasEnemy = false;
-						for(Character e : enemies) {
-							if(e.getX() == x && e.getY() == y) {
-								String enemyType =  e.getClass().getName();
-								String abbr = "";
-								for(int i = 0; i < enemyType.length(); i++) {
-									if(java.lang.Character.isUpperCase(enemyType.charAt(i))) {
-										abbr += enemyType.charAt(i);
-									}
-								}
-								outputStr += abbr;
-								hasEnemy = true;
-							}
-						}
-						if(!hasEnemy) {
-							outputStr += cellAbbreviations.get(t);
-						}
-					}
-					if(c.getItem() != null) {
-						outputStr += ":" + itemAbbreviations.get(c.getItem());
-					}
-				}else if(t.equals(CellType.FIRE) || t.equals(CellType.WATER) 
-						|| t.equals(CellType.ICE)) {
-					if(player1.getX() == x && player1.getY() == y) {
-						outputStr += cellAbbreviations.get(t) + ":P";
-					}else {
-						outputStr += cellAbbreviations.get(t);
-					}
-				}else {
-					outputStr += cellAbbreviations.get(t);
-				}
-
-				if((x+1) < grid.length) { // ensures the line doesn't end with a ','
-					outputStr += ",";
-				}
-			}
-			if((y) < grid.length) { // ensures the last line is not empty
-				outputStr += "\n";
-			}
-		}
-		
-//		UNCOMMENT LATER, PREVENTS level0.txt being updated constantly
-//		try {
-//			File outputFolder = new File("src/SavedGames/" + player.getName());
-//			if(!outputFolder.exists()) {
-//				outputFolder.mkdirs();	
-//			}
-//			File outputFile = new File(outputFolder.getPath() + "/level" + level + ".txt");
-//			outputFile.createNewFile();
-//			PrintWriter w = new PrintWriter(outputFile);
-//			w.print(outputStr);
-//			w.print(player.getInventoryString());
-//			w.flush();
-//			w.close();
-//		} catch (IOException e) {
-//			System.out.println("ERROR: Cannot create file.");
-//			e.printStackTrace();
-//		}
+	public void setPlayer1(Player p) {
+		player1 = p;
+	}
+	
+	public void setPlayer2(Player p) {
+		player2 = p;
 	}
 
-	/**
-	 * Converts the given Cell type to it's string abbreviation
-	 */
-	private void loadAbbreviations(){
-		cellAbbreviations = new HashMap<>();
-		cellAbbreviations.put(CellType.WALL, "W");
-		cellAbbreviations.put(CellType.BLUE_DOOR,"CDB");
-		cellAbbreviations.put(CellType.EMPTY, "E");
-		cellAbbreviations.put(CellType.FIRE, "F");
-		cellAbbreviations.put(CellType.GREEN_DOOR, "CDG");
-		cellAbbreviations.put(CellType.RED_DOOR, "CDR");
-		cellAbbreviations.put(CellType.ICE, "I");
-		cellAbbreviations.put(CellType.TELEPORTER, "TP");
-		cellAbbreviations.put(CellType.WATER, "WA");
-		cellAbbreviations.put(CellType.GOAL, "G");
-		cellAbbreviations.put(CellType.TOKEN_DOOR, "CDT");
-		
-		itemAbbreviations = new HashMap<>();
-		itemAbbreviations.put(Collectable.TOKEN, "TK");
-		itemAbbreviations.put(Collectable.LIFE, "L");
-		itemAbbreviations.put(Collectable.RED_KEY, "RK");
-		itemAbbreviations.put(Collectable.GREEN_KEY, "GK");
-		itemAbbreviations.put(Collectable.BLUE_KEY, "BK");
-		itemAbbreviations.put(Collectable.ICE_SKATES, "IS");
-		itemAbbreviations.put(Collectable.FLIPPERS, "FL");
-		itemAbbreviations.put(Collectable.FIRE_BOOTS, "FB");
+	public void setEnemies(ArrayList<Character> enemies) {
+		this.enemies = enemies;
 	}
-
+	
 
 	public Player getPlayer1() {
 		return player1;
@@ -297,22 +128,9 @@ public class GameState {
 	}
 
 	
-	private CellType getCellType(String abbreviation) {
-		for(CellType type : cellAbbreviations.keySet()) {
-			if(cellAbbreviations.get(type).equals(abbreviation)) {
-				return type;
-			}
-		}
-		return null;
-	}
-	
-	private Collectable getItemType(String abbreviation) {
-		for(Collectable collectable : itemAbbreviations.keySet()) {
-			if(itemAbbreviations.get(collectable).equals(abbreviation)) {
-				return collectable;
-			}
-		}
-		return null;
-	}
 
+
+	public int getLevel() {
+		return level;
+	}
 }

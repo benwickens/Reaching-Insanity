@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * Represents a "cell" in the game (wall, empty, fire...)
@@ -28,6 +29,8 @@ public class Cell {
 	private int linkX;
 	/**The Y location this cell links to (if a teleporter)*/
 	private int linkY;
+	
+	private int tokens;
 	
 	/**
 	 * Constructs a cell object
@@ -57,7 +60,15 @@ public class Cell {
 				fis = new FileInputStream(GRID_IMAGES + "blueDoor.png");
 				break;
 			case TOKEN_DOOR :
-				fis = new FileInputStream(GRID_IMAGES + "tokenDoor.png");
+				Random r = new Random();
+				int num = r.nextInt(2);
+				if(num == 0) {
+					fis = new FileInputStream(GRID_IMAGES + "tokenDoor2.png");
+					tokens = 2;
+				}else {
+					fis = new FileInputStream(GRID_IMAGES + "tokenDoor5.png");
+					tokens = 5;
+				}
 				break;
 			case FIRE:
 				fis = new FileInputStream(GRID_IMAGES + "fire.png");
@@ -75,9 +86,7 @@ public class Cell {
 				fis = new FileInputStream(GRID_IMAGES + "teleporter.png");
 				break;
 			default:
-				Random r = new Random();
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");
-				//(r.nextInt(3) + 1) + ".png");    
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");    
 			}
 
 			cellImage = new ImageView(new Image(fis));
@@ -115,7 +124,11 @@ public class Cell {
 				itemImage = new ImageView(new Image(fis));
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: could not load image(s).");
+//			System.out.println("ERROR: could not load image(s).");
+//			PopUp a = new PopUp("ERROR: could not load image(s).",false);
+//			Stage stageP = new Stage();
+//			stageP.setScene(a.getScene());
+//			stageP.show();
 			e.printStackTrace();
 			System.exit(-1);
 		}
@@ -172,6 +185,10 @@ public class Cell {
 
 	public void setLinkY(int linkY) {
 		this.linkY = linkY;
+	}
+	
+	public int getTokens() {
+		return tokens;
 	}
 
 }

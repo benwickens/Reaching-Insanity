@@ -36,37 +36,77 @@ public class StraightLineEnemy extends Character{
     }
 
     public void move(Cell [][] grid){
+    	boolean canMoveHorizontally = true;
+    	CellType nextType;
+    	Cell nextCell;
+    	
+    	
         if(currentDirection.equals(Direction.RIGHT)){
-            CellType nextType = grid[x + 1][y].getType();
-            if(nextType.equals(CellType.EMPTY)){
+        	nextCell = grid[x+1][y];
+            if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
                 x += 1;
+                System.out.println("SLE moved right");
             }else{
-                currentDirection = Direction.LEFT;
-                x -= 1;
+            	nextCell = grid[x - 1][y];
+            	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
+            		currentDirection = Direction.LEFT;
+                    x -= 1;
+                    System.out.println("SLE moved left");
+            	}else {
+            		canMoveHorizontally = false;
+            		currentDirection = Direction.UP;
+                    System.out.println("SLE now going up");
+            	}
             }
         }else if(currentDirection.equals(Direction.LEFT)){
-            CellType nextType = grid[x - 1][y].getType();
-            if(nextType.equals(CellType.EMPTY)){
+        	nextCell = grid[x - 1][y];
+            if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
                 x -= 1;
+                System.out.println("SLE moved left");
             }else{
-                currentDirection = Direction.RIGHT;
-                x += 1;
+            	nextCell = grid[x + 1][y];
+            	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
+            		currentDirection = Direction.RIGHT;
+                    x += 1;
+                    System.out.println("SLE moved right");
+            	}else {
+            		canMoveHorizontally = false;
+            		currentDirection = Direction.UP;
+                    System.out.println("SLE now going up");
+            	}
             }
-        }else if(currentDirection.equals(Direction.UP)){
-            CellType nextType = grid[x][y - 1].getType();
-            if(nextType.equals(CellType.EMPTY)){
-                y -= 1;
-            }else{
-                currentDirection = Direction.DOWN;
-                y += 1;
-            }
-        }else{
-            CellType nextType = grid[x][y + 1].getType();
-            if(nextType.equals(CellType.EMPTY)){
-                y += 1;
-            }else{
-                currentDirection = Direction.UP;
-                y -= 1;
+        }else {
+        	canMoveHorizontally = false;
+        }
+            
+        if(!canMoveHorizontally) {
+            System.out.println("couldnt move horizontally so");
+            if(currentDirection.equals(Direction.UP)){
+            	nextCell = grid[x][y - 1];
+                if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
+                    System.out.println("SLE moved up");
+                    y -= 1;
+                }else{
+                	nextCell = grid[x][y + 1];
+                	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
+                		currentDirection = Direction.DOWN;
+                        y += 1;
+                        System.out.println("SLE moved down");
+                	}
+                }
+            }else if(currentDirection.equals(Direction.DOWN)){
+            	nextCell = grid[x][y + 1];
+                if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
+                    y += 1;
+                    System.out.println("SLE moved down");
+                }else{
+                	nextCell = grid[x][y - 1];
+                	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
+                		currentDirection = Direction.UP;
+                        y -= 1;
+                        System.out.println("SLE moved up");
+                	}
+                }
             }
         }
     }

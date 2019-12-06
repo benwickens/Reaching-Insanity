@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * File name: Character.java
@@ -37,6 +38,10 @@ public abstract class Character {
         try {
 			image = new ImageView(new Image(new FileInputStream(IMAGE_PATH + imageName)));
 		} catch (FileNotFoundException e) {
+//			PopUp a = new PopUp("ERORR: character image not found.",false);
+//			Stage stageP = new Stage();
+//			stageP.setScene(a.getScene());
+//			stageP.show();
 			System.out.println("ERORR: character image not found.");
 			e.printStackTrace();
 			System.exit(-1);
