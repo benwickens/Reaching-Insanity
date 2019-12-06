@@ -22,6 +22,8 @@ public class Player extends Character {
     private Integer highestLevel;
     private HashMap<Collectable, Integer> inventory;
     private int imageID;
+    private boolean isDead;
+    private boolean hasWon;
     
 
     /**
@@ -200,21 +202,39 @@ public class Player extends Character {
 			break;
 		case FIRE:
 			if(!hasItem(Collectable.FIRE_BOOTS, 1)) {
-				// resetLevel();
+				// set player to dead
+				isDead = true;
+				playSound("src/media/sound/life_lost.wav");
+				// update location
+				nextX = x;
+				nextY = y;
+				// now check in gamestate after move if player is dead
 			}else {
 				playSound("src/media/sound/fire.wav");
 			}
 			break;
 		case WATER:
 			if(!hasItem(Collectable.FLIPPERS, 1)) {
-				// resetLevel();
+				// set player to dead
+				isDead = true;
+				playSound("src/media/sound/life_lost.wav");
+				// update location
+				nextX = x;
+				nextY = y;
+				// now check in gamestate after move if player is dead
 			}else {
 				playSound("src/media/sound/water.wav");
 			}
 			break; 
 		case ICE:
 			if(!hasItem(Collectable.ICE_SKATES, 1)) {
-				// resetLevel();
+				// set player to dead
+				isDead = true;
+				playSound("src/media/sound/life_lost.wav");
+				// update location
+				nextX = x;
+				nextY = y;
+				// now check in gamestate after move if player is dead
 			}else {
 				playSound("src/media/sound/ice.wav");
 
@@ -261,10 +281,7 @@ public class Player extends Character {
 			playSound("src/media/sound/teleport.wav");
 		case GOAL:
 			// multiplayer is level 100, so don't update highest level for players on completion.
-			// also to make things simpler, if multiplayer only require that one player steps on the goal
-//			if(GameWindow.multiPlayer) {
-//				
-//			}
+			hasWon = true;
 			break;
 		case EMPTY:			
 			// if next cell does not hold an enemy then check if has an item
@@ -295,6 +312,18 @@ public class Player extends Character {
 	
 	public void setImageID(int imageID) {
 		this.imageID = imageID;
+	}
+	public boolean hasWon() {
+		return hasWon;
+	}
+	public void setHasWon(boolean hasWon) {
+		this.hasWon = hasWon;
+	}
+	public boolean isDead() {
+		return isDead;
+	}
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 	
 	
