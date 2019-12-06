@@ -15,55 +15,60 @@ public class DumbTargetingEnemy extends Character {
 	 * would make it get closer to the player this is a very dumb enemy and easily
 	 * gets stuck
 	 */
-
+	private Direction currentDirection;
+	private int nextX;
+	private int nextY;
 	private int playerX;
 	private int playerY;
+	private Player p1;
+	private Player p2;
 
 	/**
 	 * Creates a DumbTargetingEnemy object
-	 * 
+	 *
 	 * @param x                the x coordinate the enemy is in
 	 * @param y                the y coordinate the enemy is in
 	 * @param currentDirection the current direction the enemy is in
 	 */
-	public DumbTargetingEnemy(int x, int y) {
+	public DumbTargetingEnemy(int x, int y, Direction startingDirection, Player p1, Player p2) {
 		super(x, y, "DTE.png");
-	}
-
-	public void moveDumbEnemy(Cell[][] grid, int playerX, int playerY) {
-		this.playerX = playerX;
-		this.playerY = playerY;
-		move(grid);
+		this.p1 = p1;
+		this.p2 = p2;
+		currentDirection = startingDirection;
 	}
 
 	public void move(Cell[][] grid) {
-		if (Math.abs(playerX - x) < Math.abs(playerY - y)) {
-			if (x > this.playerX) {
-				CellType nextType = grid[x - 1][y].getType();
-				if (nextType.equals(CellType.EMPTY)) {
-					x--;
-				}
-			} else if (x < this.playerX) {
-				CellType nextType = grid[x + 1][y].getType();
-				if (nextType.equals(CellType.EMPTY)) {
-					x++;
-				}
+		if ((p1.getX() > x)) {
+			if (currentDirection.equals(Direction.RIGHT)) {
+				x += 1;
 			}
-		} else {
-			if (y > this.playerY) {
-				CellType nextType = grid[x][y - 1].getType();
-				if (nextType.equals(CellType.EMPTY)) {
-					y--;
-				}
-			}
+		} else if (currentDirection.equals(Direction.LEFT)) {
+			x -= 1;
+		} else if (p1.getX() < x) {
+			if (currentDirection.equals(Direction.RIGHT)) {
+				x -= 1;
 
-			else if (y < this.playerY) {
-				CellType nextType = grid[x][y + 1].getType();
-				if (nextType.equals(CellType.EMPTY)) {
-					y++;
+			} else if (currentDirection.equals(Direction.LEFT)) {
+				x += 1;
+			} else if (p1.getX() == x) {
+				if (p1.getY() < y) {
+					if (currentDirection.equals(Direction.UP) || currentDirection.equals(Direction.RIGHT)
+							|| currentDirection.equals(Direction.LEFT)) {
+						y -= 1;
+					} else {
+						y += 1;
+					}
+				}
+			} else {
+				if (currentDirection.equals(Direction.DOWN) || currentDirection.equals(Direction.RIGHT)
+						|| currentDirection.equals(Direction.LEFT)) {
+
+					y += 1;
+				} else {
+					y -= 1;
 				}
 			}
 		}
 	}
-
 }
+
