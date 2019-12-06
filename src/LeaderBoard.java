@@ -10,6 +10,7 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -66,13 +67,10 @@ public class LeaderBoard{
 
 			Button mainMenu = new Button("Back to Main Menu");
 			mainMenu.setOnAction(e -> {
-				try {
-					Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
-					Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-					stage.setScene(new Scene(loadIn,1200,700));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				Stage newWindow = (Stage) ((Node) e.getSource())
+						.getScene().getWindow();
+				newWindow.setScene(Main.getScene());
+				newWindow.show();
 			});	
 
 			contents.getChildren().addAll(title, levelButtons, getPlayers(level), mainMenu);

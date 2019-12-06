@@ -59,10 +59,15 @@ public class ControllerMenu implements Initializable {
     private GameWindow gameWindow;
     
     public void initialize(URL location, ResourceBundle resources) {
-        String path = new File("src/media/video/DummyTest.mp4").getAbsolutePath();
-        look = new Media(new File(path).toURI().toString());
-        video = new MediaPlayer(look);
-        see.setMediaPlayer(video);
+        MediaPlayer player = new MediaPlayer( 
+        		new Media(getClass().getResource
+        				("src/media/video/game.mp4").toExternalForm()));
+        see = new MediaView(player);
+    	
+//        String path = new File("src/media/video/game.mp4").getAbsolutePath();
+//        look = new Media(new File(path).toURI().toString());
+//        video = new MediaPlayer(look);
+//        see.setMediaPlayer(video);
         see.setPreserveRatio(false);
         see.fitHeightProperty().bind(layout.heightProperty());
         see.fitWidthProperty().bind(layout.widthProperty());
@@ -103,8 +108,6 @@ public class ControllerMenu implements Initializable {
     private void playerEditorPress(ActionEvent event)throws IOException {
         video.stop();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMinWidth(920);
-        stage.setMinHeight(700);
         stage.setTitle("Reaching Insanity - Player Editor");
         stage.setScene((new PlayerEditor().getScene()));
     }

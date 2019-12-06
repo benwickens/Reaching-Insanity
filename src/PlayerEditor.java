@@ -193,13 +193,12 @@ public class PlayerEditor {
 	}
 	
 	private void backToMain(ActionEvent e) {
-		try {
-			Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
-			Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
-			newWindow.setScene(new Scene(loadIn, 1200, 700));
-			newWindow.show();
-		} catch (IOException e1) {e1.printStackTrace();}
+		Stage newWindow = (Stage) ((Node) e.getSource())
+				.getScene().getWindow();
+		newWindow.setScene(Main.getScene());
+		newWindow.show();
 	}
+
 	
 	private void displayNewPlayerContent() {
 		VBox box = new VBox(50);
