@@ -37,7 +37,7 @@ public class DumbTargetingEnemy extends Character {
 		currentDirection = startingDirection;
 	}
 
-
+// asdfasdf
 	public void move(Cell[][] grid) {
 		if ((p1.getX() > x)) {
 			if (currentDirection.equals(Direction.RIGHT)) {
