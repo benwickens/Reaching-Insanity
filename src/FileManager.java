@@ -192,6 +192,7 @@ public class FileManager {
 						for(int i = 0; i < cells.length; i++) {
 							String[] parts = cells[i].split(":");
 							String itemAbbr = parts[0].replace(" ", "");
+							System.out.println(cells[i]);
 							int amount = Integer.parseInt(parts[1]);
 							
 							for(Collectable c : Collectable.values()) {

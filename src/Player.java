@@ -1,6 +1,10 @@
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
@@ -292,4 +296,8 @@ public class Player extends Character {
 	public void setImageID(int imageID) {
 		this.imageID = imageID;
 	}
+	
+	
+
+	
 }

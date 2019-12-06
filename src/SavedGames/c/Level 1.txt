@@ -1,7 +1,7 @@
 15,15
 
 null
-49
+1
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
 W,W,W,E:WFE,E:P1,E:TK,E,E,E,E,E,E,W,W,W
 W,W,W,E,TP:10-7,E:L,E,E,E,E,E,E,W,W,W
