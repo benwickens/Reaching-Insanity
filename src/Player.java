@@ -281,6 +281,8 @@ public class Player extends Character {
 			playSound("src/media/sound/teleport.wav");
 		case GOAL:
 			// multiplayer is level 100, so don't update highest level for players on completion.
+			nextX = x;
+			nextY = y;
 			hasWon = true;
 			break;
 		case EMPTY:			

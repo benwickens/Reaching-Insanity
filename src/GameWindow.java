@@ -373,6 +373,8 @@ public class GameWindow {
 				// show win screen
 				//create game state for next level
 				// run an SQL query to update the database
+				//		remember if multiplayer then we dont store 
+				//		an entry on the database so skip this step
 				// set the game windows game state to the new game state
 				// reset game windows class variables (e.g. currentPlayer must reset to 1, timer...)
 			}else {
