@@ -1,3 +1,11 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,18 +19,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Iterator;
 
 public class GameWindow {
 
@@ -78,6 +83,8 @@ public class GameWindow {
 	/**In multiplayer mode it indicates the player to make the next move*/
 	private int currentPlayer;
 
+	/**Indicates the enemy to next make their move*/
+	private int currentEnemy;
 	
 	/**holds a reference to the current game state*/
 	private static GameState gameState;
@@ -379,75 +386,62 @@ public class GameWindow {
 				// reset game windows class variables (e.g. currentPlayer must reset to 1, timer...)
 			}else {
 				// move enemies and use life or die if enemy moves on to player
-				Iterator<Character> iter = gameState.getEnemies().iterator();
-				while(iter.hasNext()) {
-					Character e = iter.next();
-					e.move(gameState.getGrid());
-					if(e.getX() == player.getX() && e.getY() == player.getY()) {
-						if(player.hasItem(Collectable.LIFE, 1)) {
-							player.useItem(Collectable.LIFE, 1);
-							iter.remove();
-							
-							String bip = "src/media/sound/life_lost.mp3";
-							Media hit = new Media(new File(bip).toURI().toString());
-							MediaPlayer mediaPlayer = new MediaPlayer(hit);
-							mediaPlayer.play();
-						}else {
-							// kill player
-							/*
-							 * The player has died!
-							 * 1) display an image on the screen alerting the player that they died.
-							 * 		this is as simple as adding an imageview to the base layout.
-							 * 		remember it is a stack so you can just add to the top.
-							 * 2) wait a few seconds - maybe like 3.
-							 * 		during this time the player shouldn't be able to interract with the game
-							 * 		so set paused to true - it is a class variable of this class.
-							 * 3) remove the death image
-							 * 		remember the base layout is a stack, and the death image is the
-							 * 		last thing you pushed to it. Just remove the top item.
-							 * 		layout.children.remove(length - 1); is some psuedo code that may help
-							 * 4) reset the level.
-							 * 		to do this you will essentially need to reset the game window entirely.
-							 * 		we already have code to do this because it is done when the game window
-							 * 		is created, its all in the constructor!
-							 * 		So make a method that does pretty much exactly that and call it.
-							 * 		Seeing as this would be duplicated code, you could even move the code
-							 * 		from the constructor into a separate method itself.
-							 * 		
-							 * 		Remember, if you read the code, this area only deals with death
-							 * 		by the enemy moving on to the player. There are other causes of death
-							 * 		which are all caused by the player movement (which is obviously in the
-							 * 		player class). I reccomend you add a new class attribute isDead to the
-							 * 		player class, and whenever they die set this to true.
-							 * 		Then after this method calls player.move() it should check 
-							 * 		if(player.isDead()){
-							 * 			and then do some stuff in here (exactly what you would have done
-							 * 			for the enemy death).
-							 *		} 
-							 */
-						}
-					}
-				}
+//				Iterator<Character> iter = gameState.getEnemies().iterator();
+//				while(iter.hasNext()) {
+//					Character e = iter.next();
+//					e.move(gameState.getGrid());
+//					if(e.getX() == player.getX() && e.getY() == player.getY()) {
+//						if(player.hasItem(Collectable.LIFE, 1)) {
+//							player.useItem(Collectable.LIFE, 1);
+//							iter.remove();
+//							
+//							String bip = "src/media/sound/life_lost.mp3";
+//							Media hit = new Media(new File(bip).toURI().toString());
+//							MediaPlayer mediaPlayer = new MediaPlayer(hit);
+//							mediaPlayer.play();
+//						}else {
+//							// kill player
+//							/*
+//							 * The player has died!
+//							 * 1) display an image on the screen alerting the player that they died.
+//							 * 		this is as simple as adding an imageview to the base layout.
+//							 * 		remember it is a stack so you can just add to the top.
+//							 * 2) wait a few seconds - maybe like 3.
+//							 * 		during this time the player shouldn't be able to interract with the game
+//							 * 		so set paused to true - it is a class variable of this class.
+//							 * 3) remove the death image
+//							 * 		remember the base layout is a stack, and the death image is the
+//							 * 		last thing you pushed to it. Just remove the top item.
+//							 * 		layout.children.remove(length - 1); is some psuedo code that may help
+//							 * 4) reset the level.
+//							 * 		to do this you will essentially need to reset the game window entirely.
+//							 * 		we already have code to do this because it is done when the game window
+//							 * 		is created, its all in the constructor!
+//							 * 		So make a method that does pretty much exactly that and call it.
+//							 * 		Seeing as this would be duplicated code, you could even move the code
+//							 * 		from the constructor into a separate method itself.
+//							 * 		
+//							 * 		Remember, if you read the code, this area only deals with death
+//							 * 		by the enemy moving on to the player. There are other causes of death
+//							 * 		which are all caused by the player movement (which is obviously in the
+//							 * 		player class). I reccomend you add a new class attribute isDead to the
+//							 * 		player class, and whenever they die set this to true.
+//							 * 		Then after this method calls player.move() it should check 
+//							 * 		if(player.isDead()){
+//							 * 			and then do some stuff in here (exactly what you would have done
+//							 * 			for the enemy death).
+//							 *		} 
+//							 */
+//						}
+//					}
+//				}
+				// prevent the player from pressing a key whilst views are updated
+				updatingView = true;
 				
-				updateView(); // update view for the current player
+				// show the views of all of the enemies
+				showViews();			
 				
-				// if multiplayer, wait 1s and then swap to new player
-				if(multiPlayer) {
-					updatingView = true;
-					viewUpdater = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
-						// swap to next player
-						if(currentPlayer == 1) {
-							currentPlayer = 2;
-						}else {
-							currentPlayer = 1;
-						}
-						updateView();
-						updatingView = false;
-					}));
-					viewUpdater.setCycleCount(1);
-					viewUpdater.play();
-					
-				}	
+
 			}		
 		}
 		event.consume();
@@ -481,9 +475,128 @@ public class GameWindow {
 		hours = x;
 	}
 	
+	private void showViews() {
+		// update the view for the player
+		showPlayerView();
+		
+		// then deal with the enemies
+		ArrayList<Character> enemies = gameState.getEnemies();
+		currentEnemy = 0;
+		
+		// we want to display every enemy seperated by 1 seconds
+		// and for each enemy we want to display their starting
+		// position and ending position separated by 0.5 seconds.
+		// So we need two timelines (set as class attributes).
+		
+		// to deal with each enemy
+		Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(1.0), e -> {
+			
+			// firstly set the grid view to the enemies position
+			Character enemy = enemies.get(currentEnemy);
+			gridPane = getEnemyGrid(enemy);
+			borderPane.setCenter(gridPane);
+			layout.getChildren().set(1, borderPane);
+			
+			// move the enemy
+			enemy.move(gameState.getGrid());
+			
+			// wait 0.25 seconds and update the view again
+			Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(0.5), e2 -> {
+				gridPane = getEnemyGrid(enemy);
+				borderPane.setCenter(gridPane);
+				layout.getChildren().set(1, borderPane);
+			}));
+			timeline2.setCycleCount(1);
+			timeline2.play();			
+			currentEnemy ++;
+		}));
+		timeline1.setCycleCount(enemies.size());
+		timeline1.play();
+		
+		// once all of the enemies have moved we need to go back to the players view
+		Timeline timeline3 = new Timeline(new KeyFrame(Duration.seconds(1.5 * enemies.size()), e -> {
+			if(multiPlayer) {
+				// swap to next player
+				if(currentPlayer == 1) {
+					currentPlayer = 2;
+				}else {
+					currentPlayer = 1;
+				}
+				showPlayerView();
+				updatingView = false;					
+			}else {
+				showPlayerView();
+				updatingView = false;
+			}
+		}));
+		timeline3.setCycleCount(1);
+		timeline3.play();
+				
+	}
 	
+	private GridPane getEnemyGrid(Character enemy) {
+		GridPane pane = new GridPane();
+		pane.setAlignment(Pos.CENTER);
+		
+		int enemyX = enemy.getX();
+		int enemyY = enemy.getY();
+		
+		for (int gridX = -4; gridX < 4; gridX++) {
+			for (int gridY = -4; gridY < 4; gridY++) {
+				try {
+					int currentGridX = enemyX + gridX;
+					int currentGridY = enemyY + gridY;
+					
+					Cell cell = gameState.getGrid()[currentGridX][currentGridY];
+					StackPane stack = new StackPane();
+					stack.getChildren().add(cell.getCellImage());
+					
+					// if drawing the center cell, add this enemy
+					if (gridX == 0 && gridY == 0) { 
+						stack.getChildren().add(enemy.getImage());
+					// else see if we can draw player 1
+					}else if(currentGridX == gameState.getPlayer1().getX() && currentGridY == gameState.getPlayer1().getY()){
+						stack.getChildren().add(gameState.getPlayer1().getImage());
+					// else try and draw player 2
+					}else if(gameState.getPlayer2() != null &&
+							currentGridX == gameState.getPlayer2().getX() &&
+							currentGridY == gameState.getPlayer2().getY()){
+						stack.getChildren().add(gameState.getPlayer2().getImage());
+					
+					// if not this enemy, or one of the players, check all other enemies.
+					}else {
+												
+						boolean enemyFound = false;
+						for(Character otherEnemy : gameState.getEnemies()) {
+							if(otherEnemy.getX() == currentGridX && otherEnemy.getY() == currentGridY) {
+								stack.getChildren().add(otherEnemy.getImage());
+								enemyFound = true;
+							}
+						}
+						
+						if(!enemyFound) {
+							if(cell.getItem() != null) {
+								stack.getChildren().add(cell.getItemImage());
+							}
+						}				
+					}
+					pane.add(stack, gridX + 4, gridY + 4);
+				} catch (ArrayIndexOutOfBoundsException e1) {
+					ImageView img;
+					try {
+						img = new ImageView(new Image(new FileInputStream(IMG_FOLDER + "black.png")));
+						pane.add(img, gridX + 4, gridY + 4);
+					} catch (FileNotFoundException e2) {
+						System.out.println("ERROR: cannot find black image");
+						e2.printStackTrace();
+					}
+				}
+			}
+		}
+		return pane;
+	}
 	
-	private void updateView() {
+	private void showPlayerView() {
 		try {			
 			gridPane = getGrid();
 			borderPane.setCenter(gridPane);

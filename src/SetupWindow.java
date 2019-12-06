@@ -99,11 +99,7 @@ public class SetupWindow {
 							stage.setScene(gameWindow.getScene());
 						}						
 					}else {
-//						PopUp a = new PopUp("ERROR: you need to select a player and a level",true);
-//						Stage stageP = new Stage();
-//						stageP.setScene(a.getScene());
-//						stageP.show();
-//						System.out.println("ERROR: you need to select a player and a level");
+						new PopUp("ERROR: You must select a player and a level",true);
 					}
 				}else {
 					if(player1Selector.getValue() != null 
@@ -113,12 +109,7 @@ public class SetupWindow {
 						GameWindow gameWindow = new GameWindow(player1Selector.getValue(), player2Selector.getValue(), f);
 						stage.setScene(gameWindow.getScene());
 					}else {
-						PopUp popUp = new PopUp("ERROR: You must select two different players.", false);
-//						PopUp a = new PopUp("ERROR: you need to select two different players",true);
-//						Stage stageP = new Stage();
-//						stageP.setScene(a.getScene());
-//						stageP.show();
-//						System.out.println("ERROR: you need to select two different players");
+						new PopUp("ERROR: You must select two different players.", false);
 					}
 				}
 			});
@@ -142,10 +133,6 @@ public class SetupWindow {
 
 		} catch (FileNotFoundException e) {
 //			PopUp a = new PopUp("ERROR: Failed to load image(s).",true);
-//			Stage stageP = new Stage();
-//			stageP.setScene(a.getScene());
-//			stageP.show();
-//			System.out.println("ERROR: Failed to load image(s).");
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (SQLException e2) {

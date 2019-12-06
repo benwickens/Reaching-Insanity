@@ -279,6 +279,7 @@ public class Player extends Character {
 				nextY = nextCell.getLinkY() + 1;
 			}
 			playSound("src/media/sound/teleport.wav");
+			break;
 		case GOAL:
 			// multiplayer is level 100, so don't update highest level for players on completion.
 			nextX = x;
