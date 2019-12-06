@@ -48,7 +48,6 @@ public class LeaderBoard{
 		}
 		
 		level = 1; // as we can't display level zero.
-		 
 		
 		
 		Button mainMenu = new Button("Back to Main Menu");
