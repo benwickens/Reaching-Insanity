@@ -1,0 +1,19 @@
+15,15
+TK:2, RK:0, GK:0, BK:0, FB:0, FL:0, IS:0, L:1
+null
+456
+W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
+W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,TP:10-7,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,CDG,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,E:GK,E:IS,E,E,E,E,E,E,W,W,W
+W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
+W,W,W,E:WFE,E,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,E,E,E:P1,E,E,E,TP:4-2,E,W,W,W
+W,W,W,E,E,E,E,W,E,E,E,E,W,W,W
+W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,E,E,E,E,E,E,E,E,W,W,W
+W,W,W,E,I,I,I,I,I,I,I,E,W,W,W
+W,W,W,E,F,F,F,F,F,F,F,E,W,W,W
+W,W,W,E,E,E:WFE,E,E,E,E,E,E,W,W,W
+W,W,W,W,W,W,W,W,W,W,W,W,W,W,W

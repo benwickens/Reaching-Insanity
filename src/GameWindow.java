@@ -371,8 +371,13 @@ public class GameWindow {
 			// move player
 			player.move(gameState.getGrid(), event);
 			
-			// check if player is dead after their move
+			// prevent the player from pressing a key whilst views are updated
+			updatingView = true;
+			showPlayerView();
+			
+			// now view has been updated, check if player has won or died
 			if(player.isDead()) {
+				System.out.println("Player died by moving on to enemy/fire/ice/water.");
 				// show death screen
 				// reset gameState 
 				// remove death screem
@@ -385,64 +390,11 @@ public class GameWindow {
 				// set the game windows game state to the new game state
 				// reset game windows class variables (e.g. currentPlayer must reset to 1, timer...)
 			}else {
-				// move enemies and use life or die if enemy moves on to player
-//				Iterator<Character> iter = gameState.getEnemies().iterator();
-//				while(iter.hasNext()) {
-//					Character e = iter.next();
-//					e.move(gameState.getGrid());
-//					if(e.getX() == player.getX() && e.getY() == player.getY()) {
-//						if(player.hasItem(Collectable.LIFE, 1)) {
-//							player.useItem(Collectable.LIFE, 1);
-//							iter.remove();
-//							
-//							String bip = "src/media/sound/life_lost.mp3";
-//							Media hit = new Media(new File(bip).toURI().toString());
-//							MediaPlayer mediaPlayer = new MediaPlayer(hit);
-//							mediaPlayer.play();
-//						}else {
-//							// kill player
-//							/*
-//							 * The player has died!
-//							 * 1) display an image on the screen alerting the player that they died.
-//							 * 		this is as simple as adding an imageview to the base layout.
-//							 * 		remember it is a stack so you can just add to the top.
-//							 * 2) wait a few seconds - maybe like 3.
-//							 * 		during this time the player shouldn't be able to interract with the game
-//							 * 		so set paused to true - it is a class variable of this class.
-//							 * 3) remove the death image
-//							 * 		remember the base layout is a stack, and the death image is the
-//							 * 		last thing you pushed to it. Just remove the top item.
-//							 * 		layout.children.remove(length - 1); is some psuedo code that may help
-//							 * 4) reset the level.
-//							 * 		to do this you will essentially need to reset the game window entirely.
-//							 * 		we already have code to do this because it is done when the game window
-//							 * 		is created, its all in the constructor!
-//							 * 		So make a method that does pretty much exactly that and call it.
-//							 * 		Seeing as this would be duplicated code, you could even move the code
-//							 * 		from the constructor into a separate method itself.
-//							 * 		
-//							 * 		Remember, if you read the code, this area only deals with death
-//							 * 		by the enemy moving on to the player. There are other causes of death
-//							 * 		which are all caused by the player movement (which is obviously in the
-//							 * 		player class). I reccomend you add a new class attribute isDead to the
-//							 * 		player class, and whenever they die set this to true.
-//							 * 		Then after this method calls player.move() it should check 
-//							 * 		if(player.isDead()){
-//							 * 			and then do some stuff in here (exactly what you would have done
-//							 * 			for the enemy death).
-//							 *		} 
-//							 */
-//						}
-//					}
-//				}
-				// prevent the player from pressing a key whilst views are updated
-				updatingView = true;
-				
-				// show the views of all of the enemies
-				showViews();			
-				
-
-			}		
+				// if the player hasn't won and is still alive, then display the enemy views
+				showViews();
+				// when showViews() terminates the view is on the next player
+				// and updatingView is set to false so the player can press a key.
+			}				
 		}
 		event.consume();
 	}
@@ -475,11 +427,8 @@ public class GameWindow {
 		hours = x;
 	}
 	
-	private void showViews() {
-		// update the view for the player
-		showPlayerView();
-		
-		// then deal with the enemies
+	private void showViews() {	
+		// deal with the enemies
 		ArrayList<Character> enemies = gameState.getEnemies();
 		currentEnemy = 0;
 		
@@ -500,11 +449,25 @@ public class GameWindow {
 			// move the enemy
 			enemy.move(gameState.getGrid());
 			
-			// wait 0.25 seconds and update the view again
+			// wait 0.25 seconds and update the view with the enemies new position
 			Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(0.5), e2 -> {
 				gridPane = getEnemyGrid(enemy);
 				borderPane.setCenter(gridPane);
 				layout.getChildren().set(1, borderPane);
+				
+				// check if the enemy moved on to a player, if so deal with player death!
+				Player p1 = gameState.getPlayer1();
+				Player p2 = gameState.getPlayer2();
+				
+				if(enemy.getX() == p1.getX() && enemy.getY() == p1.getY()) {
+					System.out.println("Player 1 Killed by enemy moving on to them.");
+					// player 1 has died
+					// call your death metods...
+				}else if(p2 != null && enemy.getX() == p2.getX() && enemy.getY() == p2.getY()) {
+					System.out.println("Player 2 Killed by enemy moving on to them.");
+					// player 2 has died (in multiplayer just treat one player dying
+					// as both players failing the level as it will be simpler to implement)
+				}
 			}));
 			timeline2.setCycleCount(1);
 			timeline2.play();			
