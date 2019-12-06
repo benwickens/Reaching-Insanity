@@ -16,7 +16,6 @@ import javafx.scene.media.MediaPlayer;
  * @author Gursimran Randhawa, Millie Quinn, and Yassine Abdalass
  * @version 1.0 added attributes and methods (w/out implementation) <br>
  *          1.1 Implemented the constructor <br>
- * 			.
  */
 
 public class Player extends Character {
@@ -82,7 +81,7 @@ public class Player extends Character {
 	public void useItem(Collectable item, Integer amount) {
 		inventory.replace(item, inventory.get(item) - amount);
 	}
-	
+
 	/**
 	 * Method get the name
 	 * @return name
@@ -98,7 +97,7 @@ public class Player extends Character {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Method that get the highest level completed
 	 * @return highest level
@@ -106,7 +105,7 @@ public class Player extends Character {
 	public Integer getHighestLevel() {
 		return highestLevel;
 	}
-	
+
 	/**
 	 * Method that get the string inventory
 	 * @return String inventory
@@ -139,16 +138,16 @@ public class Player extends Character {
 
 	/** Method that move the player inherited from character*/
 	public void move(Cell[][] grid) {}
-	
-	
+
+
 
 	/**
 	 * Method that moves the player
 	 * 
-	 * Gone over the limite since there isnt much point to split it up
+	 * Gone over the limit since its all cases for movement.
 	 * @param grid
 	 * @param event
-	 * @return
+	 * @return The updated movement of the player.
 	 */
 	public Cell[][] move(Cell[][] grid, KeyEvent event) {
 		int nextX = x;
@@ -235,7 +234,7 @@ public class Player extends Character {
 
 			break;
 		case FIRE:
-			if (!hasItem(Collectable.FIRE_BOOTS, 1)) {
+			if ((!hasItem(Collectable.FIRE_BOOTS, 1)) && ((!hasItem(Collectable.LIFE, 1)))) {
 				// set player to dead
 				isDead = true;
 				playSound("src/media/sound/life_lost.mp3");
@@ -248,7 +247,7 @@ public class Player extends Character {
 			}
 			break;
 		case WATER:
-			if (!hasItem(Collectable.FLIPPERS, 1)) {
+			if ((!hasItem(Collectable.FLIPPERS, 1)) && ((!hasItem(Collectable.LIFE, 1)))) {
 				// set player to dead
 				isDead = true;
 				playSound("src/media/sound/life_lost.mp3");
@@ -261,7 +260,7 @@ public class Player extends Character {
 			}
 			break;
 		case ICE:
-			if (!hasItem(Collectable.ICE_SKATES, 1)) {
+			if ((!hasItem(Collectable.ICE_SKATES, 1)) && ((!hasItem(Collectable.LIFE, 1)))) {
 				// set player to dead
 				isDead = true;
 				playSound("src/media/sound/life_lost.mp3");
@@ -323,8 +322,14 @@ public class Player extends Character {
 			break;
 		case EMPTY:
 			for (Character e : GameWindow.getGameState().getEnemies()) {
-				if (e.getX() == nextX && e.getY() == nextY) {
-					isDead = true;
+				if ((e.getX() == nextX && e.getY() == nextY) && 
+						(hasItem(Collectable.LIFE, 1))) {
+					useItem(Collectable.LIFE, 1);
+				} else {
+					if ((e.getX() == nextX && e.getY() == nextY) && 
+							(!hasItem(Collectable.LIFE, 1))) {
+						isDead = true;
+					}	
 				}
 			}
 
@@ -340,7 +345,7 @@ public class Player extends Character {
 		moveTo(nextX, nextY);
 		return grid;
 	}
-	
+
 	/**
 	 *Method that gets the image location 
 	 * @return imageID
@@ -348,7 +353,7 @@ public class Player extends Character {
 	public int getImageID() {
 		return imageID;
 	}
-	
+
 	/**
 	 * Method that get the amount of collectabl3e
 	 * @param c
@@ -368,7 +373,7 @@ public class Player extends Character {
 	public void setImageID(int imageID) {
 		this.imageID = imageID;
 	}
-	
+
 	/**
 	 * Method that detects did the player win or not
 	 * @return haswon
@@ -376,7 +381,7 @@ public class Player extends Character {
 	public boolean hasWon() {
 		return hasWon;
 	}
-	
+
 	/**
 	 * Method that set did the player win or no
 	 * @param hasWon
@@ -384,7 +389,7 @@ public class Player extends Character {
 	public void setHasWon(boolean hasWon) {
 		this.hasWon = hasWon;
 	}
-	
+
 	/**
 	 * Method that look is the player dead or no
 	 * @return
@@ -392,7 +397,7 @@ public class Player extends Character {
 	public boolean isDead() {
 		return isDead;
 	}
-	
+
 	/** 
 	 * Method that set the player dead
 	 * @param isDead
@@ -400,14 +405,14 @@ public class Player extends Character {
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
 	}
-	
+
 	/**
 	 * Method that clears the inventory
 	 */
 	public void clearInventory() {
 		inventory.clear();
 	}
-	
+
 	/**
 	 * Method that get the sound path
 	 * @param path
