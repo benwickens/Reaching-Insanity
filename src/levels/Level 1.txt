@@ -8,4 +8,4 @@ W,WA,WA,F,F,E,W
 W,E,E,E,E,G,W
 W,E,E,E,E,E,W
 W,E,E,E,E,E,W
-W,W,W,W,W,W,W
+W,W,W,W,W,W,
