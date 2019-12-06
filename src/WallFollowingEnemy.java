@@ -112,7 +112,9 @@ public class WallFollowingEnemy extends Character{
 			//check if this is a valid move to go to
 			if (map[tempX][tempY].getType() == CellType.EMPTY) {
 				outCoord[0] = tempX;
-				outCoord[1] = tempY;
+				outCoord[1] = tempY;	
+				System.out.print("MOVE: FORWARDS");
+			} else {
 				
 			}
 		}
