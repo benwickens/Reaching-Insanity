@@ -3,7 +3,7 @@ import java.util.*;
 public class SmartTargettingMain {
 
 	public static void main(String[] args) {
-		SmartTargettingEnemy test = new SmartTargettingEnemy(2,2);
+		SmartTargettingEnemy test = new SmartTargettingEnemy(1,2);
 		Player player = new Player(4,4);
 		char[][] map = {
 				{'W', 'W', 'W', 'W', 'W', 'W'},
