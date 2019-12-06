@@ -184,7 +184,9 @@ public class FileManager {
 
 
 	/**
-	 * Loads the Cells specified in the input file into the grid 
+	 * Loads the Cells specified in the input file into the grid.
+	 * This function is greater than 75 lines as is a series of conditional if
+	 * statements and breaking it up would reduce readability.
 	 * @param levelFile the file representing a level
 	 */
 	public void readFileToGS(File levelFile, GameState gameState) {
@@ -337,12 +339,12 @@ public class FileManager {
 	}
 
 
-	/*
-	 * 
-	 * HELPER FUNCTIONS
-	 * 
+	/**
+	 * Returns the type of cell using the symbol(s) relevant to it.
+	 * @param abbreviation - The string containing the symbol(s) to be put into
+	 * type Cell.
+	 * @return CellType - Creates and returns an instance of Cell type.
 	 */
-
 	private CellType getCellType(String abbreviation) {
 		for (CellType type : cellAbbreviations.keySet()) {
 			if (cellAbbreviations.get(type).equals(abbreviation)) {
@@ -352,6 +354,12 @@ public class FileManager {
 		return null;
 	}
 
+	/**
+	 * Returns the item type using the symbol relevant to it.
+	 * @param abbreviation - The string containing the symbol(s) to be put into
+	 * type collectable.
+	 * @return Collectable - Creates and returns an instance of collectable.
+	 */
 	private Collectable getItemType(String abbreviation) {
 		for (Collectable collectable : itemAbbreviations.keySet()) {
 			if (itemAbbreviations.get(collectable).equals(abbreviation)) {

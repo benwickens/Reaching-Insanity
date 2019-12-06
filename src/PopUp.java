@@ -3,7 +3,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 /**
  * Purpose:
  * Produces a pop up with a given message. 
