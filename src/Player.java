@@ -204,7 +204,7 @@ public class Player extends Character {
 			if(!hasItem(Collectable.FIRE_BOOTS, 1)) {
 				// set player to dead
 				isDead = true;
-				playSound("src/media/sound/life_lost.wav");
+				playSound("src/media/sound/life_lost.mp3");
 				// update location
 				nextX = x;
 				nextY = y;
@@ -217,7 +217,7 @@ public class Player extends Character {
 			if(!hasItem(Collectable.FLIPPERS, 1)) {
 				// set player to dead
 				isDead = true;
-				playSound("src/media/sound/life_lost.wav");
+				playSound("src/media/sound/life_lost.mp3");
 				// update location
 				nextX = x;
 				nextY = y;
