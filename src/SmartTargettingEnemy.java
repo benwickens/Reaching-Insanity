@@ -22,7 +22,7 @@ public class SmartTargettingEnemy extends Character {
 	}
 
 	/**
-	 * Moves 
+	 * Moves the enemy on the map using the algorithm.
 	 */
 	@Override
 	public void move(Cell[][] grid) {
@@ -46,6 +46,10 @@ public class SmartTargettingEnemy extends Character {
 		}
 	}
 	
+	/**
+	 * @param grid - The data structure containing the map.
+	 * Produces a random, valid move when no valid path can be found to player.
+	 */
 	private void randomMove(Cell[][] grid) {
 		Random r = new Random();
 		boolean moved = false;
@@ -91,6 +95,11 @@ public class SmartTargettingEnemy extends Character {
 		}
 	}
 	
+	/**
+	 * @param grid - The data structure containing the map.
+	 * @param graph - A graph data structure of the cells in the map.
+	 * Loads the set of edges into the graph.
+	 */
 	private void loadEdges(Cell[][] grid, Graph graph) {
 		for(int x = 0; x < grid.length; x ++) {
 			// x is every row

@@ -1,4 +1,3 @@
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,11 +7,23 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Purpose:
+ * Produces a pop up window with two choices.
+ * <br>
+ * @author Alan Tollet.
+ * @version 1.0
+ */ 
 public class PopUpBool {
-    
+    /*The decision of the user.*/
 	private boolean result;
+	/*Represents if the user has pressed a button or not.*/
 	private boolean waiting;
 	
+	/**
+	 * Constructor - 
+	 * @param message
+	 */
     public PopUpBool(String message) {
     	Stage window = new Stage();
     	VBox dBox = new VBox(15);

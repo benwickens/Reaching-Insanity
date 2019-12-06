@@ -1,0 +1,13 @@
+9,9
+null
+null
+25
+W,W,W,W,W,W,W,W,W
+W,E,E,E,W,E,E,E,W
+W,E,E,E,W,E,E,E:STE,W
+W,E,E:P1,E,W,E,E,E,W
+W,W,W,E:STE,W,W,W,W,W
+W,E,E,E,E,E,E,E,W
+W,E,E,E,E,E,E,E,W
+W,E,E,E,E,E,E,E,W
+W,W,W,W,W,W,W,W,W

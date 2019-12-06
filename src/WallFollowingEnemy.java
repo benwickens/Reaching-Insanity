@@ -1,6 +1,5 @@
 
 
-
 /**
  * A Enemy that follows the wall
  * 
@@ -51,19 +50,17 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionUP(CellType cellType) {
 		CellType nextType = grid[x][y - 1].getType();
-		if (nextType.equals(cellType)) {
-			if(nextType != CellType.WALL || nextType != CellType.EMPTY){
-				nextType.equals(CellType.WALL);
-			}else{
-				if (nextType.equals(cellType)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
+			return true;
 		}
-		return false;
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
+		
 	
 	/**
 	 * Method that checks the top left Cell type
@@ -72,18 +69,15 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionUPLeft(CellType cellType) {
 		CellType nextType = grid[x - 1][y - 1].getType();
-		if (nextType.equals(cellType)) {
-			if(nextType != CellType.WALL || nextType != CellType.EMPTY){
-				nextType.equals(CellType.WALL);
-			}else{
-				if (nextType.equals(cellType)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
+			return true;
 		}
-		return false;
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -93,18 +87,17 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionUPRight(CellType cellType) {
 		CellType nextType = grid[x + 1][y - 1].getType();
-		if (nextType.equals(cellType)) {
-			if(nextType != CellType.WALL || nextType != CellType.EMPTY){
-				nextType.equals(CellType.WALL);
-			}else{
-				if (nextType.equals(cellType)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
+			nextType.equals(CellType.WALL);
+			cellType.equals(CellType.WALL);
+			return true;
 		}
-		return false;
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -114,18 +107,17 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionRight(CellType cellType) {
 		CellType nextType = grid[x + 1][y].getType();
-		if (nextType.equals(cellType)) {
-			if(nextType != CellType.WALL || nextType != CellType.EMPTY){
-				nextType.equals(CellType.WALL);
-			}else{
-				if (nextType.equals(cellType)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
+			nextType.equals(CellType.WALL);
+			cellType.equals(CellType.WALL);
+			return true;
 		}
-		return false;
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -135,18 +127,17 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionLeft(CellType cellType) {
 		CellType nextType = grid[x - 1][y].getType();
-		if (nextType.equals(cellType)) {
-			if(nextType != CellType.WALL || nextType != CellType.EMPTY){
-				nextType.equals(CellType.WALL);
-			}else{
-				if (nextType.equals(cellType)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
+			nextType.equals(CellType.WALL);
+			cellType.equals(CellType.WALL);
+			return true;
 		}
-		return false;
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -156,18 +147,17 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionDownLeft(CellType cellType) {
 		CellType nextType = grid[x - 1][y + 1].getType();
-		if (nextType.equals(cellType)) {
-			if(nextType != CellType.WALL || nextType != CellType.EMPTY){
-				nextType.equals(CellType.WALL);
-			}else{
-				if (nextType.equals(cellType)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
+			nextType.equals(CellType.WALL);
+			cellType.equals(CellType.WALL);
+			return true;
 		}
-		return false;
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -177,18 +167,17 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionDown(CellType cellType) {
 		CellType nextType = grid[x][y + 1].getType();
-		if (nextType.equals(cellType)) {
-			if(nextType != CellType.WALL || nextType != CellType.EMPTY){
-				nextType.equals(CellType.WALL);
-			}else{
-				if (nextType.equals(cellType)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
+			nextType.equals(CellType.WALL);
+			cellType.equals(CellType.WALL);
+			return true;
 		}
-		return false;
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -198,16 +187,17 @@ public class WallFollowingEnemy extends Character {
 	 */
 	private boolean directionDownRight(CellType cellType) {
 		CellType nextType = grid[x + 1][y + 1].getType();
-		if(nextType != CellType.WALL || nextType != CellType.EMPTY){
+		if(nextType != CellType.EMPTY && nextType != CellType.WALL){
+			nextType.equals(cellType);
 			nextType.equals(CellType.WALL);
-		}else{
-			if (nextType.equals(cellType)) {
+			cellType.equals(CellType.WALL);
+			return true;
+		}
+		if (nextType.equals(cellType)) {
 			return true;
 		} else {
 			return false;
 		}
-		}
-		return false;
 	}
 
 	
@@ -551,4 +541,3 @@ public class WallFollowingEnemy extends Character {
         return 0;
     }
 }
-
