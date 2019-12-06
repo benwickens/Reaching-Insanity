@@ -247,7 +247,11 @@ public class FileManager {
 								enemies.add(new WallFollowingEnemy(x, y - 4, Direction.DOWN));
 							}
 							else if(extraInfo.equals("DTE")) {
-								enemies.add(new DumbTargetingEnemy(x, y - 4));
+								if (p2 != null) {
+									enemies.add(new DumbTargetingEnemy(x, y - 4, Direction.RIGHT,p1,p2));
+								}else{
+									enemies.add(new DumbTargetingEnemy(x, y - 4, Direction.RIGHT,p1,null));
+								}
 							}else if(extraInfo.equals("STE")) {
 								enemies.add(new SmartTargettingEnemy(x, y - 4));
 							}
