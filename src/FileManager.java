@@ -1,3 +1,5 @@
+import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -129,8 +131,12 @@ public class FileManager {
 		try {
 			saveFile(p1, outputStr, gameState.getLevel());
 		} catch (IOException e) {
-			System.out.println("ERROR: Cannot create file.");
-			e.printStackTrace();
+//			PopUp a = new PopUp("ERROR: Cannot create file.",true);
+//			Stage stageP = new Stage();
+//			stageP.setScene(a.getScene());
+//			stageP.show();
+//			System.out.println("ERROR: Cannot create file.");
+//			e.printStackTrace();
 		}
 	}
 	
@@ -260,9 +266,13 @@ public class FileManager {
 						// after the above, if the cell type is null then the file is
 						// incorrectly formatted.
 						if(type == null) {
-							System.out.println("ERROR: File not formatted properly.");
-							System.out.println(cells[x]);
-							System.exit(-1);
+//							PopUp a = new PopUp("ERROR: File not formatted properly.",true);
+//							Stage stageP = new Stage();
+//							stageP.setScene(a.getScene());
+//							stageP.show();
+//							System.out.println("ERROR: File not formatted properly.");
+//							System.out.println(cells[x]);
+//							//System.exit(-1);
 						}else {
 							Cell c = new Cell(type, item);
 							if(type.equals(CellType.TELEPORTER) && tempTeleportX != -1) {
@@ -289,8 +299,12 @@ public class FileManager {
 				gameState.setPlayer2(p2);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Error: level file not found.");
-			System.exit(-1);
+//			PopUp a = new PopUp("Error: level file not found.",true);
+//			Stage stageP = new Stage();
+//			stageP.setScene(a.getScene());
+//			stageP.show();
+//			System.out.println("Error: level file not found.");
+//			System.exit(-1);
 		}
 	}
 	
