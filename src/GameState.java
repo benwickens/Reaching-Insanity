@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Represents the state of the game at any point in time (enemy/player locations, state of cells...)
- * @author Stefan, Alan
+ * @author Stefan, Alan, Millie 
  * @version 1.0 Created the rough outline of the class (attributes 
  * and methods but with little implementation) - Stefan <br>
  * 1.1 implemented the constructor which creates a player and loads the cells into the grid - Alan
