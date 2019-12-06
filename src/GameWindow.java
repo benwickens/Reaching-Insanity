@@ -191,7 +191,7 @@ public class GameWindow {
 					Cell cell = gameState.getGrid()
 							[currentGridX][currentGridY];
 					StackPane stack = new StackPane();
-					if(cell.getType() == null) {
+					if(cell == null) {
 						System.out.println(currentGridX + ", " + currentGridY);
 					}
 					
@@ -393,8 +393,7 @@ public class GameWindow {
 			showPlayerView();
 			
 			Timeline waitAfterPlayer = new Timeline(new KeyFrame(
-					Duration.millis(250), e -> {
-				
+					Duration.millis(100), e -> {
 				// now view has been updated, check if player has won or died
 				if (p1.isDead()) {
 					killPlayer();
@@ -453,10 +452,6 @@ public class GameWindow {
 						Player p2 = gameState.getPlayer2();
 						if (enemy.getX() == p1.getX() 
 								&& enemy.getY() == p1.getY()) {
-							enemyTimeline.stop();
-							enemyStepTimeline.stop();
-							playerDeathTimeline.stop();
-							playerViewTimeline.stop();
 							killPlayer();// player 1 has died
 						} else if (p2 != null 
 								&& enemy.getX() == p2.getX() 
@@ -584,6 +579,16 @@ public class GameWindow {
 	 */
 	private void killPlayer() {
 		try {
+			if(enemyStepTimeline != null && enemyTimeline != null 
+					&& playerDeathTimeline != null 
+					&& playerViewTimeline != null) {
+				
+				enemyTimeline.stop();
+				enemyStepTimeline.stop();
+				playerDeathTimeline.stop();
+				playerViewTimeline.stop();
+			
+			}
 			updatingView = true;
 			deathScreen = new ImageView(new Image(
 					new FileInputStream("src/media/img/uDied.png")));

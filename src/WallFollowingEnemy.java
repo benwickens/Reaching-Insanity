@@ -551,3 +551,4 @@ public class WallFollowingEnemy extends Character {
         return 0;
     }
 }
+
