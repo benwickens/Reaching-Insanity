@@ -26,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 /**
@@ -306,6 +307,11 @@ public class GameWindow {
 		timeLabel.setId("timeLabel");
 		Label optionsLabel = new Label("Options");
 		optionsLabel.setId("optionsLabel");
+
+		Label enemyLabel = new Label("Show Enemy Movement");
+		enemyLabel.setId("optionsLabel");
+		enemyLabel.setStyle("-fx-font-size: 16");;
+		
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			if (!paused) {
 				seconds++;
@@ -323,8 +329,9 @@ public class GameWindow {
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
 
-		showEnemyMovement = new CheckBox("Show Enemy Movement");
+		showEnemyMovement = new CheckBox();
 		showEnemyMovement.setSelected(true);
+
 		
 		Button pause = new Button("Pause");
 		pause.setOnAction(e -> {
@@ -358,7 +365,7 @@ public class GameWindow {
 			right.getChildren().addAll(timeLabel, optionsLabel, 
 					pause, resume, exitGame);
 		}else {
-			right.getChildren().addAll(timeLabel, optionsLabel,
+			right.getChildren().addAll(timeLabel, optionsLabel, enemyLabel,
 					showEnemyMovement, pause, resume, exitGame);
 		}
 
