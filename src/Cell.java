@@ -32,19 +32,6 @@ public class Cell {
 	/** The tokens required to open (if a token door) */
 	private int tokens;
 
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * REMOVEEEEEE
-	 * 
-	 * 
-	 * 
-	 */
-	private static boolean firstTokenDoor = true;
-	
 	/**
 	 * Constructs a cell object
 	 * 
@@ -245,25 +232,15 @@ public class Cell {
 			fis = new FileInputStream(GRID_IMAGES + "blueDoor.png");
 			break;
 		case TOKEN_DOOR:
-			if(firstTokenDoor) {
-				firstTokenDoor = false;
-				tokens = 2;
+			Random r = new Random();
+			int num = r.nextInt(2);
+			if (num == 0) {
 				fis = new FileInputStream(GRID_IMAGES + "tokenDoor2.png");
-				System.out.println("first tkdr");
-			}else {
-				System.out.println("not first tkdr");
-				tokens = 5;
+				tokens = 2;
+			} else {
 				fis = new FileInputStream(GRID_IMAGES + "tokenDoor5.png");
+				tokens = 5;
 			}
-//			Random r = new Random();
-//			int num = r.nextInt(2);
-//			if (num == 0) {
-//				fis = new FileInputStream(GRID_IMAGES + "tokenDoor2.png");
-//				tokens = 2;
-//			} else {
-//				fis = new FileInputStream(GRID_IMAGES + "tokenDoor5.png");
-//				tokens = 5;
-//			}
 			break;
 		case FIRE:
 			fis = new FileInputStream(GRID_IMAGES + "fire.png");

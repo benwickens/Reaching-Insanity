@@ -3,11 +3,11 @@ null
 null
 0
 W,W,W,W,W,W,W,W,W
-W,E:P1,E,E,E,E,E,E,W
+W,E:P1,E,E,W,E,E,E,W
+W,E,E,E,W,E,E:STE,E,W
+W,E,E,E,W,E,E,E,W
+W,W,W,E,W,W,W,W,W
 W,E,E,E,E,E,W,E,W
 W,E,E,E,E,E,W,E,W
-W,E:SLE,E,E,E,E,W,E,W
-W,E,E,E,E,E,W,E,W
-W,E,E,E,E,E,W,E,W
-W,E,E,E,E,E:SLE,W,E:SLE,W
+W,E:STE,E,E,E,E,E,E,W
 W,W,W,W,W,W,W,W,W

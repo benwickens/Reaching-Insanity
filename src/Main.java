@@ -14,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import motd.CipherSolver;
+import motd.HttpRequest;
 
 
 
@@ -29,7 +31,7 @@ public class Main extends Application {
 			ImageView background = new ImageView(new Image(
 					new FileInputStream("src/media/img/background.png")));    
 
-			VBox layout = new VBox(250);
+			VBox layout = new VBox(150);
 			
 			VBox buttons = new VBox(5);
 			Button game = new Button("Play Game");
@@ -76,7 +78,9 @@ public class Main extends Application {
 			ImageView title = new ImageView(new Image(
 					new FileInputStream("src/media/img/logo.png")));
 			
-			layout.getChildren().addAll(title, buttons);
+			
+			
+			layout.getChildren().addAll(title, buttons, motd());
 			baseLayout.getChildren().addAll(background, layout);
 			baseLayout.getStylesheets().add("style.css");
 			
@@ -93,6 +97,7 @@ public class Main extends Application {
 		}
 	}
 	
+	
 	public static Scene getScene() {
 		return scene;
 	}
@@ -100,4 +105,19 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	private Label motd() {
+		HttpRequest get = new HttpRequest();
+        String result = get.newConnection("http://cswebcat.swan.ac.uk/puzzle");
+        System.out.println(result);
+        CipherSolver solve = new CipherSolver();
+        String solvedCipher = solve.solved(result);
+        System.out.println("output:" + solvedCipher);
+        String cipherURL = "http://cswebcat.swan.ac.uk/message?solution=" + solvedCipher;
+        System.out.println(cipherURL);
+        System.out.println("Connection result with solved solution:");
+        result = get.newConnection(cipherURL);
+        return new Label(result);
+	}
+	
 }
