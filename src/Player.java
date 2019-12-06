@@ -230,7 +230,7 @@ public class Player extends Character {
 			if(!hasItem(Collectable.ICE_SKATES, 1)) {
 				// set player to dead
 				isDead = true;
-				playSound("src/media/sound/life_lost.wav");
+				playSound("src/media/sound/life_lost.mp3");
 				// update location
 				nextX = x;
 				nextY = y;
