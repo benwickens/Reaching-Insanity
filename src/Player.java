@@ -329,7 +329,9 @@ public class Player extends Character {
 		this.isDead = isDead;
 	}
 	
-	
+	public void clearInventory() {
+		inventory.clear();
+	}
 
 	
 }

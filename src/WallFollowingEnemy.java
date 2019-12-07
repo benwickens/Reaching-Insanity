@@ -1,355 +1,386 @@
-
 /*
  * Author Ben Wickens
  */
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Random;
+public class WallFollowingEnemy extends Character {
+	private Direction currtDir;
+	private Direction vertiDir;
+	private Cell [] [] grid;
+	public WallFollowingEnemy(int x, int y, Direction startDir) {
+		super(x, y, "WFE.png");
+		currtDir = startDir;
+	}
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
-public class WallFollowingEnemy extends Character{
-	private Direction findWall;
-	private Cell[][] map;
-	private Direction startDir;
-	
-	
-	public WallFollowingEnemy(int x, int y, Direction startingDir) {
-		super(x,y, "WFE.png");
-		findWall = detectWall();
-		startDir = startingDir;
-	}
-	
-	//detects where the wall is to follow.
-	private Direction detectWall() {
-		Boolean valid = false;
-		int[] wallCoords = new int[2];
-		char[] direction  = {'u', 'd', 'l', 'r'};
-		while (!valid) {
-			Random random = new Random();
-			int randomInteger = random.nextInt(3);
-			char dir = direction[randomInteger];
-			int tempX = this.x + char2Coords(dir)[0];
-			int tempY = this.y + char2Coords(dir)[1]; 
-			if (map[tempX][tempY].getType() == CellType.WALL) {
-				valid = true;
-				return  char2Direction(dir);
-			}
-		}
-		return null;
-	}
-	
-	private Direction char2Direction(char inChar) {
-		switch (inChar) {
-		case 'u' :
-			return Direction.UP;
-		case 'd' :
-			return Direction.DOWN;
-		case 'l' :
-			return Direction.LEFT;
-		case 'r' :
-			return Direction.RIGHT;
-		default :
-			return null;
-		}
-	}
-	
-	private int[] char2Coords(char inChar) {
-		int[][] Coords = {{0,-1}, {0,1}, {-1,0}, {1,0}};
-		switch (inChar) {
-		case 'u' :
-			return Coords[0];
-		case 'd' :
-			return Coords[1];
-		case 'l' :
-			return Coords[2];
-		case 'r' :
-			return Coords[3];
-		default :
-			return null;
-		}
-	}
-	
-	//Maybe should be a switch but cba to find way round. soz
-	private int[] direction2Coords(Direction in) {
-		int[] Coords = new int[2];
-		
-		if (in == Direction.UP) {
-			Coords[0] = -1;
-			Coords[1] = 0;
-			return Coords;
-		}
-		
-		if (in == Direction.DOWN) {
-			Coords[0] = 1;
-			Coords[1] = 0;
-			return Coords;
-		}
-		
-		if (in == Direction.LEFT) {
-			Coords[0] = 0;
-			Coords[1] = -1;
-			return Coords;
-		}
-
-		if (in == Direction.RIGHT) {
-			Coords[0] = 0;
-			Coords[1] = 1;
-			return Coords;
-		}
-		
-		return null;
-	}
-	
-	public int[] getMove(Cell[][] map) {
-		int[] outCoord = new int[2]; //return value 
-		int tempX;
-		int tempY;
-		if (validWallOnMove()) {
-			tempX = this.x + direction2Coords(startDir)[0];
-			tempY = this.y + direction2Coords(startDir)[1]; 
-			//check if this is a valid move to go to
-			if (map[tempX][tempY].getType() == CellType.EMPTY) {
-				outCoord[0] = tempX;
-				outCoord[1] = tempY;	
-				System.out.print("MOVE: FORWARDS");
-			} else {
-				
-			}
-		}
-		
-		return outCoord;
-	}
-	
-
-	/*
-	 * If there is a 
-	 */
-	public boolean validWallOnMove() {
-		int[] Coords = new int[2];
-		int tempX = this.x + direction2Coords(findWall)[0];
-		int tempY = this.y + direction2Coords(findWall)[1]; 
-		if (map[x][y].getType() == CellType.EMPTY) {
+	private boolean directionUP(CellType cellType) {
+		CellType nextType = grid[x][y - 1].getType();
+		if (nextType.equals(cellType)) {
 			return true;
 		} else {
 			return false;
 		}
-		
 	}
-	//only in bc breaks otherwise
-	public void move(Cell[][] grid){}
+
+	private boolean directionUPLeft(CellType cellType) {
+		CellType nextType = grid[x - 1][y - 1].getType();
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean directionUPRight(CellType cellType) {
+		CellType nextType = grid[x + 1][y - 1].getType();
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean directionRight(CellType cellType) {
+		CellType nextType = grid[x + 1][y].getType();
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean directionLeft(CellType cellType) {
+		CellType nextType = grid[x - 1][y].getType();
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean directionDownLeft(CellType cellType) {
+		CellType nextType = grid[x - 1][y + 1].getType();
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean directionDown(CellType cellType) {
+		CellType nextType = grid[x][y + 1].getType();
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean directionDownRight(CellType cellType) {
+		CellType nextType = grid[x + 1][y + 1].getType();
+		if (nextType.equals(cellType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private int validWallOnMove() {
+		if(directionUP(CellType.WALL)) {
+            System.out.println("This is Up");
+            if (directionLeft(CellType.WALL) && directionRight(CellType.WALL)) {
+                System.out.println("This is Up W +W");
+                vertiDir = Direction.DOWN;
+                return y += 1;
+            } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionDown(CellType.WALL)) {
+                System.out.println("This is R:E + L:W + D:W");
+                if (currtDir == Direction.LEFT) {
+                    currtDir = Direction.RIGHT;
+                    System.out.println("Direction Right");
+                    return x += 1;
+                } else {
+                    System.out.println("Direction Left");
+                    currtDir = Direction.RIGHT;
+                    return x += 1;
+                }
+            } else if (directionRight(CellType.WALL) && directionLeft(CellType.EMPTY) && directionDown(CellType.WALL)) {
+                System.out.println("This is R:W + L:E + D:W");
+                if (currtDir == Direction.LEFT) {
+                    currtDir = Direction.RIGHT;
+                    return x -= 1;
+                } else {
+                    currtDir = Direction.LEFT;
+                    return x -= 1;
+                }
+            } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.WALL)) {
+                System.out.println("This is R:E + L:E + D:W");
+                if (currtDir == Direction.LEFT) {
+                    System.out.println("Direction Right");
+                    return x -= 1;
+                } else {
+                    System.out.println("Direction Left");
+                    return x += 1;
+                }
+            } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionDown(CellType.EMPTY) && !directionUPRight(CellType.WALL) && vertiDir == Direction.UP) {
+                System.out.println("should be it ");
+                vertiDir = Direction.DOWN;
+                return y += 1;
+            } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionDown(CellType.EMPTY)) {
+                System.out.println("Direction Here");
+
+                if (currtDir == Direction.LEFT) {
+                    System.out.println("Direction Here1");
+                    currtDir = Direction.RIGHT;
+                    vertiDir = Direction.DOWN;
+                    return y += 1;
+                } else {
+                    System.out.println("Direction Her2e");
+                    currtDir = Direction.RIGHT;
+                    return x += 1;
+                }
+            } else if (directionRight(CellType.WALL) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY) && !directionUPLeft(CellType.WALL) && vertiDir == Direction.UP) {
+                System.out.println("should be it ");
+                vertiDir = Direction.DOWN;
+                return y += 1;
+            } else if (directionRight(CellType.WALL) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY)) {
+                System.out.println("Direction Here3");
+                if (currtDir == Direction.RIGHT) {
+                    vertiDir = Direction.DOWN;
+                    currtDir = Direction.LEFT;
+                    return y += 1;
+                } else {
+                    return x -= 1;
+                }
+            }else  if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY) && directionUPLeft(CellType.EMPTY)){
+                currtDir = Direction.RIGHT;
+                return x +=1;
+            }else  if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY) && directionUPRight(CellType.EMPTY)){
+                currtDir = Direction.LEFT;
+                return x -=1;
+            }else if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY)){
+			    if(currtDir == Direction.LEFT){
+			        return x-=1;
+                }else{
+			        return x+=1;
+                }
+            }
+		}else if(directionDown(CellType.WALL)) {
+            System.out.println("This is Down");
+            if (directionLeft(CellType.WALL) && directionRight(CellType.WALL)) {
+                System.out.println("This is Down W+W");
+                vertiDir = Direction.UP;
+                return y -= 1;
+            } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionUP(CellType.EMPTY) && directionDownRight(CellType.EMPTY)) {
+                System.out.println("should be it ");
+                vertiDir = Direction.UP;
+                return y -= 1;
+            } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionUP(CellType.EMPTY)) {
+                System.out.println("This is Down E + W +W");
+                if (vertiDir == Direction.DOWN && currtDir == Direction.RIGHT) {
+                    currtDir = Direction.LEFT;
+                    vertiDir = Direction.UP;
+                    return x += 1;
+                } else if (vertiDir == Direction.DOWN && currtDir == Direction.LEFT) {
+                    currtDir = Direction.RIGHT;
+                    vertiDir = Direction.UP;
+                    return x -= 1;
+                } else {
+                    currtDir = Direction.RIGHT;
+                    return y -= 1;
+                }
+            } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionUP(CellType.WALL)) {
+                System.out.println("This is Down W + E +W last 2");
+                if (vertiDir == Direction.DOWN) {
+                    currtDir = Direction.RIGHT;
+                    return x += 1;
+                } else {
+                    vertiDir = Direction.UP;
+                    return y -= 1;
+                }
+            }else if(directionRight(CellType.WALL) && directionLeft(CellType.EMPTY) && directionUP(CellType.EMPTY) && directionDownLeft(CellType.EMPTY)){
+                System.out.println("should be it ");
+                vertiDir = Direction.UP;
+                return y -= 1;
+        }else if(directionRight(CellType.WALL) && directionLeft(CellType.EMPTY) && directionUP(CellType.EMPTY)){
+                System.out.println("This is Down W + E +W last ");
+			    if(vertiDir == Direction.DOWN ){
+			        currtDir = Direction.RIGHT;
+			        vertiDir = Direction.UP;
+			        x-=1;
+                }else {
+                    vertiDir = Direction.UP;
+                    return y -= 1;
+                }
+			}else if(directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY)){
+			    if(currtDir == Direction.RIGHT){
+                    return x-=1;
+                }else{
+                    return x+=1;
+                }
+            }
+
+		}else if(directionRight(CellType.WALL)){
+			System.out.println("This is Right");
+			if(directionUP(CellType.EMPTY)&&directionDown(CellType.EMPTY) && directionDownRight(CellType.EMPTY)){
+				System.out.println("This is Right Dected");
+                if(vertiDir == Direction.DOWN) {
+                    vertiDir = Direction.UP;
+					return y -= 1;
+				}else {
+
+					return y+=1;
+				}
+			}else if(directionDown(CellType.WALL) && directionDownLeft(CellType.WALL) && directionUP(CellType.EMPTY)){
+			    if(vertiDir == Direction.DOWN){
+			        vertiDir = Direction.UP;
+			        currtDir = Direction.LEFT;
+			        return x-+1;
+                }else{
+			        vertiDir = Direction.UP;
+			        return y-=1;
+                }
+            } else if (directionUP(CellType.EMPTY)&&directionDown(CellType.EMPTY) && directionDownRight(CellType.WALL)){
+				System.out.println("This is Right Dected Wrong");
+				if(vertiDir == Direction.DOWN) {
+					return y += 1;
+				}else{
+				    vertiDir = Direction.UP;
+					return y-=1;
+				}
+			}
+		}else if(directionLeft(CellType.WALL)) {
+            System.out.println("This is Left");
+            if (directionDown(CellType.WALL) && directionDownLeft(CellType.WALL) && directionUP(CellType.EMPTY)) {
+                if (vertiDir == Direction.DOWN) {
+                    vertiDir = Direction.UP;
+                    currtDir = Direction.LEFT;
+                    return x - +1;
+                } else {
+                    vertiDir = Direction.UP;
+                    return y -= 1;
+                }
+            } else if (directionUP(CellType.EMPTY) && directionDown(CellType.EMPTY) && directionDownLeft(CellType.WALL)) {
+                System.out.println("This is Left Dected Wrong");
+                if (vertiDir == Direction.DOWN) {
+                    return y += 1;
+                } else {
+                    return y -= 1;
+                }
+            }else if(directionUP(CellType.EMPTY)&& directionDownLeft(CellType.EMPTY)){
+                System.out.println("This is Left Dected Wrong Here");
+                vertiDir = Direction.UP;
+                currtDir = Direction.RIGHT;
+                return y-=1;
+            }
+        }
+		return 0;
+	}
+
+
+
+
+	@Override
+	public void move(Cell[][] grid) {
+		this.grid = grid;
+		validWallOnMove();
+	}
 }
-//
-//    private Direction currentDirection;
-//    private int nextX;
-//    private int nextY;
-//    private Cell nextUp;
-//    private Cell nextDown;
-//    private Cell nextLeft;
-//    private Cell nextRight;
-//
-//
-//    public WallFollowingEnemy(int x, int y, Direction startingDirection){
-//        super(x, y, "WFE.png");
-//        currentDirection = startingDirection;        
-//    }
-//    
-//    
-//    
-//
-//    private void setNextXYUp() {
-//        if(nextUp.getType().equals(CellType.EMPTY)) {
-//        	nextY = y - 1;
-//        }else {
-//        	// change direction, preferably not the opposite
-//        	if(nextLeft.getType().equals(CellType.EMPTY)) {
-//        		nextX = x - 1;
-//        		currentDirection = Direction.LEFT;
-//        	}else {
-//        		if(nextRight.getType().equals(CellType.EMPTY)) {
-//        			nextX = x + 1;
-//        			currentDirection = Direction.RIGHT;
-//        		}else {
-//        			nextY = y + 1;
-//        			currentDirection = Direction.DOWN;
-//        		}
-//        	}
-//        }
-//    }
-//    
-//    private void setNextXYDown() {
-//		if(nextDown.getType().equals(CellType.EMPTY)) {
-//			nextY = y + 1;
-//		}else {
-//			// change direction, preferably not the opposite
-//			if(nextLeft.getType().equals(CellType.EMPTY)) {
-//				nextX = x - 1;
-//				currentDirection = Direction.LEFT;
-//			}else {
-//				if(nextRight.getType().equals(CellType.EMPTY)) {
-//					nextX = x + 1;
-//					currentDirection = Direction.RIGHT;
-//				}else {
-//					nextY = y - 1;
-//					currentDirection = Direction.UP;
-//				}
-//			}
-//		}
-//    }
-//    
-//    private void setNextXYLeft() {
-//		if(nextLeft.getType().equals(CellType.EMPTY)) {
-//			nextX = x - 1;
-//		}else {
-//			// change direction, preferably not the opposite
-//			if(nextUp.getType().equals(CellType.EMPTY)) {
-//				nextY = y - 1;
-//				currentDirection = Direction.UP;
-//			}else {
-//				if(nextDown.getType().equals(CellType.EMPTY)) {
-//					nextY = y +  1;
-//					currentDirection = Direction.DOWN;
-//				}else {
-//					nextX = x + 1;
-//					currentDirection = Direction.RIGHT;
-//				}
-//			}
-//		}
-//    }
-//    
-//    private void setNextXYRight() {
-//		if(nextRight.getType().equals(CellType.EMPTY)) {
-//			nextX = x + 1;
-//		}else {
-//			// change direction, preferably not the opposite
-//			if(nextUp.getType().equals(CellType.EMPTY)) {
-//				nextY = y - 1;
-//				currentDirection = Direction.UP;
-//			}else {
-//				if(nextDown.getType().equals(CellType.EMPTY)) {
-//					nextY = y + 1;
-//					currentDirection = Direction.DOWN;
-//				}else {
-//					nextX = x - 1;
-//					currentDirection = Direction.LEFT;
-//				}
-//			}
-//		}
-//    }
-//    
-//    private void updateNextXY() {
-//    	switch(currentDirection) {
-//    	case UP:
-//    		setNextXYUp();
-//            break;
-//    	case DOWN:
-//    		setNextXYDown();
-//    		break;
-//    	case LEFT:
-//    		setNextXYLeft();
-//    		break;
-//    	case RIGHT:
-//    		setNextXYRight();
-//    		break;
-//    	default:
-//    		break;
-//    	}
-//    }
-//    
-//    public void move(Cell [][] grid){   	
-//    	Cell[] neighbours = getNeighbours(grid, x, y);
-//    	nextUp = neighbours[0];
-//    	nextDown = neighbours[5];
-//    	nextLeft = neighbours[3];
-//    	nextRight = neighbours[4];
-//    	
-//    	nextX = x;
-//    	nextY = y;
-//    	
-//    	updateNextXY(); // picks a nextX and nextY such that cell is not a barrier
-//    	
-//    	//remove these two lines when un-commenting
-////    	x = nextX;
-////    	y = nextY;
-//    	
-//    	
-//    	if(directlyConnectedToBarrier(grid, nextX, nextY)) {
-//    		System.out.println("directly connected to barrier so can move");
-//        	x = nextX;
-//        	y = nextY;
-//    	}else {
-//    		System.out.println("next cell not directly connected to wall");
-//    		if(connectedToBarrier(grid, nextX, nextY)) {
-//    			System.out.println("connected diagonaly to wall so change dir");
-//    			
-//    			
-//    			for(Direction d : Direction.values()) {
-//    				if(d != currentDirection) {
-//    					currentDirection = d;
-//    					System.out.println("trying " + d);
-//    					move(grid);
-//    					break;
-//    				}
-//    			}
-//    			
-//    		}
-//    	}
-//    }
-//
-//    private Cell[] getNeighbours(Cell[][] grid, int nextX, int nextY) {
-//    	Cell[] neighbours = new Cell[8];
-//    	
-//    	neighbours[0] = grid[nextX][nextY - 1]; // up
-//    	neighbours[1] = grid[nextX - 1][nextY - 1]; // up left
-//    	neighbours[2] = grid[nextX + 1][nextY - 1]; // up right
-//    	
-//    	neighbours[3] = grid[nextX - 1][nextY]; // center left
-//    	neighbours[4] = grid[nextX + 1][nextY]; // center right
-//    	
-//    	neighbours[5] = grid[nextX][nextY + 1]; // down
-//    	neighbours[6] = grid[nextX - 1][nextY + 1]; // down left
-//    	neighbours[7] = grid[nextX + 1][nextY + 1]; // down right
-//    	
-//    	return neighbours;
-//    }
-//    
-//    private Cell[] getDirectNeighbours(Cell[][] grid, int nextX, int nextY) {
-//    	Cell[] neighbours = new Cell[8];
-//    	
-//    	neighbours[0] = grid[nextX][nextY - 1];  //up
-//    	neighbours[1] = grid[nextX - 1][nextY]; // left
-//    	neighbours[2] = grid[nextX + 1][nextY]; // right
-//    	neighbours[3] = grid[nextX][nextY + 1]; // down
-//    	
-//    	return neighbours;
-//    }
-//    
-//    private boolean connectedToBarrier(Cell[][] grid, int nextX, int nextY) {
-//    	Cell[] neighbours = getDirectNeighbours(grid, nextX, nextY);
-//    	
-//    	for(Cell c : neighbours) {
-//        	if(!c.getType().equals(CellType.EMPTY)) {
-//        		return true;
-//        	}
-//    	}
-//    	return false;
-//    }
-//    
-//    private boolean directlyConnectedToBarrier(Cell[][] grid, int nextX, int nextY) {
-//    	Cell[] neighbours = getDirectNeighbours(grid, nextX, nextY);
-//    	
-//    	for(Cell c : neighbours) {
-//        	if(!c.getType().equals(CellType.EMPTY)) {
-//        		return true;
-//        	}
-//    	}
-//    	return false;
-//    }
-//    
-//    
-//	public Direction getCurrentDirection() {
-//		return currentDirection;
-//	}
-//
-//}
+
+/*
+if (directionUP(CellType.WALL) && directionDown(CellType.WALL)){
+			System.out.println("Error on Some");
+			if((directionDownRight(CellType.WALL) || directionUPRight(CellType.WALL)) && directionRight(CellType.EMPTY)){
+				if (currtDir == Direction.RIGHT) {
+					return x += 1;
+				} else {
+					return x -= 1;
+				}
+			}else{
+				if (currtDir == Direction.RIGHT) {
+					return x += 1;
+				} else {
+					return x -= 1;
+				}
+			}
+		}else if (directionDown(CellType.WALL) && !directionRight(CellType.WALL) && !directionLeft(CellType.WALL)) {
+			System.out.println("Error on D");
+			if (directionDownRight(CellType.WALL)) {
+				System.out.println("Error on DDD");
+				if (directionRight(CellType.EMPTY)) {
+					System.out.println("Error on D123");
+					if (currtDir == Direction.RIGHT) {
+						return x += 1;
+					} else {
+						return x -= 1;
+					}
+				}
+			} else if (directionDownLeft(CellType.WALL)) {
+				System.out.println("Error on D3");
+				if (directionLeft(CellType.EMPTY)) {
+					System.out.println("Error on D4");
+					if (currtDir == Direction.LEFT) {
+						return x -= 1;
+					} else {
+						return x += 1;
+					}
+				}
+			}
+		} else if (directionUP(CellType.WALL) && !directionLeft(CellType.WALL) && !directionRight(CellType.WALL)) {
+			System.out.println("Error on U1");
+			if (directionUPLeft(CellType.WALL) || directionDownLeft(CellType.WALL)) {
+				System.out.println("Error on U2");
+				if (directionLeft(CellType.EMPTY) && directionLeft(CellType.EMPTY)) {
+					System.out.println("Error on U3");
+					if (currtDir == Direction.RIGHT) {
+						return x += 1;
+					} else {
+						return x -= 1;
+					}
+				}
+				}else{
+				System.out.println("Error on U3SSS");
+					if (currtDir == Direction.RIGHT) {
+						currtDir = Direction.LEFT;
+						return x -= 1;
+					}else{
+						currtDir = Direction.RIGHT;
+						return  x+=1;
+					}
+			}
+		} else if (directionLeft(CellType.WALL)) {
+			System.out.println("Error on L1");
+			if (directionRight(CellType.WALL) || directionLeft(CellType.WALL) &&directionUP(CellType.EMPTY) ){
+				System.out.println("Error on L2");
+				return y += 1;
+			}
+			else if (directionRight(CellType.WALL) || directionLeft(CellType.WALL) &&directionDown(CellType.EMPTY)) {
+				System.out.println("Error on L3");
+				return y -= 1;
+			} else{
+				System.out.print('a');
+				currtDir = Direction.RIGHT;
+				return x += 1;
+			}
+		} else if (directionRight(CellType.WALL)) {
+			System.out.println("Error on R1");
+			if (directionUP(CellType.EMPTY) && directionLeft(CellType.WALL)) {
+				System.out.println("1a");
+				return y -= 1;
+			} else if (directionDown(CellType.EMPTY) && directionDownLeft(CellType.WALL)) {
+				System.out.println("1b");
+				return y += 1;
+			} else if ( directionDown(CellType.WALL)
+					&& directionRight(CellType.WALL) && currtDir == Direction.RIGHT){
+				return y -= 1;
+			}else if(directionDown(CellType.EMPTY) && directionRight(CellType.WALL) && !directionDownRight(CellType.WALL)) {
+				return y -= 1;
+			}else{
+				System.out.println("1e");
+				currtDir = Direction.LEFT;
+				return x -= 1;
+			}
+		}
+		return 0;
+ */
+
+/*
+
+ */
