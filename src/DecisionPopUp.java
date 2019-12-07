@@ -11,7 +11,7 @@ import javafx.scene.layout.TilePane;
 
 public class DecisionPopUp extends Application {
 
-	//Just trying to get it to show with the CSS attached but it wont?
+	//Just trying to get it to show with the CSS attached but it wont show it
 	@Override
 	public void start(Stage primaryStage) {
 		try {
