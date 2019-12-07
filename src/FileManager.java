@@ -36,7 +36,11 @@ public class FileManager {
 		
 		// Output basic level information (size, inventories, time taken)
 		String outputStr = grid.length + "," + grid.length + "\n";
-		outputStr += p1.getInventoryString() + "\n";
+		if(p1.getInventoryString().length() > 0) {
+			outputStr += p1.getInventoryString() + "\n";
+		}else {
+			outputStr += "null\n";
+		}
 		outputStr += "null\n";
 		outputStr += GameWindow.getSeconds() + "\n";
 		
