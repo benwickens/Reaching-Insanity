@@ -30,6 +30,8 @@ public class GameState {
 	private static ArrayList<Character> enemies; 
 	
 	private Database db;
+	
+	private File levelFile;
 
 	/**
 	 * Creates a gamestate object
@@ -69,9 +71,20 @@ public class GameState {
 		
 	}
 	
-	public void progressToNextLevel(){
-		
+	public void progressToNextLevel(GameState gameState){
+		String file = levelFile.getPath();
+		file = file.subSequence(0, file.indexOf("Level")).toString();
+		if (level < 5) {
+			File levelFileLocal = new File(file + "Level "+ (level++) +".txt");
+			FileManager lvl = new FileManager();
+			lvl.readFileToGS(levelFileLocal, gameState);
+		}
+		else {
+			//won game
+			//update leaderboard
+		}
 	}
+
 	
 
 
