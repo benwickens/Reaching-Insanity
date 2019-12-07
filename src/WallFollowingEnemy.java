@@ -149,10 +149,10 @@ public class WallFollowingEnemy extends Character {
                 } else {
                     return x -= 1;
                 }
-            }else  if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY) && directionUPLeft(CellType.EMPTY)){
+            }else  if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY) && !directionUPLeft(CellType.WALL)){
                 currtDir = Direction.RIGHT;
                 return x +=1;
-            }else  if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY) && directionUPRight(CellType.EMPTY)){
+            }else  if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY) && !directionUPRight(CellType.WALL)){
                 currtDir = Direction.LEFT;
                 return x -=1;
             }else if (directionRight(CellType.EMPTY) && directionLeft(CellType.EMPTY) && directionDown(CellType.EMPTY)){
