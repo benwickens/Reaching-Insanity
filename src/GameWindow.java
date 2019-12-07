@@ -380,7 +380,7 @@ public class GameWindow {
 				System.out.println("Player died by moving on to enemy/fire/ice/water.");
 				// show death screen
 				// reset gameState 
-				// remove death screem
+				// remove death screen
 			}else if(player.hasWon()) {
 				// show win screen
 				//create game state for next level
