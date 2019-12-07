@@ -5,9 +5,10 @@ public class WallFollowingEnemy extends Character {
 	private Direction currtDir;
 	private Direction vertiDir;
 	private Cell [] [] grid;
-	public WallFollowingEnemy(int x, int y, Direction startDir) {
+	public WallFollowingEnemy(int x, int y, Direction startDir,Direction vertiDir) {
 		super(x, y, "WFE.png");
 		currtDir = startDir;
+		this.vertiDir = vertiDir;
 	}
 
 
@@ -174,11 +175,11 @@ public class WallFollowingEnemy extends Character {
                 return y -= 1;
             } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionUP(CellType.EMPTY)) {
                 System.out.println("This is Down E + W +W");
-                if (vertiDir == Direction.DOWN && currtDir == Direction.RIGHT) {
+                if (vertiDir == Direction.DOWN && currtDir == Direction.LEFT) {
                     currtDir = Direction.LEFT;
                     vertiDir = Direction.UP;
                     return x += 1;
-                } else if (vertiDir == Direction.DOWN && currtDir == Direction.LEFT) {
+                } else if (vertiDir == Direction.DOWN && currtDir == Direction.RIGHT) {
                     currtDir = Direction.RIGHT;
                     vertiDir = Direction.UP;
                     return x -= 1;
