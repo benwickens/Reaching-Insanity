@@ -461,11 +461,11 @@ public class GameWindow {
 				
 				if(enemy.getX() == p1.getX() && enemy.getY() == p1.getY()) {
 					System.out.println("Player 1 Killed by enemy moving on to them.");
-					// player 1 has died
+					killPlayer();// player 1 has died
 					// call your death metods...
 				}else if(p2 != null && enemy.getX() == p2.getX() && enemy.getY() == p2.getY()) {
 					System.out.println("Player 2 Killed by enemy moving on to them.");
-					// player 2 has died (in multiplayer just treat one player dying
+					killPlayer();// player 2 has died (in multiplayer just treat one player dying
 					// as both players failing the level as it will be simpler to implement)
 				}
 			}));
