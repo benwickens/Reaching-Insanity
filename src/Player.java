@@ -191,7 +191,7 @@ public class Player extends Character {
 			break;
 		case TOKEN_DOOR:
 			if(hasItem(Collectable.TOKEN, 5)) {
-				useItem(Collectable.TOKEN, 5);
+				useItem(Collectable.TOKEN, 0);
 				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
 				playSound("src/media/sound/unlock.wav");
 			}else {

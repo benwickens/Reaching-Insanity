@@ -228,9 +228,11 @@ public class SetupWindow {
 
 		ObservableList<String> levels = FXCollections.observableArrayList();
 		File levelFolder = new File("src/levels/");
+		
 		for(int i = 0; i < highestLevel; i++) {
-			levels.add(levelFolder.listFiles()[i].getName().replace(".txt", ""));
+			levels.add("Level " + i);
 		}
+
 		levelSelector.setItems(levels);
 	}
 

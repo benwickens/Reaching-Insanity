@@ -376,46 +376,50 @@ public class GameWindow {
 		// position and ending position separated by 0.5 seconds.
 		// So we need two timelines (set as class attributes).
 
-		// to deal with each enemy
-		Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(0.8), e -> {
+		if(enemies.size() > 0) {
+			// to deal with each enemy
+			Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(0.75), e -> {
 
-			// firstly set the grid view to the enemies position
-			Character enemy = enemies.get(currentEnemy);
-			gridPane = getEnemyGrid(enemy);
-			borderPane.setCenter(gridPane);
-			layout.getChildren().set(1, borderPane);
-
-			// move the enemy
-			enemy.move(gameState.getGrid());
-
-			// wait 0.25 seconds and update the view with the enemies new position
-			Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(0.45), e2 -> {
+				// firstly set the grid view to the enemies position
+				Character enemy = enemies.get(currentEnemy);
 				gridPane = getEnemyGrid(enemy);
 				borderPane.setCenter(gridPane);
 				layout.getChildren().set(1, borderPane);
 
-				// check if the enemy moved on to a player, if so deal with player death!
-				Player p1 = gameState.getPlayer1();
-				Player p2 = gameState.getPlayer2();
+				// move the enemy
+				enemy.move(gameState.getGrid());
 
-				if (enemy.getX() == p1.getX() && enemy.getY() == p1.getY()) {
-					System.out.println("Player 1 Killed by enemy moving on to them.");
-					killPlayer();// player 1 has died
-				} else if (p2 != null && enemy.getX() == p2.getX() && enemy.getY() == p2.getY()) {
-					System.out.println("Player 2 Killed by enemy moving on to them.");
-					killPlayer();// player 2 has died (in multiplayer just treat one player dying
-				}
+				// wait 0.25 seconds and update the view with the enemies new position
+				Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(0.45), e2 -> {
+					gridPane = getEnemyGrid(enemy);
+					borderPane.setCenter(gridPane);
+					layout.getChildren().set(1, borderPane);
+
+					// check if the enemy moved on to a player, if so deal with player death!
+					Player p1 = gameState.getPlayer1();
+					Player p2 = gameState.getPlayer2();
+
+					if (enemy.getX() == p1.getX() && enemy.getY() == p1.getY()) {
+						System.out.println("Player 1 Killed by enemy moving on to them.");
+						killPlayer();// player 1 has died
+					} else if (p2 != null && enemy.getX() == p2.getX() && enemy.getY() == p2.getY()) {
+						System.out.println("Player 2 Killed by enemy moving on to them.");
+						killPlayer();// player 2 has died (in multiplayer just treat one player dying
+					}
+				}));
+				timeline2.setCycleCount(1);
+				timeline2.play();
+				currentEnemy++;
 			}));
-			timeline2.setCycleCount(1);
-			timeline2.play();
-			currentEnemy++;
-		}));
-		timeline1.setCycleCount(enemies.size());
-		timeline1.play();
+			timeline1.setCycleCount(enemies.size());
+			timeline1.play();
+		}else {
+			
+		}
 
 		// once all of the enemies have moved we need to go back to the players view
 		Timeline timeline3 = new Timeline(
-				new KeyFrame(Duration.seconds(1.5 * enemies.size()), e -> {
+				new KeyFrame(Duration.seconds(1.2 * enemies.size()), e -> {
 					if (multiPlayer) {
 						// swap to next player
 						if (currentPlayer == 1) {
