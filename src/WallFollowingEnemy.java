@@ -5,9 +5,10 @@ public class WallFollowingEnemy extends Character {
 	private Direction currtDir;
 	private Direction vertiDir;
 	private Cell [] [] grid;
-	public WallFollowingEnemy(int x, int y, Direction startDir) {
+	public WallFollowingEnemy(int x, int y, Direction startDir,Direction vertiDir) {
 		super(x, y, "WFE.png");
 		currtDir = startDir;
+		this.vertiDir = vertiDir;
 	}
 
 
