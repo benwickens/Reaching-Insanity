@@ -1,3 +1,4 @@
+
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -245,7 +246,7 @@ public class FileManager {
 								enemies.add(new StraightLineEnemy(x, y - 4, Direction.RIGHT));
 							}
 							else if(extraInfo.equals("WFE")) {
-								enemies.add(new WallFollowingEnemy(x, y - 4, Direction.DOWN));
+								enemies.add(new WallFollowingEnemy(x, y - 4, Direction.LEFT));
 							}
 							else if(extraInfo.equals("DTE")) {
 								if (p2 != null) {
