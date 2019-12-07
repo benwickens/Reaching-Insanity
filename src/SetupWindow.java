@@ -228,13 +228,11 @@ public class SetupWindow {
 
 		ObservableList<String> levels = FXCollections.observableArrayList();
 		File levelFolder = new File("src/levels/");
-		int i = 0;
-		for(File f : levelFolder.listFiles()) {
-			if(i < highestLevel) {
-				levels.add(f.getName().replace(".txt", ""));
-				i++;
-			}
+		
+		for(int i = 0; i < highestLevel; i++) {
+			levels.add("src/levels/Level " + i);
 		}
+
 		levelSelector.setItems(levels);
 	}
 
