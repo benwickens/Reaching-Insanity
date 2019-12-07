@@ -33,6 +33,8 @@ public class GameWindow {
 
 	private final String LOGO_PATH = "src/media/img/logo.png";
 	private final String IMG_FOLDER = "src/media/img/grid/";
+	private ImageView deathScreen;
+	private Timeline timeFrame;
 	
 	/*
 	 *LAYOUT ATTRIBUTES 
@@ -378,9 +380,7 @@ public class GameWindow {
 			// now view has been updated, check if player has won or died
 			if(player.isDead()) {
 				System.out.println("Player died by moving on to enemy/fire/ice/water.");
-				// show death screen
-				// reset gameState 
-				// remove death screem
+				killPlayer();
 			}else if(player.hasWon()) {
 				// show win screen
 				//create game state for next level
@@ -571,7 +571,67 @@ public class GameWindow {
 	}
 	
 	
+public void killPlayer() {
+		
+		try {
+				deathScreen = new ImageView(new Image(new FileInputStream("src/media/img/uDied.png")));
+				gridPane = getGrid();
+				layout.getChildren().add(deathScreen);
+				timeFrame = new Timeline(new KeyFrame(Duration.seconds(4.0),e ->{
+				layout.getChildren().remove(deathScreen);
+				}));
+				timeFrame.setCycleCount(1);
+				timeFrame.play();
+				gameState.getPlayer1().clearInventory();
+				//resetLevel(gameState.getPlayer1().getName(),gameState.getPlayer2().getName(),);
+		} catch (FileNotFoundException e1) {
+			System.out.println("Cannot Load Image.");
+			e1.printStackTrace();
+			System.exit(0);
+		}
+	}
 
+public void resetLevel(String player1Name, String player2Name, File levelFile) {
+	try {
+		
+		layout = new StackPane();
+		
+		ImageView background = new ImageView(new Image(new FileInputStream("src/media/img/background.png")));
+		layout.getChildren().add(background);
+		
+		borderPane = new BorderPane();
+		
+		ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
+		borderPane.setTop(logo);
+		
+		gameState = new GameState(player1Name, player2Name, levelFile);
+		borderPane.setLeft(getLeft());
+		borderPane.setRight(getRight());
+
+		gridPane = getGrid();
+		borderPane.setCenter(gridPane);
+		
+		layout.getChildren().add(borderPane);
+		
+		scene = new Scene(layout, 1200, 700);
+		scene.setOnKeyPressed(e -> processKeyEvent(e));
+		scene.getStylesheets().add("gameWindow.css");
+	
+		background.fitHeightProperty().bind(scene.heightProperty());
+		background.fitWidthProperty().bind(scene.widthProperty());
+		
+		currentPlayer = 1;
+		
+		if(player2Name != null) {
+			multiPlayer = true;
+		}
+		
+	} catch (FileNotFoundException | SQLException e) {
+		System.out.println("ERROR: Failed to load image(s) or SQL Exception.");
+		e.printStackTrace();
+		System.exit(0);
+	}
+}
 	
 
 	
