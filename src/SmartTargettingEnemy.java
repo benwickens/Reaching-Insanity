@@ -41,7 +41,7 @@ public class SmartTargettingEnemy extends Character {
 				}
 			}
 		}
-		//System.out.println(q.peek());
+		System.out.println(q.peek());
 		if (!q.isEmpty()) {
 			outCoOrd[0] = this.x + char2Coords(q.peek().charAt(0))[0];
 			outCoOrd[1] = this.y + char2Coords(q.peek().charAt(0))[1];
