@@ -126,7 +126,6 @@ public class WallFollowingEnemy extends Character {
                 return y += 1;
             } else if (directionRight(CellType.EMPTY) && directionLeft(CellType.WALL) && directionDown(CellType.EMPTY)) {
                 System.out.println("Direction Here");
-
                 if (currtDir == Direction.LEFT) {
                     System.out.println("Direction Here1");
                     currtDir = Direction.RIGHT;
@@ -180,9 +179,9 @@ public class WallFollowingEnemy extends Character {
                     vertiDir = Direction.UP;
                     return x += 1;
                 } else if (vertiDir == Direction.DOWN && currtDir == Direction.RIGHT) {
-                    currtDir = Direction.RIGHT;
+                    currtDir = Direction.LEFT;
                     vertiDir = Direction.UP;
-                    return x -= 1;
+                    return x += 1;
                 } else {
                     currtDir = Direction.RIGHT;
                     return y -= 1;
