@@ -230,7 +230,7 @@ public class SetupWindow {
 		File levelFolder = new File("src/levels/");
 		
 		for(int i = 0; i < highestLevel; i++) {
-			levels.add("src/levels/Level " + i);
+			levels.add("Level " + i);
 		}
 
 		levelSelector.setItems(levels);
