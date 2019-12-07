@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,11 +18,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class SetupWindow {
 
@@ -44,6 +45,7 @@ public class SetupWindow {
 	private HBox playerSelectors;
 	private RadioButton singlePlayer;
 	private RadioButton multiPlayer;
+	private Timeline waiting;
 
 	public SetupWindow() {				
 		try {
@@ -90,9 +92,23 @@ public class SetupWindow {
 						}
 						
 						if(previouslySaved) {
-							File f = new File("src/SavedGames/" + player1Selector.getValue() + "/Level " + level + ".txt");
-							GameWindow gameWindow = new GameWindow(player1Selector.getValue(), null, f); // extra boolean means reload but maybe just send file...
-							stage.setScene(gameWindow.getScene());
+							PopUpBool popUp = new PopUpBool("You have a previous save for this level, would you like to load it?");
+							
+							waiting = new Timeline(new KeyFrame(Duration.millis(100), e2 -> {
+									if(popUp.getResult()) {
+										File f = new File("src/SavedGames/" + player1Selector.getValue() + "/Level " + level + ".txt");
+										GameWindow gameWindow = new GameWindow(player1Selector.getValue(), null, f); // extra boolean means reload but maybe just send file...
+										stage.setScene(gameWindow.getScene());
+										waiting.stop();
+									}else if(!popUp.getWaiting()) {
+										File f = new File("src/levels/Level " + level + ".txt");
+										GameWindow gameWindow = new GameWindow(player1Selector.getValue(), null, f);
+										stage.setScene(gameWindow.getScene());
+										waiting.stop();
+									}
+							}));
+							waiting.setCycleCount(Animation.INDEFINITE);
+							waiting.play();
 						}else {
 							File f = new File("src/levels/Level " + level + ".txt");
 							GameWindow gameWindow = new GameWindow(player1Selector.getValue(), null, f);
