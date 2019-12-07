@@ -46,6 +46,7 @@ public class GameState {
 		// instantiate the database - needed to find the image and 
 		// highest level, which are parameters to the player class.
 		db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
+		this.levelFile = levelFile;
 		
 		// create the player objects from data retrieved from sql query
 		ResultSet rs = db.query("SELECT highest_level, image_id FROM player WHERE name=\"" + player1Name + "\"");
@@ -71,19 +72,7 @@ public class GameState {
 		
 	}
 	
-	public void progressToNextLevel(GameState gameState){
-		String file = levelFile.getPath();
-		file = file.subSequence(0, file.indexOf("Level")).toString();
-		if (level < 5) {
-			File levelFileLocal = new File(file + "Level "+ (level++) +".txt");
-			FileManager lvl = new FileManager();
-			lvl.readFileToGS(levelFileLocal, gameState);
-		}
-		else {
-			//won game
-			//update leaderboard
-		}
-	}
+	//public void progressToNextLevel(GameState gameState){}
 
 	
 

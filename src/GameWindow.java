@@ -88,7 +88,9 @@ public class GameWindow {
 	private int currentEnemy;
 
 	/** holds a reference to the current game state */
-	private static GameState gameState;
+	private GameState gameState;
+	
+	private File levelFile;
 
 	/*
 	 * NODES DISPLAYED ON THE SCREEN
@@ -101,6 +103,7 @@ public class GameWindow {
 	private Timeline viewUpdater;
 
 	public GameWindow(String player1Name, String player2Name, File levelFile) {
+		this.levelFile = levelFile;
 		scene = new Scene(new HBox(), 1200, 700);
 		scene.setOnKeyPressed(e -> processKeyEvent(e));
 		scene.getStylesheets().add("gameWindow.css");
@@ -326,6 +329,19 @@ public class GameWindow {
 			} else if (player.hasWon()) {
 				// show win screen
 				// create game state for next level
+				String file = levelFile.getPath();
+				String temp = file;
+				file = file.subSequence(0, file.indexOf("Level")).toString();
+				int level = (temp.subSequence(0,temp.indexOf("Level ")).toString()).charAt(0) -'0';
+				if (level < 5) {
+					File levelFileLocal = new File(file + "Level"+ (level++) +".txt");
+					FileManager lvl = new FileManager();
+					lvl.readFileToGS(levelFileLocal, gameState);
+				}
+				else {
+					//won game
+					//update leaderboard
+				}
 				// run an SQL query to update the database
 				// remember if multiplayer then we dont store
 				// an entry on the database so skip this step
