@@ -62,7 +62,7 @@ public class GameState {
 		
 		// all data needed by this class is stored. this is all
 		// a constructor should really do so we are done.
-		System.out.println("new game state created");
+		//System.out.println("new game state created");
 	}
 		
 	public void exitGame(){
