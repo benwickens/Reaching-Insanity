@@ -7,14 +7,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class PopUp {
-	
-    private String message;
-    private boolean success;
     
-    public PopUp(String message, boolean success) {
-    	this.message = message; 
-    	this.success = success;
-    	
+    public PopUp(String message, boolean success) {    	
     	VBox dBox = new VBox();
     	
     	Label label = new Label(message);
