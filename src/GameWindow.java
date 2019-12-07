@@ -304,7 +304,6 @@ public class GameWindow {
 	}
 
 	private void processKeyEvent(KeyEvent event) {
-		System.out.println(layout.getChildren().size());
 		if (!paused && !updatingView) {
 			Player player;
 			if (currentPlayer == 1 || !multiPlayer) {
@@ -368,7 +367,6 @@ public class GameWindow {
 	}
 
 	private void showViews() {
-		System.out.println("showing views");
 		// deal with the enemies
 		ArrayList<Character> enemies = gameState.getEnemies();
 		currentEnemy = 0;
@@ -379,7 +377,7 @@ public class GameWindow {
 		// So we need two timelines (set as class attributes).
 
 		// to deal with each enemy
-		Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(1.0), e -> {
+		Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(0.8), e -> {
 
 			// firstly set the grid view to the enemies position
 			Character enemy = enemies.get(currentEnemy);
@@ -391,7 +389,7 @@ public class GameWindow {
 			enemy.move(gameState.getGrid());
 
 			// wait 0.25 seconds and update the view with the enemies new position
-			Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(0.5), e2 -> {
+			Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(0.45), e2 -> {
 				gridPane = getEnemyGrid(enemy);
 				borderPane.setCenter(gridPane);
 				layout.getChildren().set(1, borderPane);
@@ -403,11 +401,9 @@ public class GameWindow {
 				if (enemy.getX() == p1.getX() && enemy.getY() == p1.getY()) {
 					System.out.println("Player 1 Killed by enemy moving on to them.");
 					killPlayer();// player 1 has died
-					// call your death metods...
 				} else if (p2 != null && enemy.getX() == p2.getX() && enemy.getY() == p2.getY()) {
 					System.out.println("Player 2 Killed by enemy moving on to them.");
 					killPlayer();// player 2 has died (in multiplayer just treat one player dying
-					// as both players failing the level as it will be simpler to implement)
 				}
 			}));
 			timeline2.setCycleCount(1);
