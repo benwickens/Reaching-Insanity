@@ -89,7 +89,7 @@ TextField{
 	-fx-background-color: #3CB371;
 }
 
-.check-box {
-	-fx-font-size: 20;
-	-fx-text-fill: red;
+#enemyMove{
+	-fx-font-size: 16;
+	-fx-text-fill: whitesmoke;
 }

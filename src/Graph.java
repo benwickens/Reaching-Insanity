@@ -1,6 +1,13 @@
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * Purpose:
+ * Produces a graph and performs a breadth-first search.
+ * <br>
+ * @author Alan Tollett.
+ * @version 1.0
+ */ 
 class Graph {
 
 	private int V; // No. of vertices
@@ -9,8 +16,12 @@ class Graph {
 	private int[] parent;
 	private boolean foundPlayer;
 	private int nextNode;
-	
-	// Constructor
+
+	/**
+	 * 
+	 * @param v - Number of vertices.
+	 * Creates an instance of type Graph.
+	 */
 	public Graph(int v) {
 		V = v;
 		adj = new LinkedList[v];
@@ -19,12 +30,22 @@ class Graph {
 		}
 	}
 
-	// Function to add an edge into the graph
+	/**
+	 * @param v - Starting edge. 
+	 * @param w - Ending edge.
+	 * Adds an edge between two vertices.
+	 */
 	public void addEdge(int v, int w) {
 		adj[v].add(w);
 	}
 
 	// prints BFS traversal from a given source s
+
+	/**
+	 * @param s - Location of enemy.
+	 * @param d - Location of the player. 
+	 * Performs and prints a Breadth-First Search.
+	 */
 	public void BFS(int s, int d) { 
 		int eNode = s;
 		visited = new boolean[V];
@@ -36,8 +57,8 @@ class Graph {
 		// Mark the current node as visited and enqueue it 
 		visited[s]=true; 
 		queue.add(s); 
-		
-		
+
+
 		while (queue.size() != 0) { 
 			s = queue.poll(); 
 
@@ -47,10 +68,10 @@ class Graph {
 				if (!visited[n]) { 
 					visited[n] = true; 
 					parent[n] = s;
-					
+
 					if(n == d) {
 						foundPlayer = true;		
-						
+
 						// enemy is at enode, player is at d
 						// knowing that theres a path between these two we can
 						// recursively get the parent of a node until we reach
@@ -68,21 +89,19 @@ class Graph {
 						}
 						System.out.println("next node found: " + currNode);
 						nextNode = currNode;
-						break;
 					}
-					
 					queue.add(n); 
 				} 
 			} 
 		}
 	}
-	
+
 	public int getNextNode() {
 		return nextNode;
 	}
-	
+
 	public boolean foundPlayer() {
 		return foundPlayer;
 	}
-	
+
 }
