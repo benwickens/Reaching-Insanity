@@ -9,17 +9,17 @@ import java.util.LinkedList;
  * @version 1.0
  */ 
 public class Graph {
-	// No. of vertices in the graph.
+	/**No. of vertices in the graph.*/
 	private int V; 
-	//Linked list representing the adjacency list.
+	/**Linked list representing the adjacency list.*/
 	private LinkedList<Integer> adj[];
-	//An array containing the nodes already visited.
+	/**An array containing the nodes already visited.*/
 	private boolean[] visited;
-	//Store of the previous node from a node.
+	/**Store of the previous node from a node.*/
 	private int[] parent;
-	//Result of if player is found from the Breadth-First Search.
+	/**Result of if player is found from the Breadth-First Search.*/
 	private boolean foundPlayer;
-	//Next node in the array.
+	/**Next node in the array.*/
 	private int nextNode;
 
 	/**
