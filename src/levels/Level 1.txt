@@ -5,7 +5,7 @@ null
 W,W,W,W,W,W,W,W,W
 W,E:P1,E,E,W,E,E,E,W
 W,E,E,E,W,E,E:STE,E,W
-W,E,E,E,W,E,E,E,W
+W,E,G,E,W,E,E,E,W
 W,W,W,E,W,W,W,W,W
 W,E,E,E,E,E,E,E,W
 W,E,E,E,E,E,E,E,W

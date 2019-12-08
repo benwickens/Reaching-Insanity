@@ -1,0 +1,19 @@
+15,15
+TK:0, RK:0, GK:0, BK:0, FB:0, FL:0, IS:1, L:0
+null
+20
+W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
+W,F,F,F,E,E,E,E,W,W,E:TK,E:TK,E:RK,W,W
+W,E:L,F,E,E,E,E,W,W,E:TK,E:TK,E,W,W,W
+W,E,E,E,E,E,E,E,W,W,E:TK,E,E,W,W
+W,W,W,W,W,E,E,E,E,E,E,E,E,W,W
+W,W,W,E,E,I,I,I,I,I,I,E,E,W,W
+W,W,W,E,W,W,W,W,W,W,W,W,W,W,W
+W,W,E:FL,E,E,E,E,E,E,W,G,E,E,W,W
+W,W,E:SLE,E,E,E,E,E,E,W,E,E,E,E,W
+W,W,W,W,W,W,W,W,E,W,W,W,E,E,W
+W,W,W,W,E,E,E,E,E,E,E,E,E,E,W
+W,E,W,E,E:DTE,E,E,WA,WA,E:P1,E,E,E,E,W
+W,E,E,E,E,WA,WA,E,E,E,E,E,E,E,W
+W,E,W,WA,WA,WA,WA,W,E,W,E,W,E,E,W
+W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
