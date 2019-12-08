@@ -334,16 +334,16 @@ public class GameWindow {
 			} else {
 				p1 = gameState.getPlayer2();
 			}
-
+			
 			// move player
 			p1.move(gameState.getGrid(), event);
 			
-
 			// prevent the player from pressing a key whilst views are updated
 			updatingView = true;
 			showPlayerView();
 			
 			Timeline waitAfterPlayer = new Timeline(new KeyFrame(Duration.millis(250), e -> {
+				
 				// now view has been updated, check if player has won or died
 				if (p1.isDead()) {
 					killPlayer();
@@ -411,7 +411,7 @@ public class GameWindow {
 
 		if(enemies.size() > 0) {
 			// to deal with each enemy
-			enemyTimeline = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
+			enemyTimeline = new Timeline(new KeyFrame(Duration.seconds(1.0), e -> {
 
 				// firstly set the grid view to the enemies position
 				Character enemy = enemies.get(currentEnemy);
@@ -423,7 +423,8 @@ public class GameWindow {
 				enemy.move(gameState.getGrid());
 
 				// wait 0.75 seconds and update the view with the enemies new position
-				enemyStepTimeline = new Timeline(new KeyFrame(Duration.seconds(0.75), e2 -> {
+				enemyStepTimeline = new Timeline(new KeyFrame(Duration.seconds(0.3), e2 -> {
+					
 					gridPane = getEnemyGrid(enemy);
 					borderPane.setCenter(gridPane);
 					layout.getChildren().set(1, borderPane);
@@ -455,7 +456,7 @@ public class GameWindow {
 		}
 		// once all of the enemies have moved we need to go back to the players view
 		playerViewTimeline = new Timeline(
-				new KeyFrame(Duration.seconds((1.8 * enemies.size())), e -> {
+				new KeyFrame(Duration.seconds((1.5 * enemies.size()) + 0.5), e -> {
 					if (multiPlayer) {
 						// swap to next player
 						if (currentPlayer == 1) {
@@ -669,7 +670,8 @@ public class GameWindow {
 			}
 			if (player2Name != null) {
 				multiPlayer = true;
-			}			
+			}
+			
 
 			// start with instantiating the base layout
 			layout = new StackPane();
