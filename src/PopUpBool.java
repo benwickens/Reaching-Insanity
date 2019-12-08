@@ -21,8 +21,9 @@ public class PopUpBool {
 	private boolean waiting;
 	
 	/**
-	 * Constructor - 
-	 * @param message
+	 * Constructor -  Produces a pop up window with two buttons, 
+	 * producing a boolean 
+	 * @param message - The content of the label that is shown.
 	 */
     public PopUpBool(String message) {
     	Stage window = new Stage();
@@ -59,10 +60,18 @@ public class PopUpBool {
         waiting = true;
     }
     
+    /**
+     * Tracks if the user has made a decision on the pop-up.
+     * @return boolean - True if the player hasn't made a decision yet.
+     */
     public boolean getWaiting() {
     	return waiting;
     }
 
+    /**
+     * Gets the result from the users decision.
+     * @return Boolean - True if the user clicks yes, false otherwise.
+     */
 	public boolean getResult() {
 		return result;
 	}

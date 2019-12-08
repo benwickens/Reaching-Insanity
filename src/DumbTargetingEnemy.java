@@ -1,7 +1,7 @@
 /**
  * @version 1.0
  * @author Allan 
- * Creates a dumb targeting enemy
+ * Creates a dumb targeting enemy.
  *
  */
 public class DumbTargetingEnemy extends Character {
