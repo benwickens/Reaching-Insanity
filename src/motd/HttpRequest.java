@@ -8,12 +8,7 @@ import java.net.URL;
  * File name: HttpRequest.java
  *
  * @version 1.0
- * Creation Date: 25/10/2019
- * Last Modification date: 2/11/2019
  * @author Ben Wickens
- * <br>
- * No copyright.
- * <br>
  * Purpose:
  * Takes an url passed into it and forms a HTTP get request retrieving text from the page.
  * <br>
