@@ -45,8 +45,13 @@ public class ControllerMenu implements Initializable {
 	 * the references to the media player in the fxml file
 	 */
 	@FXML
+	/** the properties of the media*/
 	private MediaView see;
+	
+	/**the actual media*/
 	private Media look;
+	
+	/** the control for the media*/
 	private MediaPlayer video;
 
 	/**
