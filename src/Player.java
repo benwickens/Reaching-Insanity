@@ -190,15 +190,26 @@ public class Player extends Character {
 			}
 			break;
 		case TOKEN_DOOR:
-			if(hasItem(Collectable.TOKEN, 5)) {
-				useItem(Collectable.TOKEN, 0);
-				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
-				playSound("src/media/sound/unlock.wav");
+			if(nextCell.getTokens() == 5) {
+				if(hasItem(Collectable.TOKEN, 5)) {
+					grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+					playSound("src/media/sound/unlock.wav");
+				}else {
+					nextX = x;
+					nextY = y;
+					playSound("src/media/sound/bump.wav");
+				}
 			}else {
-				nextX = x;
-				nextY = y;
-				playSound("src/media/sound/bump.wav");
+				if(hasItem(Collectable.TOKEN, 2)) {
+					grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+					playSound("src/media/sound/unlock.wav");
+				}else {
+					nextX = x;
+					nextY = y;
+					playSound("src/media/sound/bump.wav");
+				}
 			}
+			
 			break;
 		case FIRE:
 			if(!hasItem(Collectable.FIRE_BOOTS, 1)) {

@@ -30,6 +30,8 @@ public class Cell {
 	/**The Y location this cell links to (if a teleporter)*/
 	private int linkY;
 	
+	private int tokens;
+	
 	/**
 	 * Constructs a cell object
 	 * @param type the type of cell
@@ -58,7 +60,15 @@ public class Cell {
 				fis = new FileInputStream(GRID_IMAGES + "blueDoor.png");
 				break;
 			case TOKEN_DOOR :
-				fis = new FileInputStream(GRID_IMAGES + "tokenDoor.png");
+				Random r = new Random();
+				int num = r.nextInt(2);
+				if(num == 0) {
+					fis = new FileInputStream(GRID_IMAGES + "tokenDoor2.png");
+					tokens = 2;
+				}else {
+					fis = new FileInputStream(GRID_IMAGES + "tokenDoor5.png");
+					tokens = 5;
+				}
 				break;
 			case FIRE:
 				fis = new FileInputStream(GRID_IMAGES + "fire.png");
@@ -76,9 +86,7 @@ public class Cell {
 				fis = new FileInputStream(GRID_IMAGES + "teleporter.png");
 				break;
 			default:
-				Random r = new Random();
-				fis = new FileInputStream(GRID_IMAGES + "empty.png");
-				//(r.nextInt(3) + 1) + ".png");    
+				fis = new FileInputStream(GRID_IMAGES + "empty.png");    
 			}
 
 			cellImage = new ImageView(new Image(fis));
@@ -177,6 +185,10 @@ public class Cell {
 
 	public void setLinkY(int linkY) {
 		this.linkY = linkY;
+	}
+	
+	public int getTokens() {
+		return tokens;
 	}
 
 }

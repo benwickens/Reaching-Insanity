@@ -473,7 +473,6 @@ public class GameWindow {
 				}));
 		playerViewTimeline.setCycleCount(1);
 		playerViewTimeline.play();
-
 	}
 
 	private GridPane getEnemyGrid(Character enemy) {
