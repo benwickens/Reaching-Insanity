@@ -45,19 +45,31 @@ import motd.HttpRequest;
 
 
 public class ControllerMenu implements Initializable {
+	
+	/**
+	 * the references to the media player in the fxml file 
+	 */
     @FXML
     private MediaView see;
     private Media look;
     private MediaPlayer video;
-
+    
+	/**
+	 * the references to the media player in the fxml file 
+	 */
     @FXML
     private Label messageDisplay;
+    
+	/**
+	 * the references to the Anchor Pane in the fxml file 
+	 */
     @FXML
     private AnchorPane layout;
-
-    private SetupWindow setupWindow;
-    private GameWindow gameWindow;
     
+    /**
+     * the Method to load in a video and 
+     * display the message of the day on the background
+     */
     public void initialize(URL location, ResourceBundle resources) {
         String path = new File("src/media/video/DummyTest.mp4").getAbsolutePath();
         look = new Media(new File(path).toURI().toString());
@@ -80,17 +92,26 @@ public class ControllerMenu implements Initializable {
         messageDisplay.prefWidth(result.length());
         
     }
-
+    
+	/**
+	 *  Handle when play game is pressed
+	 * @param event
+	 * @throws Exception
+	 */
     @FXML
     private void playGamePress(ActionEvent event)throws Exception {
         video.stop();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Reaching Insanity");
-        setupWindow = new SetupWindow();
-//        gameWindow = new GameWindow("testplayer", new File("src/levels/test"));
+        SetupWindow setupWindow = new SetupWindow();
         stage.setScene(setupWindow.getScene());
     }
     
+    /**
+     * Handle where leader board is pressed
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void leaderBoardPress(ActionEvent event)throws IOException {
        video.stop();
@@ -99,6 +120,11 @@ public class ControllerMenu implements Initializable {
        stage.setScene((new LeaderBoard().getScene()));
     }
     
+    /**
+     * Handles where the player editor is pressed
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void playerEditorPress(ActionEvent event)throws IOException {
         video.stop();
@@ -109,6 +135,10 @@ public class ControllerMenu implements Initializable {
         stage.setScene((new PlayerEditor().getScene()));
     }
 
+    /**
+     * Handles where the exit game is pressed
+     * @param event
+     */
     @FXML
     private void exitGamePress(ActionEvent event) {
         Platform.exit();
