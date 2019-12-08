@@ -46,7 +46,6 @@ public class LeaderBoard {
 	private int level;
 
 	/**
-	 * 
 	 * leaderboard consutor which consutor a new leader board
 	 * @throws IOException
 	 */
