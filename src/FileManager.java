@@ -50,6 +50,7 @@ public class FileManager {
 			// get each individual cell for that grid and add its info to the file
 			for(int x = 0; x < grid.length; x++) { 
 				Cell c = grid[x][y];
+				System.out.println("X: " + x + ", Y: " + y);
 				CellType t = c.getType();
 				
 				// if the cell is empty then it could contain the player
@@ -249,9 +250,9 @@ public class FileManager {
 							}else if(extraInfo.equals("SLE")) {
 								enemies.add(new StraightLineEnemy(x, y - 4, Direction.RIGHT));
 							}
-							else if(extraInfo.equals("WFE")) {
-								enemies.add(new WallFollowingEnemy(x, y - 4, Direction.LEFT,Direction.DOWN));
-							}
+//							else if(extraInfo.equals("WFE")) {
+//								enemies.add(new WallFollowingEnemy(x, y - 4, Direction.LEFT,Direction.DOWN));
+//							}
 							else if(extraInfo.equals("DTE")) {
 								if (p2 != null) {
 									enemies.add(new DumbTargetingEnemy(x, y - 4, Direction.RIGHT,p1,p2));

@@ -190,15 +190,26 @@ public class Player extends Character {
 			}
 			break;
 		case TOKEN_DOOR:
-			if(hasItem(Collectable.TOKEN, 5)) {
-				useItem(Collectable.TOKEN, 0);
-				grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
-				playSound("src/media/sound/unlock.wav");
+			if(nextCell.getTokens() == 5) {
+				if(hasItem(Collectable.TOKEN, 5)) {
+					grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+					playSound("src/media/sound/unlock.wav");
+				}else {
+					nextX = x;
+					nextY = y;
+					playSound("src/media/sound/bump.wav");
+				}
 			}else {
-				nextX = x;
-				nextY = y;
-				playSound("src/media/sound/bump.wav");
+				if(hasItem(Collectable.TOKEN, 2)) {
+					grid[nextX][nextY] = new Cell(CellType.EMPTY, null);
+					playSound("src/media/sound/unlock.wav");
+				}else {
+					nextX = x;
+					nextY = y;
+					playSound("src/media/sound/bump.wav");
+				}
 			}
+			
 			break;
 		case FIRE:
 			if(!hasItem(Collectable.FIRE_BOOTS, 1)) {
@@ -286,8 +297,13 @@ public class Player extends Character {
 			nextY = y;
 			hasWon = true;
 			break;
-		case EMPTY:			
-			// if next cell does not hold an enemy then check if has an item
+		case EMPTY:						
+			for(Character e : GameWindow.getGameState().getEnemies()) {
+				if(e.getX() == nextX && e.getY() == nextY) {
+					isDead = true;
+				}
+			}
+			
 			if(nextCell.getItem() != null) {
 				addToInventory(nextCell.getItem());
 				nextCell.setItem(null);
