@@ -286,8 +286,13 @@ public class Player extends Character {
 			nextY = y;
 			hasWon = true;
 			break;
-		case EMPTY:			
-			// if next cell does not hold an enemy then check if has an item
+		case EMPTY:						
+			for(Character e : GameWindow.getGameState().getEnemies()) {
+				if(e.getX() == nextX && e.getY() == nextY) {
+					isDead = true;
+				}
+			}
+			
 			if(nextCell.getItem() != null) {
 				addToInventory(nextCell.getItem());
 				nextCell.setItem(null);
