@@ -63,7 +63,7 @@ public class DumbTargetingEnemy extends Character {
 			}
 			
 			// if can make the move do it, otherwise vertical
-			if(nextX != x && grid[nextX][y].getType().equals(CellType.EMPTY)) {
+			if(nextX != x && grid[nextX][y].getType().equals(CellType.EMPTY) && grid[nextX][y].getItem() == null) {
 				moveTo(nextX, y);
 			}else {
 				// then move vertically
@@ -72,7 +72,7 @@ public class DumbTargetingEnemy extends Character {
 				}else if(yDistFromPlayer1 > 0){
 					nextY = y - 1;
 				}
-				if(grid[x][nextY].getType().equals(CellType.EMPTY)) {
+				if(grid[x][nextY].getType().equals(CellType.EMPTY) && grid[x][nextY].getItem() == null) {
 					moveTo(x, nextY);
 				}
 				// otherwise no valid move -- stuck
@@ -88,7 +88,7 @@ public class DumbTargetingEnemy extends Character {
 			}
 			
 			// if can make the move do it, otherwise vertical
-			if(nextX != x && grid[nextX][y].getType().equals(CellType.EMPTY)) {
+			if(nextX != x && grid[nextX][y].getType().equals(CellType.EMPTY) && grid[nextX][y].getItem() == null) {
 				moveTo(nextX, y);
 			}else {
 				// then move vertically
@@ -97,7 +97,7 @@ public class DumbTargetingEnemy extends Character {
 				}else if(yDistFromPlayer1 > 0){
 					nextY = y - 1;
 				}
-				if(grid[x][nextY].getType().equals(CellType.EMPTY)) {
+				if(grid[x][nextY].getType().equals(CellType.EMPTY) && grid[x][nextY].getItem() == null) {
 					moveTo(x, nextY);
 				}
 				// otherwise no valid move -- stuck

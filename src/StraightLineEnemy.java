@@ -38,16 +38,17 @@ public class StraightLineEnemy extends Character{
     public void move(Cell [][] grid){
     	boolean canMoveHorizontally = true;
     	CellType nextType;
+    	Cell nextCell;
     	
     	
         if(currentDirection.equals(Direction.RIGHT)){
-            nextType = grid[x + 1][y].getType();
-            if(nextType.equals(CellType.EMPTY)){
+        	nextCell = grid[x+1][y];
+            if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
                 x += 1;
                 System.out.println("SLE moved right");
             }else{
-            	nextType = grid[x - 1][y].getType();
-            	if(nextType.equals(CellType.EMPTY)) {
+            	nextCell = grid[x - 1][y];
+            	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
             		currentDirection = Direction.LEFT;
                     x -= 1;
                     System.out.println("SLE moved left");
@@ -58,13 +59,13 @@ public class StraightLineEnemy extends Character{
             	}
             }
         }else if(currentDirection.equals(Direction.LEFT)){
-            nextType = grid[x - 1][y].getType();
-            if(nextType.equals(CellType.EMPTY)){
+        	nextCell = grid[x - 1][y];
+            if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
                 x -= 1;
                 System.out.println("SLE moved left");
             }else{
-            	nextType = grid[x + 1][y].getType();
-            	if(nextType.equals(CellType.EMPTY)) {
+            	nextCell = grid[x + 1][y];
+            	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
             		currentDirection = Direction.RIGHT;
                     x += 1;
                     System.out.println("SLE moved right");
@@ -81,26 +82,26 @@ public class StraightLineEnemy extends Character{
         if(!canMoveHorizontally) {
             System.out.println("couldnt move horizontally so");
             if(currentDirection.equals(Direction.UP)){
-                nextType = grid[x][y - 1].getType();
-                if(nextType.equals(CellType.EMPTY)){
+            	nextCell = grid[x][y - 1];
+                if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
                     System.out.println("SLE moved up");
                     y -= 1;
                 }else{
-                	nextType = grid[x][y + 1].getType();
-                	if(nextType.equals(CellType.EMPTY)) {
+                	nextCell = grid[x][y + 1];
+                	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
                 		currentDirection = Direction.DOWN;
                         y += 1;
                         System.out.println("SLE moved down");
                 	}
                 }
             }else if(currentDirection.equals(Direction.DOWN)){
-                nextType = grid[x][y + 1].getType();
-                if(nextType.equals(CellType.EMPTY)){
+            	nextCell = grid[x][y + 1];
+                if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null){
                     y += 1;
                     System.out.println("SLE moved down");
                 }else{
-                	nextType = grid[x][y - 1].getType();
-                	if(nextType.equals(CellType.EMPTY)) {
+                	nextCell = grid[x][y - 1];
+                	if(nextCell.getType().equals(CellType.EMPTY) && nextCell.getItem() == null) {
                 		currentDirection = Direction.UP;
                         y -= 1;
                         System.out.println("SLE moved up");
