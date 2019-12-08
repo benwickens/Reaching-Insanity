@@ -249,9 +249,9 @@ public class FileManager {
 							}else if(extraInfo.equals("SLE")) {
 								enemies.add(new StraightLineEnemy(x, y - 4, Direction.RIGHT));
 							}
-							else if(extraInfo.equals("WFE")) {
-								enemies.add(new WallFollowingEnemy(x, y - 4, Direction.LEFT,Direction.DOWN));
-							}
+//							else if(extraInfo.equals("WFE")) {
+//								enemies.add(new WallFollowingEnemy(x, y - 4, Direction.LEFT,Direction.DOWN));
+//							}
 							else if(extraInfo.equals("DTE")) {
 								if (p2 != null) {
 									enemies.add(new DumbTargetingEnemy(x, y - 4, Direction.RIGHT,p1,p2));
@@ -259,7 +259,7 @@ public class FileManager {
 									enemies.add(new DumbTargetingEnemy(x, y - 4, Direction.RIGHT,p1,null));
 								}
 							}else if(extraInfo.equals("STE")) {
-								enemies.add(new SmartTargettingEnemy(x, y - 4));
+								enemies.add(new SmartTargettingEnemy(x, y - 4, p1));
 							}
 							else if(extraInfo.contains("-")) {
 								// then a teleporter as cell is represented as TP:X-Y
