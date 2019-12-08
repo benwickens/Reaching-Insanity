@@ -23,7 +23,6 @@ public class Graph {
 	private int nextNode;
 
 	/**
-	 * 
 	 * @param v - Number of vertices.
 	 * Creates an instance of type Graph.
 	 */
