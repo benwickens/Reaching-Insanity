@@ -88,3 +88,8 @@ TextField{
 #safe{
 	-fx-background-color: #3CB371;
 }
+
+.check-box {
+	-fx-font-size: 20;
+	-fx-text-fill: red;
+}

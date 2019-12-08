@@ -40,7 +40,7 @@ public class PopUpBool {
     	dBox.getChildren().addAll(label, yesNo);
     	
         window.initModality(Modality.APPLICATION_MODAL);
-        Scene scene = new Scene(dBox, 500, 100);
+        Scene scene = new Scene(dBox, 900, 100);
         scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.show();

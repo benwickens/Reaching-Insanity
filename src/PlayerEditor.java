@@ -247,7 +247,7 @@ public class PlayerEditor {
 				// if yes/no dialog returns true
 				db.manipulate("DELETE FROM leaderboard WHERE name=\"" + existingPlayers.getValue() + "\"");
 				db.manipulate("DELETE FROM player WHERE name=\"" + existingPlayers.getValue() + "\"");
-				new PopUp("ERROR: The player has been deleted.", true);
+				new PopUp("The player has been deleted.", true);
 				backToMain(e);
 			}
 		});

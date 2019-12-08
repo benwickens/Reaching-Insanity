@@ -2,19 +2,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,8 +26,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -88,10 +88,18 @@ public class GameWindow {
 	private int currentEnemy;
 
 	/** holds a reference to the current game state */
-	private GameState gameState;
+	private static GameState gameState;
 	
+	/**Indicates whether the game should display the enemies moves*/
+	private CheckBox showEnemyMovement;
+
 	private File levelFile;
 
+	private Timeline enemyTimeline;
+	private Timeline enemyStepTimeline;
+	private Timeline playerDeathTimeline;
+	private Timeline playerViewTimeline;
+	
 	/*
 	 * NODES DISPLAYED ON THE SCREEN
 	 */
@@ -107,7 +115,7 @@ public class GameWindow {
 		scene = new Scene(new HBox(), 1200, 700);
 		scene.setOnKeyPressed(e -> processKeyEvent(e));
 		scene.getStylesheets().add("gameWindow.css");
-		
+
 		resetLevel(player1Name, player2Name, levelFile);
 	}
 
@@ -146,6 +154,10 @@ public class GameWindow {
 					int currentGridY = playerY + gridY;
 					Cell cell = gameState.getGrid()[currentGridX][currentGridY];
 					StackPane stack = new StackPane();
+					if(cell.getType() == null) {
+						System.out.println(currentGridX + ", " + currentGridY);
+					}
+					
 					stack.getChildren().add(cell.getCellImage());
 
 					if (gridX == 0 && gridY == 0) { // if drawing the center cell, add player
@@ -265,6 +277,9 @@ public class GameWindow {
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
 
+		showEnemyMovement = new CheckBox("Show Enemy Movement");
+		showEnemyMovement.setSelected(true);
+		
 		Button pause = new Button("Pause");
 		pause.setOnAction(e -> {
 			timeline.pause();
@@ -302,57 +317,59 @@ public class GameWindow {
 			}
 		});
 
-		right.getChildren().addAll(timeLabel, optionsLabel, pause, resume, exitGame);
+		if(multiPlayer) {
+			right.getChildren().addAll(timeLabel, optionsLabel, pause, resume, exitGame);
+		}else {
+			right.getChildren().addAll(timeLabel, optionsLabel, showEnemyMovement, pause, resume, exitGame);
+		}
+
 		return right;
 	}
 
 	private void processKeyEvent(KeyEvent event) {
 		if (!paused && !updatingView) {
-			Player player;
+			Player p1;
 			if (currentPlayer == 1 || !multiPlayer) {
-				player = gameState.getPlayer1();
+				p1 = gameState.getPlayer1();
 			} else {
-				player = gameState.getPlayer2();
+				p1 = gameState.getPlayer2();
 			}
 
 			// move player
-			player.move(gameState.getGrid(), event);
+			p1.move(gameState.getGrid(), event);
+			
 
 			// prevent the player from pressing a key whilst views are updated
 			updatingView = true;
 			showPlayerView();
-
-			// now view has been updated, check if player has won or died
-			if (player.isDead()) {
-				System.out.println("Player died by moving on to enemy/fire/ice/water.");
-				killPlayer();
-			} else if (player.hasWon()) {
-				// show win screen
-				// create game state for next level
-				String file = levelFile.getPath();
-				String temp = file;
-				file = file.subSequence(0, file.indexOf("Level")).toString();
-				int level = (temp.subSequence(0,temp.indexOf("Level ")).toString()).charAt(0) -'0';
-				if (level < 5) {
-					File levelFileLocal = new File(file + "Level"+ (level++) +".txt");
-					FileManager lvl = new FileManager();
-					lvl.readFileToGS(levelFileLocal, gameState);
+			
+			Timeline waitAfterPlayer = new Timeline(new KeyFrame(Duration.millis(250), e -> {
+				// now view has been updated, check if player has won or died
+				if (p1.isDead()) {
+					killPlayer();
+				} else if (p1.hasWon()) {
+					completeLevel();
+				} else {
+					if(showEnemyMovement.isSelected()) { // only ever false in single player
+						showViews();
+						// when showViews() terminates the view is on the next player
+						// and updatingView is set to false so the player can press a key.
+					}else {
+						for(Character enemy : gameState.getEnemies()) {
+							enemy.move(gameState.getGrid());
+							if(enemy.getX() == p1.getX() 
+									&& enemy.getY() == p1.getY()) {
+								killPlayer();
+								break;
+							}
+						}
+						showPlayerView();
+						updatingView = false;
+					}
 				}
-				else {
-					//won game
-					//update leaderboard
-				}
-				// run an SQL query to update the database
-				// remember if multiplayer then we dont store
-				// an entry on the database so skip this step
-				// set the game windows game state to the new game state
-				// reset game windows class variables (e.g. currentPlayer must reset to 1, timer...)
-			} else {
-				// if the player hasn't won and is still alive, then display the enemy views
-				showViews();
-				// when showViews() terminates the view is on the next player
-				// and updatingView is set to false so the player can press a key.
-			}
+			}));
+			waitAfterPlayer.setCycleCount(1);
+			waitAfterPlayer.play();
 		}
 		event.consume();
 	}
@@ -394,7 +411,7 @@ public class GameWindow {
 
 		if(enemies.size() > 0) {
 			// to deal with each enemy
-			Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(0.75), e -> {
+			enemyTimeline = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
 
 				// firstly set the grid view to the enemies position
 				Character enemy = enemies.get(currentEnemy);
@@ -405,37 +422,40 @@ public class GameWindow {
 				// move the enemy
 				enemy.move(gameState.getGrid());
 
-				// wait 0.25 seconds and update the view with the enemies new position
-				Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(0.45), e2 -> {
+				// wait 0.75 seconds and update the view with the enemies new position
+				enemyStepTimeline = new Timeline(new KeyFrame(Duration.seconds(0.75), e2 -> {
 					gridPane = getEnemyGrid(enemy);
 					borderPane.setCenter(gridPane);
 					layout.getChildren().set(1, borderPane);
 
-					// check if the enemy moved on to a player, if so deal with player death!
-					Player p1 = gameState.getPlayer1();
-					Player p2 = gameState.getPlayer2();
+					playerDeathTimeline = new Timeline(new KeyFrame(Duration.seconds(0.2), e3 -> {
+						// check if the enemy moved on to a player, if so deal with player death!
+						Player p1 = gameState.getPlayer1();
+						Player p2 = gameState.getPlayer2();
 
-					if (enemy.getX() == p1.getX() && enemy.getY() == p1.getY()) {
-						System.out.println("Player 1 Killed by enemy moving on to them.");
-						killPlayer();// player 1 has died
-					} else if (p2 != null && enemy.getX() == p2.getX() && enemy.getY() == p2.getY()) {
-						System.out.println("Player 2 Killed by enemy moving on to them.");
-						killPlayer();// player 2 has died (in multiplayer just treat one player dying
-					}
+						if (enemy.getX() == p1.getX() && enemy.getY() == p1.getY()) {
+							enemyTimeline.stop();
+							enemyStepTimeline.stop();
+							playerDeathTimeline.stop();
+							playerViewTimeline.stop();
+							killPlayer();// player 1 has died
+						} else if (p2 != null && enemy.getX() == p2.getX() && enemy.getY() == p2.getY()) {
+							killPlayer();// player 2 has died (in multiplayer just treat one player dying
+						}
+					}));
+					playerDeathTimeline.setCycleCount(1);
+					playerDeathTimeline.play();
 				}));
-				timeline2.setCycleCount(1);
-				timeline2.play();
+				enemyStepTimeline.setCycleCount(1);
+				enemyStepTimeline.play();
 				currentEnemy++;
 			}));
-			timeline1.setCycleCount(enemies.size());
-			timeline1.play();
-		}else {
-			
+			enemyTimeline.setCycleCount(enemies.size());
+			enemyTimeline.play();
 		}
-
 		// once all of the enemies have moved we need to go back to the players view
-		Timeline timeline3 = new Timeline(
-				new KeyFrame(Duration.seconds(1.2 * enemies.size()), e -> {
+		playerViewTimeline = new Timeline(
+				new KeyFrame(Duration.seconds((1.8 * enemies.size())), e -> {
 					if (multiPlayer) {
 						// swap to next player
 						if (currentPlayer == 1) {
@@ -450,8 +470,8 @@ public class GameWindow {
 						updatingView = false;
 					}
 				}));
-		timeline3.setCycleCount(1);
-		timeline3.play();
+		playerViewTimeline.setCycleCount(1);
+		playerViewTimeline.play();
 
 	}
 
@@ -552,6 +572,93 @@ public class GameWindow {
 		}
 	}
 
+	public void completeLevel() {
+		try {
+			updatingView = true;
+			deathScreen = new ImageView(new Image(new FileInputStream("src/media/img/uWon.png")));
+			layout.getChildren().add(deathScreen);
+
+			timeFrame = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
+				layout.getChildren().remove(deathScreen);
+
+				int level = gameState.getLevel();
+				Player p = gameState.getPlayer1();
+				int seconds = getSeconds();
+
+				// not doing leaderboards for multiplayer so back to main
+				if(multiPlayer) {
+					backToMain(e);
+				}else {
+					if(level < 5) {
+						updateLeaderBoard(p, level, seconds);
+
+						// now lb updated, go to next level
+						resetLevel(p.getName(),
+								null,
+								new File("src/levels/Level " + (level + 1) + ".txt"));
+					}else {
+						// update and go to main
+						updateLeaderBoard(p, level, seconds);
+						backToMain(e);
+					}
+				}
+
+			}));
+			timeFrame.setCycleCount(1);
+			timeFrame.play();
+		} catch (FileNotFoundException e1) {
+			System.out.println("Cannot Load Image.");
+			e1.printStackTrace();
+			System.exit(0);
+		}
+	}
+
+	private void updateLeaderBoard(Player p, int level, int seconds) {
+		try {
+			Database db = new Database("jdbc:mysql://localhost:3306/Reaching_Insanity", "root", "");
+
+			ResultSet rs = db.query("SELECT * FROM leaderboard " + 
+					"WHERE name='" + p.getName() + 
+					"' AND level=" + level);
+			
+			if(rs.next()) {
+				// player already has a time for this level, update
+				int oldSeconds = rs.getInt("seconds");
+				if(seconds < oldSeconds) {
+					db.manipulate("UPDATE leaderboard "
+							+ "SET time=" + getSeconds() + 
+							" WHERE name='" + p.getName() + 
+							"' AND level=" + level);
+				}
+			}else {
+				// player does not have a time for this level, add new
+				db.manipulate("INSERT INTO leaderboard VALUES (" + 
+						level + ", '" + 
+						p.getName() + "', " +
+						seconds + ")");
+				// as new entry, highest level may have changed.
+				rs = db.query("SELECT * FROM player WHERE name='" + p.getName() + "'");
+				if(rs.next() && rs.getInt("highest_level") <= level) {
+					db.manipulate("UPDATE player SET highest_level=" + (level+1) + 
+							" WHERE name='" + p.getName()+ "'");
+				}
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void backToMain(ActionEvent e) {
+		try {
+			Parent loadIn = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+			Stage newWindow = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			newWindow.setScene(new Scene(loadIn, 1200, 700));
+			newWindow.show();
+		} catch (IOException e1) {e1.printStackTrace();}
+	}
+
 	public void resetLevel(String player1Name, String player2Name, File levelFile) {
 		try {
 			currentPlayer = 1;
@@ -560,7 +667,10 @@ public class GameWindow {
 			if(timeline != null) {
 				timeline.stop();
 			}
-			
+			if (player2Name != null) {
+				multiPlayer = true;
+			}			
+
 			// start with instantiating the base layout
 			layout = new StackPane();
 
@@ -573,8 +683,11 @@ public class GameWindow {
 			borderPane = new BorderPane();
 
 			// firstly we can get the logo as its a simple one line trick (top border)
+			HBox logoBox = new HBox();
 			ImageView logo = new ImageView(new Image(new FileInputStream(LOGO_PATH)));
-			borderPane.setTop(logo);
+			logoBox.getChildren().addAll(logo);
+			logoBox.setAlignment(Pos.CENTER);
+			borderPane.setTop(logoBox);
 
 			// the left and right are slightly more complicated, so seperated into a seperate
 			// method.
@@ -609,9 +722,6 @@ public class GameWindow {
 			// but some others need to be specified:
 			currentPlayer = 1;
 
-			if (player2Name != null) {
-				multiPlayer = true;
-			}
 
 			// all data needed by this class is now stored. This is all
 			// a constructor should really do so we are done.
@@ -622,6 +732,10 @@ public class GameWindow {
 			e.printStackTrace();
 			System.exit(0);
 		}
+	}
+	
+	public static GameState getGameState() {
+		return gameState;
 	}
 
 }
