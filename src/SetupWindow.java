@@ -120,7 +120,7 @@ public class SetupWindow {
 				}else {
 					if(player1Selector.getValue() != null 
 							&& player2Selector.getValue() != null 
-							&& player1Selector.getValue() != player2Selector.getValue()) {
+							&& (!player1Selector.getValue().equals(player2Selector.getValue()))) {
 						File f = new File("src/levels/Level 100.txt");
 						GameWindow gameWindow = new GameWindow(player1Selector.getValue(), player2Selector.getValue(), f);
 						stage.setScene(gameWindow.getScene());
@@ -226,9 +226,7 @@ public class SetupWindow {
 			highestLevel = 1;
 		}
 
-		ObservableList<String> levels = FXCollections.observableArrayList();
-		File levelFolder = new File("src/levels/");
-		
+		ObservableList<String> levels = FXCollections.observableArrayList();		
 		for(int i = 0; i < highestLevel; i++) {
 			levels.add("Level " + (i + 1));
 		}

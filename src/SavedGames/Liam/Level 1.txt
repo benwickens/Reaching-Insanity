@@ -1,7 +1,7 @@
 35,35
 null
 null
-0
+1
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
 W,W,W,W,W,E,E,E,E,E,E,E,E,E,E,G,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
 W,E:WFE,W,W,W,W,W,W,W,W,W,CDG,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W

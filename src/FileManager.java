@@ -50,6 +50,7 @@ public class FileManager {
 			// get each individual cell for that grid and add its info to the file
 			for(int x = 0; x < grid.length; x++) { 
 				Cell c = grid[x][y];
+				System.out.println("X: " + x + ", Y: " + y);
 				CellType t = c.getType();
 				
 				// if the cell is empty then it could contain the player
