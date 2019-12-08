@@ -1,3 +1,5 @@
+import javax.security.auth.login.CredentialException;
+
 /*
  * Author Ben Wickens
  */
@@ -87,7 +89,10 @@ public class WallFollowingEnemy extends Character {
 	private int validWallOnMove() {
         if (directionUP(CellType.WALL)) {
             System.out.println("Up");
-            if(directionLeft(CellType.WALL) && directionDown(CellType.WALL)){
+            if (directionLeft(CellType.WALL) && directionRight(CellType.WALL) && directionDown(CellType.EMPTY)){
+                vertiDir = Direction.DOWN;
+                return y+=1;
+            } else if(directionLeft(CellType.WALL) && directionDown(CellType.WALL)){
                 System.out.println("Up1");
                 currtDir = Direction.RIGHT;
                 return x +=1;
@@ -132,7 +137,15 @@ public class WallFollowingEnemy extends Character {
                 }
             }else if(directionLeft(CellType.WALL) && directionRight(CellType.EMPTY) && directionUPRight(CellType.WALL)){
                 System.out.println("Up6");
-                if (currtDir == Direction.LEFT && vertiDir == Direction.UP){
+                if(directionDown(CellType.EMPTY) && directionDownRight(CellType.WALL)){
+                    if(currtDir == Direction.LEFT ){
+                        vertiDir = Direction.DOWN;
+                        return y+=1;
+                    }else {
+                        currtDir = Direction.RIGHT;
+                        return x += 1;
+                    }
+                }else if (currtDir == Direction.LEFT && vertiDir == Direction.UP){
                     currtDir = Direction.RIGHT;
                     vertiDir = Direction.DOWN;
                     return y+=1;
@@ -174,13 +187,21 @@ public class WallFollowingEnemy extends Character {
              }
             }else if(directionDown(CellType.WALL)&&directionDownRight(CellType.WALL) && directionRight(CellType.EMPTY)){
                 System.out.println("Left2");
-                if (currtDir == Direction.LEFT && vertiDir == Direction.UP){
+                if(directionUPRight(CellType.WALL)&&directionUP(CellType.EMPTY)){
+                    if(currtDir == Direction.LEFT && vertiDir == Direction.UP){
+                        return y-=1;
+                    }else {
+                        currtDir = Direction.RIGHT;
+                        return x += 1;
+                    }
+                }else if (currtDir == Direction.LEFT && vertiDir == Direction.UP){
                     vertiDir = Direction.UP;
                     currtDir = Direction.RIGHT;
                     return y-=1;
                 }else{
                     if(currtDir == Direction.LEFT && vertiDir== Direction.DOWN){
                         vertiDir = Direction.UP;
+                        currtDir = Direction.RIGHT;
                         return y-=1;
                     }else {
                         currtDir = Direction.RIGHT;
@@ -207,7 +228,11 @@ public class WallFollowingEnemy extends Character {
             }
         } else if (directionRight(CellType.WALL)) {
             System.out.println("Right");
-            if (directionDown(CellType.EMPTY) && directionUP(CellType.EMPTY)){
+            if(directionLeft(CellType.WALL) && directionDown(CellType.WALL)){
+                vertiDir = Direction.UP;
+                currtDir = Direction.RIGHT;
+                return y-=1;
+            }else  if (directionDown(CellType.EMPTY) && directionUP(CellType.EMPTY)){
                 System.out.println("Right1");
                 if(vertiDir == Direction.UP){
                     if(directionUPRight(CellType.EMPTY)){
@@ -222,7 +247,15 @@ public class WallFollowingEnemy extends Character {
                 }
             }else if(directionDown(CellType.WALL)&&directionDownLeft(CellType.WALL) && directionLeft(CellType.EMPTY)) {
                 System.out.println("Right2");
-                if (currtDir == Direction.RIGHT && vertiDir == Direction.DOWN) {
+                if(directionUPLeft(CellType.WALL) && directionUP(CellType.EMPTY)){
+                    if(vertiDir == Direction.DOWN) {
+                        currtDir = Direction.LEFT;
+                        return x -=1;
+                    }else {
+                        vertiDir = Direction.UP;
+                        return y -= 1;
+                    }
+                }else if (currtDir == Direction.RIGHT && vertiDir == Direction.DOWN) {
                     currtDir = Direction.LEFT;
                     vertiDir = Direction.UP;
                     return y -= 1;
@@ -240,6 +273,7 @@ public class WallFollowingEnemy extends Character {
             }else if(directionDown(CellType.WALL)&&directionDownLeft(CellType.EMPTY)){
                 System.out.println("Right3");
                 if (vertiDir == Direction.DOWN){
+                    currtDir = Direction.RIGHT;
                     return x-=1;
                 }else{
                     System.out.println("RightH3");
@@ -282,15 +316,23 @@ public class WallFollowingEnemy extends Character {
             if(vertiDir == Direction.DOWN) {
                 if (currtDir == Direction.RIGHT && directionDownRight(CellType.WALL)) {
                     System.out.println("Conc12");
-                    return x+=1;
+                    currtDir = Direction.LEFT;
+                    return y+=1;
                 }else{
-                    currtDir = Direction.RIGHT;
-                    return x+=1;
+                    currtDir = Direction.LEFT;
+                    return y+=1;
                 }
             }else {
-                vertiDir = Direction.DOWN;
-                currtDir = Direction.LEFT;
-                return y+=1;
+                if (currtDir == Direction.LEFT && directionDownRight(CellType.WALL)) {
+                    currtDir = Direction.RIGHT;
+                        return x+=1;
+                } else if(currtDir == Direction.RIGHT&& directionDownRight(CellType.WALL)) {
+                        return x+=1;
+                }else{
+                    vertiDir = Direction.UP;
+                    currtDir = Direction.LEFT;
+                    return y += 1;
+                }
             }
         }
         //Connor 2 where only side wall attach
