@@ -8,13 +8,18 @@ import java.util.LinkedList;
  * @author Alan Tollett.
  * @version 1.0
  */ 
-class Graph {
-
-	private int V; // No. of vertices
-	private LinkedList<Integer> adj[]; // Adjacency Lists
+public class Graph {
+	// No. of vertices in the graph.
+	private int V; 
+	//Linked list representing the adjacency list.
+	private LinkedList<Integer> adj[];
+	//An array containing the nodes already visited.
 	private boolean[] visited;
+	//Store of the previous node from a node.
 	private int[] parent;
+	//Result of if player is found from the Breadth-First Search.
 	private boolean foundPlayer;
+	//Next node in the array.
 	private int nextNode;
 
 	/**
@@ -42,9 +47,9 @@ class Graph {
 	// prints BFS traversal from a given source s
 
 	/**
-	 * @param s - Location of enemy.
-	 * @param d - Location of the player. 
-	 * Performs and prints a Breadth-First Search.
+	 * @param s - The location of enemy.
+	 * @param d - The location of the player. 
+	 * Performs a Breadth-First Search to find shortest path to player.
 	 */
 	public void BFS(int s, int d) { 
 		int eNode = s;
@@ -96,10 +101,18 @@ class Graph {
 		}
 	}
 
+	/**
+	 * @return The node to which the enemy should move to next.
+	 * Returns the node the enemy will be moving to next move.
+	 */
 	public int getNextNode() {
 		return nextNode;
 	}
 
+	/**
+	 * @return The result if a path is found.
+	 * Returns a boolean with the result of if a path is found.
+	 */
 	public boolean foundPlayer() {
 		return foundPlayer;
 	}
