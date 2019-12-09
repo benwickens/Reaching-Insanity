@@ -8,6 +8,18 @@ Images - https://opengameart.org/content/underworld-load-comprehensive-top-view-
 
 How to play:
 
+To play you must set up a local database. You need to use the following SQL commands, xampp is the recommended program for this:
+
+create database Reaching_Insanity;
+
+use database Reaching_Insanity;
+
+create table player (name char(50), highest_level INTEGER, image_id INTEGER, PRIMARY KEY (name));
+
+create table leaderboard (level INTEGER, name char(50), seconds INTEGER, PRIMARY KEY (level, name), FOREIGN KEY (name) references player (name));
+
+
+
 Controls – Use the arrows keys to move the character. Items are used automatically.
 
 Items – These are shown on the left of the screen. You can collect items by stepping onto them. Items are required to walk onto certain tiles and enter doors. Fire boots – Allows you to walk on fire. Ice skates – Allows you to glide on ice. Flippers – Allows you to step onto water tiles. Without these items you die when you enter the tiles.
