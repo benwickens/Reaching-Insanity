@@ -25,12 +25,33 @@ import javafx.stage.Stage;
 
 public abstract class Character {
 	
+	/**
+	 * The character x Coordinate
+	 */
 	protected int x;
+	
+	/**
+	 * The Character y coordinate
+	 */
 	protected int y;
 	
+	/**
+	 * The Image to be loaded (specific for each character)
+	 */
 	private ImageView image;
+	
+	/**
+	 * The path to the separate images for each individual character
+	 */
 	private final String IMAGE_PATH = "src/media/img/grid/";
 
+	/**
+	 * Constructs a Character at a specific x and y coordinate with a specific image
+	 * 
+	 * @param x The x Coordinate where a character is instantiated
+	 * @param y The y Coordinate where a character is instantiated
+	 * @param imageName The path that would be used to load the image for a specific Character
+	 */
 	public Character(int x, int y, String imageName){
 		this.x = x;
 		this.y = y;
@@ -52,29 +73,58 @@ public abstract class Character {
 		//Added to avoid error
 	}
 
+	/**
+	 * 
+	 * @return The Character x coordinate
+	 */
 	public int getX(){
 		 return x;
 	}
 
+	/**
+	 * 
+	 * @param x The Character x coordinate to be set
+	 */
 	public void setX(int x){
 		this.x = x;
 	}
 
+	/**
+	 * 
+	 * @return The Character y coordinate
+	 */
 	public int getY(){
 		return y;
 	}
 
+	/**
+	 * 
+	 * @param y The Character y coordinate to be set
+	 */
 	public void setY(int y){
 		this.y = y;
 	}
 	
+	/**
+	 * Moves a Character along the grid
+	 * @param grid The grid on which the Characters move
+	 */
 	public abstract void move(Cell[][] grid);
 
+	/**
+	 * Moves the Character to a specific X and Y coordinate
+	 * @param exactX The exact X coordinate of a Character
+	 * @param exactY The exact Y coordinate of a Character
+	 */
 	public void moveTo(int exactX, int exactY) {
 		x = exactX;
 		y = exactY;
 	}
 
+	/**
+	 * 
+	 * @return The Image specific to each character
+	 */
 	public ImageView getImage() {
 		return image;
 	}
