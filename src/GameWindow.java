@@ -402,13 +402,18 @@ public class GameWindow {
 				} else {
 					if(showEnemyMovement.isSelected()) {
 						showViews();
-					}else {
-						for(Character enemy : gameState.getEnemies()) {
+					} else {
+						for (Character enemy : gameState.getEnemies()) {
 							enemy.move(gameState.getGrid());
-							if(enemy.getX() == p1.getX() 
-									&& enemy.getY() == p1.getY()) {
-								killPlayer();
-								break;
+							if ((enemy.getX() == p1.getX() 
+									&& enemy.getY() == p1.getY())) {
+								if (!p1.hasItem(Collectable.LIFE, 1)) {
+									killPlayer();
+								    break;
+								} else {
+									p1.useItem(Collectable.LIFE, 1);
+									
+								}
 							}
 						}
 						showPlayerView();
