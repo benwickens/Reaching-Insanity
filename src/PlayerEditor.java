@@ -49,6 +49,7 @@ public class PlayerEditor {
 	private Button continueButton;
 	private Button backButton;
 	private Button deleteButton;
+	private Label highestLevel;
 	
 	private boolean existingPlayer;
 	
@@ -211,7 +212,9 @@ public class PlayerEditor {
 	private void displayOldPlayerContent() {
 		VBox box = new VBox(30);
 		box.setAlignment(Pos.CENTER);
-		box.getChildren().addAll(existingPlayers, nameBox, playerIcon, nextButton, continueButton, backButton, deleteButton);
+		highestLevel = new Label("Highest Level: 0");
+		box.getChildren().addAll(existingPlayers, nameBox, highestLevel, playerIcon, 
+				nextButton, continueButton, backButton, deleteButton);
 		box.getChildren().get(4).setId("safe");
 		contents.getChildren().add(box);
 	}
@@ -298,11 +301,12 @@ public class PlayerEditor {
 			name.setEditable(false);
 			
 			// update the player icon
-			ResultSet rs = db.query("SELECT image_id FROM player "
+			ResultSet rs = db.query("SELECT * FROM player "
 					+ "WHERE name='" + existingPlayers.getValue() + "'");
 			
 			try {
 				rs.next();
+				highestLevel.setText("Highest Level: " + rs.getInt("highest_level"));
 				playerIcon.setImage(new Image(new FileInputStream(
 						IMG_FOLDER + "/grid/player" + rs.getInt("image_id") + "_down.png")));
 			} catch (FileNotFoundException | SQLException e1) {
