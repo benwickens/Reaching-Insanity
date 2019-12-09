@@ -17,12 +17,12 @@ public class StraightLineEnemy extends Character{
 	private Direction currentDirection;
 
 	/**
-	 * Contraster for the SLE 
-	 * @param x
-	 * @param y
-	 * @param currentDirection
+	 * Constructor for the SLE 
+	 * @param x - X position of enemy.
+	 * @param y - Y position of enemy.
+	 * @param currentDirection - The direction the enemy is moving.
 	 */
-	public StraightLineEnemy(int x, int y, Direction currentDirection){
+	public StraightLineEnemy(int x, int y, Direction currentDirection) {
 		super(x, y, "SLE.png");
 		this.currentDirection = currentDirection;
 	}
@@ -30,8 +30,9 @@ public class StraightLineEnemy extends Character{
 	 * The method that move the enemy 
 	 * This has gone over the limit as the way we implemented 
 	 * is very hard to split it up
+	 * @param  grid - The current map.
 	 */
-	public void move(Cell [][] grid){
+	public void move(Cell [][] grid) {
 		boolean canMoveHorizontally = true;
 		CellType nextType;
 		Cell nextCell;

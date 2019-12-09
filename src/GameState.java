@@ -34,8 +34,9 @@ public class GameState {
 
 	/**
 	 * Creates a GameState object
-	 * @param levelFile the level to be played
-	 * @param player1Name the name of the player1
+	 * @param levelFile - The level to be played.
+	 * @param player1Name - The name of the player 1.
+	 * @param player2Name - The name of player 2.
 	 * @throws SQLException - Database connection not successful.
 	 */
 	public GameState(String player1Name, String player2Name, File levelFile) 
@@ -138,7 +139,7 @@ public class GameState {
 
 	/**
 	 * Returns the current level.
-	 * @return
+	 * @return The current level.
 	 */
 	public int getLevel() {
 		return level;

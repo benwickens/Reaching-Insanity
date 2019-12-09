@@ -23,13 +23,14 @@ public class Player extends Character {
 
 	/**
 	 * Constructs a player object
-	 * 
 	 * @param name
 	 *            name of the current player
 	 * @param inventory
 	 *            a hashmap of the players current collectables
 	 * @param highestLevel
 	 *            is the players highest reached level
+	 * @param imageID
+	 * 			  The image id to display.           
 	 */
 	public Player(String name, HashMap<Collectable, Integer> inventory,
 			int highestLevel, int imageID) {
@@ -46,7 +47,8 @@ public class Player extends Character {
 		}
 	}
 
-	/** Adds a collectable to the players inventory*/
+	/** Adds a collectable to the players inventory
+	 * @param item - The item to add to inventory.*/
 	public void addToInventory(Collectable item) {
 		if (inventory.containsKey(item)) {
 			inventory.replace(item, inventory.get(item) + 1);
@@ -55,7 +57,9 @@ public class Player extends Character {
 		}
 	}
 
-	/** Adds a collectable to the players inventory*/
+	/** Adds a collectable to the players inventory
+	 * @param item - The item to add to the inventory.
+	 * @param amount - The quantity to add of an item.*/
 	public void addToInventory(Collectable item, int amount) {
 		if (inventory.containsKey(item)) {
 			inventory.replace(item, inventory.get(item) + amount);
@@ -64,7 +68,10 @@ public class Player extends Character {
 		}
 	}
 
-	/** Checks to see if the player has the item in their inventory*/
+	/** Checks to see if the player has the item in their inventory.
+	 * @param item - The item to check.
+	 * @param amount - The amount to check.
+	 * @return boolean - If item is present.*/
 	public boolean hasItem(Collectable item, Integer amount) {
 		if (inventory.containsKey(item) && inventory.get(item) >= amount) {
 			return true;
@@ -72,38 +79,40 @@ public class Player extends Character {
 		return false;
 	}
 
-	/** Uses an item from the players inventory*/
+	/** Uses an item from the players inventory.
+	 * @param item - The item to use.
+	 * @param amount - The amount to use.*/
 	public void useItem(Collectable item, Integer amount) {
 		inventory.replace(item, inventory.get(item) - amount);
 	}
 
 	/**
-	 * Method get the name
-	 * @return name
+	 * Method get the name.
+	 * @return name - The name to return.
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Method set the name
-	 * @param name
+	 * Method set the name.
+	 * @param name - The name to set.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Method that get the highest level completed
-	 * @return highest level
+	 * Method that get the highest level completed.
+	 * @return highest level - The level to return.
 	 */
 	public Integer getHighestLevel() {
 		return highestLevel;
 	}
 
 	/**
-	 * Method that get the string inventory
-	 * @return String inventory
+	 * Method that get the string inventory.
+	 * @return inventory - The contents of the players inventory.
 	 */
 	public String getInventoryString() {
 		HashMap<Collectable, String> itemAbbreviations = 
@@ -131,18 +140,18 @@ public class Player extends Character {
 		return output;
 	}
 
-	/** Method that move the player inherited from character*/
+	/** Method that move the player inherited from character.
+	 * @param grid - The map.*/
 	public void move(Cell[][] grid) {}
 
 
 
 	/**
-	 * Method that moves the player
-	 * 
+	 * Method that moves the player.
 	 * Gone over the limit since its all cases for movement.
-	 * @param grid
-	 * @param event
-	 * @return The updated movement of the player.
+	 * @param grid - The map.
+	 * @param event - The key input.
+	 * @return move - The updated movement of the player.
 	 */
 	public Cell[][] move(Cell[][] grid, KeyEvent event) {
 		int nextX = x;
@@ -345,17 +354,17 @@ public class Player extends Character {
 	}
 
 	/**
-	 *Method that gets the image location 
-	 * @return imageID
+	 * Method that gets the image location. 
+	 * @return imageID -  The image ID.
 	 */
 	public int getImageID() {
 		return imageID;
 	}
 
 	/**
-	 * Method that get the amount of collectabl3e
-	 * @param c
-	 * @return inventory amount
+	 * Method that get the amount of collectable.
+	 * @param c - The amount of the collectable.
+	 * @return inventory amount.
 	 */
 	public int getAmount(Collectable c) {
 		if (inventory.size() > 0 && inventory.get(c) != null) {
@@ -365,47 +374,47 @@ public class Player extends Character {
 		}
 	}
 	/**
-	 * Method that gets the image ID
-	 * @param imageID
+	 * Method that gets the image ID.
+	 * @param imageID - The image ID.
 	 */
 	public void setImageID(int imageID) {
 		this.imageID = imageID;
 	}
 
 	/**
-	 * Method that detects did the player win or not
-	 * @return haswon
+	 * Method that detects did the player win or not.
+	 * @return boolean - The result of the game.
 	 */
 	public boolean hasWon() {
 		return hasWon;
 	}
 
 	/**
-	 * Method that set did the player win or no
-	 * @param hasWon
+	 * Method that set did the player win or not.
+	 * @param hasWon - The result to set.
 	 */
 	public void setHasWon(boolean hasWon) {
 		this.hasWon = hasWon;
 	}
 
 	/**
-	 * Method that look is the player dead or no
-	 * @return
+	 * Method that look is the player dead or not.
+	 * @return boolean - The current state of player.
 	 */
 	public boolean isDead() {
 		return isDead;
 	}
 
 	/** 
-	 * Method that set the player dead
-	 * @param isDead
+	 * Method that set the player dead.
+	 * @param isDead - The value to set.
 	 */
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
 	}
 
 	/**
-	 * Method that clears the inventory
+	 * Method that clears the inventory.
 	 */
 	public void clearInventory() {
 		inventory.clear();
@@ -413,7 +422,7 @@ public class Player extends Character {
 
 	/**
 	 * Method that get the sound path
-	 * @param path
+	 * @param path - The file path to go to.
 	 */
 	private void playSound(String path) {
 		Media media = new Media(new File(path).toURI().toString());

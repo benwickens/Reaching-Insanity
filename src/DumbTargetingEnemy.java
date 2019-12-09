@@ -9,10 +9,10 @@ public class DumbTargetingEnemy extends Character {
 	 * This enemy always moves directly towards the player 
 	 * in the direction that
 	 * would make it get closer to the player this is a very dumb enemy and
-	 * easily gets stuck
+	 * easily gets stuck./
 	 */
 	/**
-	 * the direction that the enemy is currently moving
+	 * the direction that the enemy is currently moving.
 	 */
 	private Direction currentDirection;
 
@@ -25,12 +25,11 @@ public class DumbTargetingEnemy extends Character {
 	/**
 	 * Creates a DumbTargetingEnemy object
 	 *
-	 * @param x
-	 *            the x coordinate the enemy is in
-	 * @param y
-	 *            the y coordinate the enemy is in
-	 * @param currentDirection
-	 *            the current direction the enemy is in
+	 * @param x -the x coordinate the enemy is in.
+	 * @param y - the y coordinate the enemy is in.
+	 * @param startingDirection - the current direction the enemy is in.
+	 * @param p1 - The instance of player 1.
+	 * @param p2 - The instance of player 2.
 	 */
 	public DumbTargetingEnemy(int x, int y, Direction startingDirection
 			, Player p1, Player p2) {
@@ -42,6 +41,7 @@ public class DumbTargetingEnemy extends Character {
 
 	/**
 	 * the move method for the dumb targeting enemy
+	 * @param grid - The current map.
 	 */
 	public void move(Cell[][] grid) {
 

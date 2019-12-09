@@ -47,8 +47,8 @@ public class LeaderBoard {
 
 	/**
 	 * 
-	 * leaderboard consutor which consutor a new leader board
-	 * @throws IOException
+	 * Creates an instance of LeaderBoard.
+	 * @throws IOException - File exception, such as can't find image.
 	 */
 	public LeaderBoard() throws IOException {
 		try {

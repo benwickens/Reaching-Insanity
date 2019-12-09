@@ -32,6 +32,7 @@ public class FileManager {
 
 	/**
 	 * Saves the current state of the game to file.
+	 * @param gameState - The current game state to save.
 	 */
 	public void save(GameState gameState){
 		Player p1 = gameState.getPlayer1();
@@ -187,7 +188,8 @@ public class FileManager {
 	 * Loads the Cells specified in the input file into the grid.
 	 * This function is greater than 75 lines as is a series of conditional if
 	 * statements and breaking it up would reduce readability.
-	 * @param levelFile the file representing a level
+	 * @param levelFile - the file representing a level
+	 * @param gameState - The gameState to which the file is read to. 
 	 */
 	public void readFileToGS(File levelFile, GameState gameState) {
 		int level = Integer.parseInt(levelFile.getName().substring(6, 

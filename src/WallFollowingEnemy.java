@@ -19,12 +19,12 @@ public class WallFollowingEnemy extends Character {
 
 	/**
 	 * 
-	 * @param x
-	 * @param y
-	 * @param startDir
-	 * @param vertiDir
+	 * @param x - The x position of the enemy.
+	 * @param y - The y position of the enemy.
+	 * @param startDir - Horizontal direction of the enemy.
+	 * @param vertiDir - Vertical direction of the enemy.
 	 */
-	public WallFollowingEnemy(int x, int y, 
+	public WallFollowingEnemy (int x, int y, 
 			Direction startDir,Direction vertiDir) {
 		super(x, y, "WFE.png");
 		currtDir = startDir;
@@ -45,13 +45,12 @@ public class WallFollowingEnemy extends Character {
 	 * @param cellType
 	 * @return true or false 
 	 */
-	private boolean directionUP(CellType cellType) {
+	private boolean directionUP (CellType cellType) {
 		CellType nextType = grid[x][y - 1].getType();
 		if (nextType != CellType.EMPTY && nextType != CellType.WALL){
 			nextType.equals(cellType);
 			return true;
-		}
-		if (nextType.equals(cellType)) {
+		} if (nextType.equals(cellType)) {
 			return true;
 		} else {
 			return false;
@@ -89,8 +88,7 @@ public class WallFollowingEnemy extends Character {
 			nextType.equals(CellType.WALL);
 			cellType.equals(CellType.WALL);
 			return true;
-		}
-		if (nextType.equals(cellType)) {
+		} if (nextType.equals(cellType)) {
 			return true;
 		} else {
 			return false;
