@@ -263,15 +263,15 @@ public class FileManager {
 							String extraInfo = cells[x].split(":")[1];
 							if (extraInfo.equals("P1")) {
 								p1.moveTo(x, y - 4);
-							} else if(extraInfo.equals("P2")) {
-								if(p2 != null) {
+							} else if (extraInfo.equals("P2")) {
+								if (p2 != null) {
 									p2.moveTo(x, y - 4);
 								}
-							} else if(extraInfo.equals("SLE")) {
+							} else if (extraInfo.equals("SLE")) {
 								enemies.add(new StraightLineEnemy(x, y - 4, 
 										Direction.RIGHT));
 							}
-							else if(extraInfo.equals("WFE")) {
+							else if (extraInfo.equals("WFE")) {
 								enemies.add(new WallFollowingEnemy(x, y - 4,
 										Direction.LEFT,Direction.DOWN));
 							}
@@ -286,7 +286,7 @@ public class FileManager {
 							} else if (extraInfo.equals("STE")) {
 								enemies.add(new SmartTargettingEnemy(x, y
 										- 4));
-							} else if(extraInfo.contains("-")) {
+							} else if (extraInfo.contains("-")) {
 								/*Then a teleporter as cell is represented as
 								 *  TP:X-Y */
 								tempTeleportX = Integer.parseInt(extraInfo

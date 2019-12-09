@@ -83,7 +83,8 @@ public class Graph {
 
 						int currNode = parent[d];
 						while(parent[currNode] != eNode) {
-							// if the next node in the path is the player then break
+							/* if the next node in the path is the player 
+							 * then break*/
 							if(currNode == 0) {
 								nextNode = d;
 								return;

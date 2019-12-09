@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.mysql.cj.jdbc.exceptions.CommunicationsException;
-
 /**
  * A class used to simplify connecting to the database and querying it.
  * @author Alan Tollett
@@ -35,10 +33,10 @@ public class Database {
 	 * @return a result set object containing the tuples in the resulting table (null if insert/update...)
 	 */
 	public ResultSet query(String query) {
-		if(query.contains(";")) {
+		if (query.contains(";")) {
 			System.out.println("ERROR: Query contains ';'. To protect from SQL Injection this query was aborted.");
 			return null;
-		}else {
+		} else {
 			query += ";";
 		}
 		
@@ -53,9 +51,9 @@ public class Database {
 	}
 	
 	public void manipulate(String query) {
-		if(query.contains(";")) {
+		if (query.contains(";")) {
 			System.out.println("ERROR: Query contains ';'. To protect from SQL Injection this query was aborted.");
-		}else {
+		} else {
 			query += ";";
 		}
 		try {

@@ -19,11 +19,13 @@ public class Cell {
 
 	/** the type of the cell (e.g. wall, fire, door...) */
 	private CellType type;
-	/** the item which the cell holds (e.g. token, red key...) - normally null */
+	/** the item which the cell holds (e.g. token, red key...) 
+	 * - normally null */
 	private Collectable item;
 	/** an image which can be drawn to the screen representing this cell */
 	private ImageView cellImage;
-	/** an image which can be drawn to the screen representing this cell's item */
+	/** an image which can be drawn to the screen representing this cell's
+	 *  item */
 	private ImageView itemImage;
 	/** The X location this cell links to (if a teleporter) */
 	private int linkX;

@@ -1,21 +1,16 @@
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -60,7 +55,7 @@ public class SetupWindow {
 	private ImageView player2Icon;
 	/**Holds the player selector combo boxes*/
 	private HBox playerSelectors;
-	/**if this is selected then the user wants to play single player*/
+	/**if this is selected then the user wants to play single player*/         
 	private RadioButton singlePlayer;
 	/**if this is selected then the user wants to play multiplayer*/
 	private RadioButton multiPlayer;
@@ -73,7 +68,7 @@ public class SetupWindow {
 	 */
 	public SetupWindow() {				
 		try {
-			db = new Database("jdbc:mysql://localhost:3306"
+			db = new Database("jdbc:mysql://localhost:3306"                    
 					+ "/Reaching_Insanity", "root", "");
 			// the base layout
 			baseLayout = new StackPane();
@@ -146,8 +141,8 @@ public class SetupWindow {
 		Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		stage.setTitle("Reaching Insanity");
 		
-		if(singlePlayer.isSelected()) {
-			if(player1Selector.getValue() != null 
+		if (singlePlayer.isSelected()) {
+			if (player1Selector.getValue() != null 
 					&& levelSelector.getValue() != null) {
 					int level = Integer.parseInt(levelSelector.getValue().
 						substring(levelSelector.getValue().length() - 1));
@@ -155,21 +150,22 @@ public class SetupWindow {
 				boolean previouslySaved = false;
 				File player1Folder = new File("src/SavedGames/" + 
 						player1Selector.getValue());
-				if(player1Folder.isDirectory()) {
-					for(File f : player1Folder.listFiles()) {
-						if(f.getName().startsWith(levelSelector.getValue())) {
+				if (player1Folder.isDirectory()) {
+					for (File f : player1Folder.listFiles()) {
+						if (f.getName().startsWith(levelSelector.
+								getValue())) {
 							previouslySaved = true;
 						}
 					}
 				}
 				
-				if(previouslySaved) {
+				if (previouslySaved) {
 					PopUpBool popUp = new PopUpBool("You have a previous save "
 							+ "for this level, would you like to load it?");
 					
 					waiting = new Timeline(new KeyFrame(
 							Duration.millis(100), e2 -> {
-							if(popUp.getResult()) {
+							if (popUp.getResult()) {
 								File f = new File("src/SavedGames/" + 
 										player1Selector.getValue() + 
 										"/Level " + level + ".txt");
@@ -177,7 +173,7 @@ public class SetupWindow {
 										player1Selector.getValue(), null, f);
 								stage.setScene(gameWindow.getScene());
 								waiting.stop();
-							}else if(!popUp.getWaiting()) {
+							} else if (!popUp.getWaiting()) {
 								File f = new File("src/levels/"
 										+ "Level " + level + ".txt");
 								GameWindow gameWindow = new GameWindow(
@@ -188,17 +184,17 @@ public class SetupWindow {
 					}));
 					waiting.setCycleCount(Animation.INDEFINITE);
 					waiting.play();
-				}else {
+				} else {
 					File f = new File("src/levels/Level " + level + ".txt");
 					GameWindow gameWindow = new GameWindow(
 							player1Selector.getValue(), null, f);
 					stage.setScene(gameWindow.getScene());
 				}						
-			}else {
+			} else {
 				new PopUp("ERROR: You must select a player and a level",true);
 			}
-		}else {
-			if(player1Selector.getValue() != null 
+		} else {
+			if (player1Selector.getValue() != null 
 					&& player2Selector.getValue() != null 
 					&& (!player1Selector.getValue()
 							.equals(player2Selector.getValue()))) {
@@ -207,7 +203,7 @@ public class SetupWindow {
 						player1Selector.getValue(), 
 						player2Selector.getValue(), f);
 				stage.setScene(gameWindow.getScene());
-			}else {
+			} else {
 				new PopUp("ERROR: You must select two "
 						+ "different players.", false);
 			}
@@ -226,7 +222,7 @@ public class SetupWindow {
 		ObservableList<Player> players = getPlayers();
 		ObservableList<String> playerNames = 
 				FXCollections.observableArrayList();
-		for(Player p : players) {
+		for (Player p : players) {
 			playerNames.add(p.getName());
 		}
 
@@ -238,18 +234,18 @@ public class SetupWindow {
 		existingPlayers.setPromptText("Select a Player");
 
 		try {
-			if(playerNumber == 1) {
+			if (playerNumber == 1) {
 				player1Icon = new ImageView(new Image(
 						new FileInputStream(IMG_FOLDER + "grid/empty.png")));
 				player1Selector = existingPlayers;
 				contents.getChildren().addAll(existingPlayers, player1Icon);
-			}else {
+			} else {
 				player2Icon = new ImageView(new Image(new FileInputStream(
 						IMG_FOLDER + "grid/empty.png")));
 				player2Selector = existingPlayers;
 				contents.getChildren().addAll(existingPlayers, player2Icon);
 			}
-		}catch(FileNotFoundException e) {
+		} catch(FileNotFoundException e) {
 			System.out.println("ERROR: getting player image");
 			e.printStackTrace();
 			System.exit(-1);
@@ -265,11 +261,11 @@ public class SetupWindow {
 				int highestLevel = rs.getInt("highest_level");
 				displayLevels(highestLevel);
 
-				if(playerNumber == 1) {
+				if (playerNumber == 1) {
 					player1Icon.setImage(new Image(new FileInputStream(
 							IMG_FOLDER + "grid/player" + 
 							rs.getInt("image_id") + "_down.png")));
-				}else {
+				} else {
 					player2Icon.setImage(new Image(new FileInputStream(
 							IMG_FOLDER + "grid/player" + 
 							rs.getInt("image_id") + "_down.png")));
@@ -288,12 +284,12 @@ public class SetupWindow {
 	 * @param highestLevel the players highest level
 	 */
 	private void displayLevels(int highestLevel) {
-		if(highestLevel == 0) {
+		if (highestLevel == 0) {
 			highestLevel = 1;
 		}
 
 		ObservableList<String> levels = FXCollections.observableArrayList();		
-		for(int i = 0; i < highestLevel; i++) {
+		for (int i = 0; i < highestLevel; i++) {
 			levels.add("Level " + (i + 1));
 		}
 
@@ -317,7 +313,7 @@ public class SetupWindow {
 		singlePlayer.setToggleGroup(singleOrMultiRadio);
 		singlePlayer.setSelected(true);
 		singlePlayer.setOnAction(e -> {
-			if(playerSelectors.getChildren().size() == 2) {
+			if (playerSelectors.getChildren().size() == 2) {
 				playerSelectors.getChildren().remove(1);
 				levelSelector.setVisible(true);
 			}
@@ -326,7 +322,7 @@ public class SetupWindow {
 		multiPlayer = new RadioButton("Multi-Player");
 		multiPlayer.setToggleGroup(singleOrMultiRadio);
 		multiPlayer.setOnAction(e -> {
-			if(playerSelectors.getChildren().size() == 1) {
+			if (playerSelectors.getChildren().size() == 1) {
 				playerSelectors.getChildren().add(getPlayerSelector(2));
 				levelSelector.setVisible(false);
 			}

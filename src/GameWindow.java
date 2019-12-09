@@ -1,19 +1,15 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -26,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 /**
@@ -42,7 +37,7 @@ public class GameWindow {
 	private static int minutes;
 	/** the number of seconds spent on the current level */
 	private static int seconds;
-	
+
 	/**The path to the logo*/
 	private final String LOGO_PATH = "src/media/img/logo.png";
 	/**The path to the image folder*/
@@ -133,7 +128,7 @@ public class GameWindow {
 	public static void setMinutes(int x) {
 		minutes = x;
 	}
-	
+
 	/**
 	 * Set the time spent on the level in hours
 	 * @param x the amount of hours
@@ -141,7 +136,7 @@ public class GameWindow {
 	public static void setHours(int x) {
 		hours = x;
 	}
-	
+
 	/**
 	 * Get a string representation of time
 	 * @return the string representation of time
@@ -152,7 +147,7 @@ public class GameWindow {
 		String s = (seconds >= 10 ? "" : "0") + seconds;
 		return h + ":" + m + ":" + s;
 	}
-	
+
 	/**
 	 * Get the gameState that the gamewindow represents
 	 * @return the gamestate
@@ -194,7 +189,7 @@ public class GameWindow {
 					if(cell == null) {
 						System.out.println(currentGridX + ", " + currentGridY);
 					}
-					
+
 					stack.getChildren().add(cell.getCellImage());
 
 					if (gridX == 0 && gridY == 0) {
@@ -311,7 +306,7 @@ public class GameWindow {
 		Label enemyLabel = new Label("Show Enemy Movement");
 		enemyLabel.setId("optionsLabel");
 		enemyLabel.setStyle("-fx-font-size: 16");;
-		
+
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			if (!paused) {
 				seconds++;
@@ -332,7 +327,7 @@ public class GameWindow {
 		showEnemyMovement = new CheckBox();
 		showEnemyMovement.setSelected(true);
 
-		
+
 		Button pause = new Button("Pause");
 		pause.setOnAction(e -> {
 			timeline.pause();
@@ -384,43 +379,43 @@ public class GameWindow {
 			} else {
 				p1 = gameState.getPlayer2();
 			}
-			
+
 			// move player
 			p1.move(gameState.getGrid(), event);
-			
+
 			// prevent the player from pressing a key whilst views are updated
 			updatingView = true;
 			showPlayerView();
-			
+
 			Timeline waitAfterPlayer = new Timeline(new KeyFrame(
 					Duration.millis(100), e -> {
-				// now view has been updated, check if player has won or died
-				if (p1.isDead()) {
-					killPlayer();
-				} else if (p1.hasWon()) {
-					completeLevel();
-				} else {
-					if(showEnemyMovement.isSelected()) {
-						showViews();
-					} else {
-						for (Character enemy : gameState.getEnemies()) {
-							enemy.move(gameState.getGrid());
-							if ((enemy.getX() == p1.getX() 
-									&& enemy.getY() == p1.getY())) {
-								if (!p1.hasItem(Collectable.LIFE, 1)) {
-									killPlayer();
-								    break;
-								} else {
-									p1.useItem(Collectable.LIFE, 1);
-									
+						// now view has been updated, check if player has won or died
+						if (p1.isDead()) {
+							killPlayer();
+						} else if (p1.hasWon()) {
+							completeLevel();
+						} else {
+							if(showEnemyMovement.isSelected()) {
+								showViews();
+							} else {
+								for (Character enemy : gameState.getEnemies()) {
+									enemy.move(gameState.getGrid());
+									if ((enemy.getX() == p1.getX() 
+											&& enemy.getY() == p1.getY())) {
+										if (!p1.hasItem(Collectable.LIFE, 1)) {
+											killPlayer();
+											break;
+										} else {
+											p1.useItem(Collectable.LIFE, 1);
+
+										}
+									}
 								}
+								showPlayerView();
+								updatingView = false;
 							}
 						}
-						showPlayerView();
-						updatingView = false;
-					}
-				}
-			}));
+					}));
 			waitAfterPlayer.setCycleCount(1);
 			waitAfterPlayer.play();
 		}
@@ -437,59 +432,59 @@ public class GameWindow {
 		if(enemies.size() > 0) {
 			enemyTimeline = new Timeline(new KeyFrame(
 					Duration.seconds(1.0), e -> {
-				Character enemy = enemies.get(currentEnemy);
-				gridPane = getEnemyGrid(enemy);
-				borderPane.setCenter(gridPane);
-				layout.getChildren().set(1, borderPane);
+						Character enemy = enemies.get(currentEnemy);
+						gridPane = getEnemyGrid(enemy);
+						borderPane.setCenter(gridPane);
+						layout.getChildren().set(1, borderPane);
 
-				enemy.move(gameState.getGrid());
+						enemy.move(gameState.getGrid());
 
-				enemyStepTimeline = new Timeline(new KeyFrame(
-						Duration.seconds(0.3), e2 -> {
-					
-					gridPane = getEnemyGrid(enemy);
-					borderPane.setCenter(gridPane);
-					layout.getChildren().set(1, borderPane);
+						enemyStepTimeline = new Timeline(new KeyFrame(
+								Duration.seconds(0.3), e2 -> {
 
-					playerDeathTimeline = new Timeline(new KeyFrame(
-							Duration.seconds(0.2), e3 -> {
-						Player p1 = gameState.getPlayer1();
-						Player p2 = gameState.getPlayer2();
-						if (enemy.getX() == p1.getX() 
-								&& enemy.getY() == p1.getY()) {
-							killPlayer();// player 1 has died
-						} else if (p2 != null 
-								&& enemy.getX() == p2.getX() 
-								&& enemy.getY() == p2.getY()) {
-							killPlayer();
-						}
+									gridPane = getEnemyGrid(enemy);
+									borderPane.setCenter(gridPane);
+									layout.getChildren().set(1, borderPane);
+
+									playerDeathTimeline = new Timeline(new KeyFrame(
+											Duration.seconds(0.2), e3 -> {
+												Player p1 = gameState.getPlayer1();
+												Player p2 = gameState.getPlayer2();
+												if (enemy.getX() == p1.getX() 
+														&& enemy.getY() == p1.getY()) {
+													killPlayer();// player 1 has died
+												} else if (p2 != null 
+														&& enemy.getX() == p2.getX() 
+														&& enemy.getY() == p2.getY()) {
+													killPlayer();
+												}
+											}));
+									playerDeathTimeline.setCycleCount(1);
+									playerDeathTimeline.play();
+								}));
+						enemyStepTimeline.setCycleCount(1);
+						enemyStepTimeline.play();
+						currentEnemy++;
 					}));
-					playerDeathTimeline.setCycleCount(1);
-					playerDeathTimeline.play();
-				}));
-				enemyStepTimeline.setCycleCount(1);
-				enemyStepTimeline.play();
-				currentEnemy++;
-			}));
 			enemyTimeline.setCycleCount(enemies.size());
 			enemyTimeline.play();
 		}
 		playerViewTimeline = new Timeline(
 				new KeyFrame(
 						Duration.seconds((1.5 * enemies.size()) + 0.5), e -> {
-					if (multiPlayer) {
-						if (currentPlayer == 1) {
-							currentPlayer = 2;
-						} else {
-							currentPlayer = 1;
-						}
-						showPlayerView();
-						updatingView = false;
-					} else {
-						showPlayerView();
-						updatingView = false;
-					}
-				}));
+							if (multiPlayer) {
+								if (currentPlayer == 1) {
+									currentPlayer = 2;
+								} else {
+									currentPlayer = 1;
+								}
+								showPlayerView();
+								updatingView = false;
+							} else {
+								showPlayerView();
+								updatingView = false;
+							}
+						}));
 		playerViewTimeline.setCycleCount(1);
 		playerViewTimeline.play();
 	}
@@ -587,12 +582,12 @@ public class GameWindow {
 			if(enemyStepTimeline != null && enemyTimeline != null 
 					&& playerDeathTimeline != null 
 					&& playerViewTimeline != null) {
-				
+
 				enemyTimeline.stop();
 				enemyStepTimeline.stop();
 				playerDeathTimeline.stop();
 				playerViewTimeline.stop();
-			
+
 			}
 			updatingView = true;
 			deathScreen = new ImageView(new Image(
@@ -633,10 +628,10 @@ public class GameWindow {
 				int seconds = getSeconds();
 
 				// not doing leaderboards for multiplayer so back to main
-				if(multiPlayer) {
+				if (multiPlayer) {
 					backToMain(e);
-				}else {
-					if(level < 5) {
+				} else {
+					if (level < 5) {
 						updateLeaderBoard(p, level, seconds);
 
 						// now lb updated, go to next level
@@ -644,7 +639,7 @@ public class GameWindow {
 								null,
 								new File("src/levels/Level " + 
 										(level + 1) + ".txt"));
-					}else {
+					} else {
 						// update and go to main
 						updateLeaderBoard(p, level, seconds);
 						backToMain(e);
@@ -676,7 +671,7 @@ public class GameWindow {
 			ResultSet rs = db.query("SELECT * FROM leaderboard " + 
 					"WHERE name='" + p.getName() + 
 					"' AND level=" + level);
-			
+
 			if(rs.next()) {
 				// player already has a time for this level, update
 				int oldSeconds = rs.getInt("seconds");
@@ -686,7 +681,7 @@ public class GameWindow {
 							" WHERE name='" + p.getName() + 
 							"' AND level=" + level);
 				}
-			}else {
+			} else {
 				// player does not have a time for this level, add new
 				db.manipulate("INSERT INTO leaderboard VALUES (" + 
 						level + ", '" + 
@@ -694,20 +689,20 @@ public class GameWindow {
 						seconds + ")");
 				// as new entry, highest level may have changed.
 				rs = db.query("SELECT * FROM player WHERE name='" +
-				p.getName() + "'");
-				if(rs.next() && rs.getInt("highest_level") <= level) {
+						p.getName() + "'");
+				if (rs.next() && rs.getInt("highest_level") <= level) {
 					db.manipulate("UPDATE player SET highest_level="
 							+ (level+1) + 
 							" WHERE name='" + p.getName()+ "'");
 				}
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	/**
 	 * Takes the user back to the main menu
 	 * @param e the event triggering the event
@@ -732,13 +727,13 @@ public class GameWindow {
 			currentPlayer = 1;
 			updatingView = false;
 			paused = false;
-			if(timeline != null) {
+			if (timeline != null) {
 				timeline.stop();
 			}
 			if (player2Name != null) {
 				multiPlayer = true;
 			}
-			
+
 			layout = new StackPane();
 
 			ImageView background = new ImageView(

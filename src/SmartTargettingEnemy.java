@@ -53,39 +53,39 @@ public class SmartTargettingEnemy extends Character {
 	private void randomMove(Cell[][] grid) {
 		Random r = new Random();
 		boolean moved = false;
-		while(!moved) {
+		while (!moved) {
 			int num = r.nextInt(2);
-			if(num == 0) { // horizontal
+			if (num == 0) { // horizontal
 				num = r.nextInt(2);
-				if(num == 0) { // left
+				if (num == 0) { // left
 					Cell c = grid[x - 1][y];
-					if(c.getType().equals(CellType.EMPTY) && c.getItem()
+					if (c.getType().equals(CellType.EMPTY) && c.getItem()
 							== null) {
 						x -= 1;
 						moved = true;
 					}
-				}else { // right
+				} else { // right
 					Cell c = grid[x + 1][y];
-					if(c.getType().equals(CellType.EMPTY) && c.getItem()
+					if (c.getType().equals(CellType.EMPTY) && c.getItem()
 							== null) {
 						x += 1;
 						moved = true;
 					}
 				}
-			}else { // vertical 
+			} else { // vertical 
 				num = r.nextInt(2);
 				System.out.println(num);
-				if(num == 0) { // up
+				if (num == 0) { // up
 					Cell c = grid[x][y - 1];
-					if(c.getType().equals(CellType.EMPTY) && c.getItem()
+					if (c.getType().equals(CellType.EMPTY) && c.getItem()
 							== null) {
 						y -= 1;
 						moved = true;
 					}
-				}else { // down
+				} else { // down
 					System.out.println(num);
 					Cell c = grid[x][y + 1];
-					if(c.getType().equals(CellType.EMPTY) && c.getItem()
+					if (c.getType().equals(CellType.EMPTY) && c.getItem()
 							== null) {
 						y += 1;
 						moved = true;
@@ -101,33 +101,33 @@ public class SmartTargettingEnemy extends Character {
 	 * Loads the set of edges into the graph.
 	 */
 	private void loadEdges(Cell[][] grid, Graph graph) {
-		for(int x = 0; x < grid.length; x ++) {
+		for (int x = 0; x < grid.length; x ++) {
 			// x is every row
-			for(int y = 0; y < grid.length; y ++) {
+			for (int y = 0; y < grid.length; y ++) {
 				// y is every cell
 				Cell c = grid[x][y];
 				
 				// can only be a neighbour if empty and cell has no item
-				if(c.getType().equals(CellType.EMPTY) && c.getItem() 
+				if (c.getType().equals(CellType.EMPTY) && c.getItem() 
 						== null) {
 					// as empty, check adjacent cells (u/d/l/r)
 					try {
 						c = grid[x][y - 1]; // up
-						if(c.getType().equals(CellType.EMPTY) && 
+						if (c.getType().equals(CellType.EMPTY) && 
 								c.getItem() == null) {
 							graph.addEdge(x + (y * grid.length), x + ((y - 1)
 									* grid.length));
 						}
-					}catch(ArrayIndexOutOfBoundsException e) {}
+					} catch (ArrayIndexOutOfBoundsException e) {}
 					
 					try {
 						c = grid[x][y + 1]; // down
-						if(c.getType().equals(CellType.EMPTY) && c.getItem() 
+						if (c.getType().equals(CellType.EMPTY) && c.getItem() 
 								== null) {
 							graph.addEdge(x + (y * grid.length), x + ((y + 1)
 									* grid.length));
 						}
-					}catch(ArrayIndexOutOfBoundsException e) {}
+					} catch (ArrayIndexOutOfBoundsException e) {}
 					
 					try {
 						c = grid[x - 1][y]; // left
@@ -136,20 +136,18 @@ public class SmartTargettingEnemy extends Character {
 							graph.addEdge((x - 1) + (y * grid.length), x + 
 									(y * grid.length));
 						}
-					}catch(ArrayIndexOutOfBoundsException e) {}
+					} catch (ArrayIndexOutOfBoundsException e) {}
 					
 					try {
 						c = grid[x + 1][y]; // right
-						if(c.getType().equals(CellType.EMPTY) && 
+						if (c.getType().equals(CellType.EMPTY) && 
 								c.getItem() == null) {
 							graph.addEdge((x + 1) + (y * grid.length), 
 									x + (y * grid.length));
 						}
-					}catch(ArrayIndexOutOfBoundsException e) {}	
+					} catch (ArrayIndexOutOfBoundsException e) {}	
 				}				
 			}
 		}
 	}
-	
-
 }

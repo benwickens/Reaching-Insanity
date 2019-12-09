@@ -181,7 +181,6 @@ public class LeaderBoard {
 		int hours = seconds / 3600;
 		int minutes = (seconds % 3600) / 60;
 		seconds = ((seconds % 3600) % 60) % 60;
-
 		String h = (hours >= 10 ? "" : "0") + hours;
 		String m = (minutes >= 10 ? "" : "0") + minutes;
 		String s = (seconds >= 10 ? "" : "0") + seconds;

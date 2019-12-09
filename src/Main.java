@@ -1,8 +1,5 @@
-
-
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -17,19 +14,20 @@ import javafx.stage.Stage;
 import motd.CipherSolver;
 import motd.HttpRequest;
 
-
-
 public class Main extends Application {
-
+	/**The display onto the stage.*/
 	public static Scene scene;
 	
 	@Override
+	/**
+	 * Starts the application and opens the main menu
+	 */
 	public void start(Stage primaryStage) {
 		try {
 			
 			StackPane baseLayout = new StackPane();
 			ImageView background = new ImageView(new Image(
-					new FileInputStream("src/media/img/background.png")));    
+					new FileInputStream("src/media/img/background.png")));  
 
 			VBox layout = new VBox(150);
 			
@@ -97,15 +95,26 @@ public class Main extends Application {
 		}
 	}
 	
-	
+	/**
+	 * Get the scene that represents the main window
+	 * @return the scene
+	 */
 	public static Scene getScene() {
 		return scene;
 	}
 	
+	/**
+	 * the entry point for the program
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
+	/**
+	 * Gets a label holding the MOTD
+	 * @return the label containing MOTD
+	 */
 	private Label motd() {
 		HttpRequest get = new HttpRequest();
         String result = get.newConnection("http://cswebcat.swan.ac.uk/puzzle");

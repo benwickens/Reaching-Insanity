@@ -1,10 +1,5 @@
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
@@ -234,7 +229,8 @@ public class Player extends Character {
 
 			break;
 		case FIRE:
-			if ((!hasItem(Collectable.FIRE_BOOTS, 1)) && ((!hasItem(Collectable.LIFE, 1)))) {
+			if ((!hasItem(Collectable.FIRE_BOOTS, 1)) &&
+					((!hasItem(Collectable.LIFE, 1)))) {
 				// set player to dead
 				isDead = true;
 				playSound("src/media/sound/life_lost.mp3");
@@ -247,7 +243,8 @@ public class Player extends Character {
 			}
 			break;
 		case WATER:
-			if ((!hasItem(Collectable.FLIPPERS, 1)) && ((!hasItem(Collectable.LIFE, 1)))) {
+			if ((!hasItem(Collectable.FLIPPERS, 1)) && 
+					((!hasItem(Collectable.LIFE, 1)))) {
 				// set player to dead
 				isDead = true;
 				playSound("src/media/sound/life_lost.mp3");
@@ -260,7 +257,8 @@ public class Player extends Character {
 			}
 			break;
 		case ICE:
-			if ((!hasItem(Collectable.ICE_SKATES, 1)) && ((!hasItem(Collectable.LIFE, 1)))) {
+			if ((!hasItem(Collectable.ICE_SKATES, 1)) && 
+					((!hasItem(Collectable.LIFE, 1)))) {
 				// set player to dead
 				isDead = true;
 				playSound("src/media/sound/life_lost.mp3");

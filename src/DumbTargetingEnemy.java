@@ -1,6 +1,6 @@
 /**
  * @version 1.0
- * @author Allan 
+ * @author Alan Tollett 
  * Creates a dumb targeting enemy.
  *
  */
@@ -15,10 +15,10 @@ public class DumbTargetingEnemy extends Character {
 	 * the direction that the enemy is currently moving
 	 */
 	private Direction currentDirection;
-	
+
 	/**the player location at p1*/
 	private Player p1;
-	
+
 	/** the player location for p2*/
 	private Player p2;
 
