@@ -322,14 +322,14 @@ public class Player extends Character {
 			break;
 		case EMPTY:
 			for (Character e : GameWindow.getGameState().getEnemies()) {
-				if ((e.getX() == nextX && e.getY() == nextY) && (hasItem(Collectable.LIFE, 1))) {
+				if ((e.getX() == nextX && e.getY() == nextY) && 
+						(hasItem(Collectable.LIFE, 1))) {
 					useItem(Collectable.LIFE, 1);
 				} else {
-					if ((e.getX() == nextX && e.getY() == nextY) && (!hasItem(Collectable.LIFE, 1))) {
+					if ((e.getX() == nextX && e.getY() == nextY) && 
+							(!hasItem(Collectable.LIFE, 1))) {
 						isDead = true;
-					}
-					
-				
+					}	
 				}
 			}
 
