@@ -1,2 +1,2 @@
 # Reaching-Insanity
-Group 11's CS-230 Coursework
+Programming project in java that was done in teams with an agile management style used.
